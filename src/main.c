@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:09:44 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/10/25 12:03:12 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/10/25 12:18:24 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,5 +22,6 @@ int	main(int argc, char **argv)
 	(void)argc;
 	(void)argv;
 	int i = 0;
+	int j = 0;
 	return (0);
 }
