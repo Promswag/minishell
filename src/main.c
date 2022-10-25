@@ -6,15 +6,21 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:09:44 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/10/21 12:11:22 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/10/25 12:03:12 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <termios.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 int	main(int argc, char **argv)
 {
 	(void)argc;
 	(void)argv;
+	int i = 0;
 	return (0);
 }
