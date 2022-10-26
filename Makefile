@@ -16,8 +16,7 @@ INCLUDE_DIR		= ./include/
 SRC_DIR			= ./src/
 OUT_DIR			= ./
 
-SRC				= main.c pars \
-					ms_parsing.c \
+SRC				= main.c \
 OBJS			= ${SRC:%.c=${OUT_DIR}%.o}
 
 INCLUDE			= -I${INCLUDE_DIR}
