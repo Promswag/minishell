@@ -14,11 +14,20 @@
 # define MINISHELL_H
 
 # include "../libft/include/libft.h"
+# include "minishell.h"
 # include <termios.h>
 # include <unistd.h>
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+
+typedef struct s_pars
+{
+	int i;
+	int squote;
+	int dquote;
+}	t_pars;
 
 typedef struct s_shell
 {
@@ -35,6 +44,12 @@ typedef struct s_command
 	int					fd;
 	struct s_command	*next;
 }	t_command;
+
+// Parsing_syntaxe
+
+t_command	ms_parsing(char *buff);
+int			ms_errors(int cmd);
+int			ms_syntaxe(char *buff);
 
 //	signal.c
 void		signal_setup(void);

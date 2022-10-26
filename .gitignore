@@ -1,6 +1,7 @@
 .idea
 *.o
-.DS_Store
 minishell
+*.dSYM
+.DS_Store
 *.a
 .vscode
