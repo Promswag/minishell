@@ -19,16 +19,16 @@ static int	ms_not_covered(char *buff)
 	pars.i = -1;
 	pars.squote = 0;
 	pars.dquote = 0;
-	while (buff[++i])
+	while (buff[++pars.i])
 	{
-		if (buff[i] == 34 && pars.squote == 0) // "
+		if (buff[pars.i] == 34 && pars.squote == 0) // "
 		{
 			if (pars.dquote == 0)
 				pars.dquote++;
 			else if (pars.dquote == 1)
 				pars.dquote--;
 		}
-		if (buff[i] == 39 && pars.dquote == 0) // '
+		if (buff[pars.i] == 39 && pars.dquote == 0) // '
 		{
 			if (pars.squote == 0)
 				pars.squote++;
@@ -45,4 +45,5 @@ int	ms_syntaxe(char *buff)
 {
 	if (!ms_not_covered(buff))
 		return (ms_errors(1));
+	return (1);
 }

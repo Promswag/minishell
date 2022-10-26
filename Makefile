@@ -10,15 +10,21 @@
 #                                                                              #
 # **************************************************************************** #
 
-USER			= gbaumgar
+USER			= aho
 
 NAME			= minishell
 
 INC_DIR			= ./include/
 SRC_DIR			= ./src/
-OUT_DIR			= ./
+OUT_DIR			= ./src/
 
-SRC				= main.c signal.c shell_init.c
+SRC				= main.c \
+					signal.c \
+					shell_init.c \
+					pars/ms_errors.c \
+					pars/ms_parsing.c \
+					pars/ms_syntax.c \
+
 OBJS			= ${SRC:%.c=${OUT_DIR}%.o}
 
 INCLUDE			= -I${INC_DIR}

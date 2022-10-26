@@ -38,16 +38,22 @@ typedef struct s_shell
 
 typedef struct s_command
 {
-	char				*command;
-	char				**args;
-	char				*stdout;
-	int					fd;
-	struct s_command	*next;
+	char	*fonction;
+	int		fd_in;
+	char	*arg;
+	int		fd_out;
 }	t_command;
+
+typedef struct s_tree
+{
+	int 	num_cmd;
+	int 	stdin_bool;
+	char 	**
+}	t_tree;
 
 // Parsing_syntaxe
 
-t_command	ms_parsing(char *buff);
+t_command	*ms_parsing(char *buff);
 int			ms_errors(int cmd);
 int			ms_syntaxe(char *buff);
 
