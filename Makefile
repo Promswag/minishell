@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/10/26 14:45:54 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/10/26 15:51:23 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,10 +16,11 @@ NAME			= minishell
 
 INC_DIR			= ./include/
 SRC_DIR			= ./src/
-OUT_DIR			= ./
+OUT_DIR			= ./obj/
 
 SRC				= main.c signal.c shell_init.c
-OBJS			= ${SRC:%.c=${OUT_DIR}%.o}
+SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
+OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
 
 INCLUDE			= -I${INC_DIR}
 LIBFT			= -Llibft -lft	
@@ -29,6 +30,7 @@ READLINE_INC	= -I/Users/${USER}/.brew/opt/readline/include
 CC				= gcc
 CFLAGS			= -Wall -Wextra -Werror -g
 # CFLAGS			+= -fsanitize=address
+MKDIR			= mkdir -p
 RM				= rm -f
 
 
@@ -38,7 +40,8 @@ ${NAME}: ${OBJS}
 	make -C libft
 	${CC} -o ${NAME} ${LIBFT} ${READLINE} ${INCLUDE} ${OBJS} ${CFLAGS}
 
-${OUT_DIR}%.o: ${SRC_DIR}%.c 
+${OUT_DIR}%.o: %.c Makefile
+	${MKDIR} ${@D}
 	${CC} ${CFLAGS} ${INCLUDE} ${READLINE_INC} $< -c -o $@
 
 clean:
