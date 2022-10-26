@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/10/26 15:51:23 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/10/26 16:00:09 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,13 @@ INC_DIR			= ./include/
 SRC_DIR			= ./src/
 OUT_DIR			= ./obj/
 
-SRC				= main.c signal.c shell_init.c
+SRC				= 	main.c \
+					signal.c \
+					shell_init.c \
+					# pars/ms_errors.c \
+					pars/ms_parsing.c \
+					pars/ms_syntx.c
+
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
 
