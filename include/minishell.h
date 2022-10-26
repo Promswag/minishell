@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/10/25 15:18:10 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/10/26 14:47:09 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,20 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+
 typedef struct s_pars
 {
 	int i;
 	int squote;
 	int dquote;
 }	t_pars;
+
+typedef struct s_shell
+{
+	struct termios	termios_config;
+	struct termios	backup;
+
+}	t_shell;
 
 typedef struct s_command
 {
@@ -42,5 +50,12 @@ typedef struct s_command
 t_command	ms_parsing(char *buff);
 int			ms_errors(int cmd);
 int			ms_syntaxe(char *buff);
+
+//	signal.c
+void		signal_setup(void);
+
+//	shell_init.c
+t_shell		shell_init(void);
+void		shell_restore(t_shell *shell);
 
 #endif
