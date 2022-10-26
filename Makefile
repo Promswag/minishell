@@ -10,25 +10,33 @@
 #                                                                              #
 # **************************************************************************** #
 
-USER			= gbaumgar
+USER			= aho
 
 NAME			= minishell
 
 INC_DIR			= ./include/
 SRC_DIR			= ./src/
-OUT_DIR			= ./
+OUT_DIR			= ./obj/
 
-SRC				= main.c signal.c shell_init.c
-OBJS			= ${SRC:%.c=${OUT_DIR}%.o}
+SRC				= 	main.c \
+					signal.c \
+					shell_init.c \
+					pars/ms_errors.c \
+					pars/ms_parsing.c \
+					pars/ms_syntax.c
+
+SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
+OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
 
 INCLUDE			= -I${INC_DIR}
-LIBFT			= -Llibft -lft	
+LIBFT			= -Llibft -lft
 READLINE		= -L/Users/${USER}/.brew/opt/readline/lib -lreadline
 READLINE_INC	= -I/Users/${USER}/.brew/opt/readline/include
 
 CC				= gcc
 CFLAGS			= -Wall -Wextra -Werror -g
 # CFLAGS			+= -fsanitize=address
+MKDIR			= mkdir -p
 RM				= rm -f
 
 
@@ -38,7 +46,8 @@ ${NAME}: ${OBJS}
 	make -C libft
 	${CC} -o ${NAME} ${LIBFT} ${READLINE} ${INCLUDE} ${OBJS} ${CFLAGS}
 
-${OUT_DIR}%.o: ${SRC_DIR}%.c 
+${OUT_DIR}%.o: %.c Makefile
+	${MKDIR} ${@D}
 	${CC} ${CFLAGS} ${INCLUDE} ${READLINE_INC} $< -c -o $@
 
 clean:

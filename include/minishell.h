@@ -21,6 +21,12 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+typedef struct s_shell
+{
+	struct termios	termios_config;
+	struct termios	backup;
+
+}	t_shell;
 
 typedef struct s_pars
 {
@@ -29,25 +35,13 @@ typedef struct s_pars
 	int dquote;
 }	t_pars;
 
-typedef struct s_shell
-{
-	struct termios	termios_config;
-	struct termios	backup;
-
-}	t_shell;
-
 typedef struct s_command
 {
-	char				*command;
-	char				**args;
-	char				*stdout;
-	int					fd;
-	struct s_command	*next;
+
 }	t_command;
 
 // Parsing_syntaxe
-
-t_command	ms_parsing(char *buff);
+t_command	*ms_parsing(char *buff);
 int			ms_errors(int cmd);
 int			ms_syntaxe(char *buff);
 

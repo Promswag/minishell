@@ -23,11 +23,15 @@ int	main(void)
 	return 0;
 }
 
-t_command ms_parsing(char *buff)
+t_command	*ms_parsing(char *buff)
 {
-	t_command	result;
+	t_command	*result;
 
+	result = NULL;
 	if(!(ms_syntaxe(buff)))
+	{
+		result = NULL;
 		return (0);
+	}
 	return (result);
 }
