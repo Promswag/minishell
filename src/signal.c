@@ -1,39 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/21 12:09:44 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/10/26 14:52:19 by gbaumgar         ###   ########.fr       */
+/*   Created: 2022/10/25 16:28:22 by gbaumgar          #+#    #+#             */
+/*   Updated: 2022/10/26 14:05:00 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <signal.h>
 
-int	main(void)
+static void	signal_handler(int signum)
 {
-	t_shell	shell;	
-	char	*buf;
-
-	shell = shell_init();
-	while (1)
+	if (signum == SIGINT)
 	{
-		buf = readline("minishell> ");
-		if (!buf)
-		{
-			ft_putstr_fd("\033[A", 1);
-			ft_putstr_fd("minishell> exit\n", 1);
-			break ;
-		}
-		else
-		{
-			ft_putstr_fd(buf, 1);
-			if (*buf != 0)
-				write(1, "\n", 1);
-		}
+		ft_putstr_fd("\n", 1);
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
 	}
-	shell_restore(&shell);
-	return (0);
+	else if (signum == SIGQUIT)
+	{
+		rl_redisplay();
+	}
+}
+
+void	signal_setup(void)
+{
+	signal(SIGINT, &signal_handler);
+	signal(SIGQUIT, &signal_handler);
 }
