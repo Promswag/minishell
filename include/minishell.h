@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/10/26 14:47:09 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/10/28 16:55:12 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,12 +21,11 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-
 typedef struct s_pars
 {
-	int i;
-	int squote;
-	int dquote;
+	int	i;
+	int	squote;
+	int	dquote;
 }	t_pars;
 
 typedef struct s_shell
@@ -38,24 +37,34 @@ typedef struct s_shell
 
 typedef struct s_command
 {
-	char				*command;
+	char				*name;
 	char				**args;
 	char				*stdout;
 	int					fd;
 	struct s_command	*next;
 }	t_command;
 
-// Parsing_syntaxe
+//	builtins/ms_echo.c
+int				ms_echo(t_command cmd);
 
-t_command	ms_parsing(char *buff);
-int			ms_errors(int cmd);
-int			ms_syntaxe(char *buff);
+//	builtins/ms_export.c
+int				ms_export(t_command cmd, char **env);
 
-//	signal.c
-void		signal_setup(void);
+//	pars/ms_errors.c
+int				ms_errors(int cmd);
+
+//	pars/ms_parsing.c
+t_command		ms_parsing(char *buff);
+
+//	pars/ms_syntax.c
+int				ms_syntaxe(char *buff);
 
 //	shell_init.c
-t_shell		shell_init(void);
-void		shell_restore(t_shell *shell);
+t_shell			shell_init(void);
+void			shell_restore(t_shell *shell);
+
+//	signal.c
+void			signal_setup(void);
+void			signal_setup_fork(void);
 
 #endif

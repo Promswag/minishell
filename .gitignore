@@ -1,7 +1,9 @@
-.idea
-*.o
 minishell
+*.o
+*.a
+main_local.c
+.idea
 *.dSYM
 .DS_Store
-*.a
 .vscode
+test
