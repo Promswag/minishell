@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/10/28 16:55:12 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/10/31 12:12:17 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct s_shell
 {
 	struct termios	termios_config;
 	struct termios	backup;
+	char			**env;
 
 }	t_shell;
 
@@ -48,7 +49,7 @@ typedef struct s_command
 int				ms_echo(t_command cmd);
 
 //	builtins/ms_export.c
-int				ms_export(t_command cmd, char **env);
+int				ms_export(t_command cmd, char ***env);
 
 //	pars/ms_errors.c
 int				ms_errors(int cmd);
@@ -60,7 +61,7 @@ t_command		ms_parsing(char *buff);
 int				ms_syntaxe(char *buff);
 
 //	shell_init.c
-t_shell			shell_init(void);
+t_shell			shell_init(char **env);
 void			shell_restore(t_shell *shell);
 
 //	signal.c

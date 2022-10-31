@@ -7,3 +7,6 @@ main_local.c
 .DS_Store
 .vscode
 test
+stdin
+stdout
+stderr
