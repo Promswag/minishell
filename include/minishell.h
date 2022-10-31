@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/10/31 12:12:17 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:49:44 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ typedef struct s_command
 	char				*name;
 	char				**args;
 	char				*stdout;
-	int					fd;
+	int					err_fd;
+	int					out_fd;
 	struct s_command	*next;
 }	t_command;
 

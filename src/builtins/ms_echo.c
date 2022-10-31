@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 13:20:46 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/10/28 14:32:33 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/10/31 14:52:34 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,12 @@ int	ms_echo(t_command cmd)
 			}
 		}
 		if (trigger && cmd.args[i][0])
-			write(cmd.fd, cmd.args[i], ft_strlen(cmd.args[i]));
+			write(cmd.out_fd, cmd.args[i], ft_strlen(cmd.args[i]));
 		if (trigger && cmd.args[i + 1] && *cmd.args[i + 1])
-			write(cmd.fd, " ", 1);
+			write(cmd.out_fd, " ", 1);
 	}
 	if (trailing)
-		write(cmd.fd, "\n", 1);
+		write(cmd.out_fd, "\n", 1);
 	return (0);
 	// exit(0);
 }
