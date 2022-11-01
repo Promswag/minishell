@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/10/31 14:49:44 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/01 15:55:36 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,12 @@ int				ms_echo(t_command cmd);
 
 //	builtins/ms_export.c
 int				ms_export(t_command cmd, char ***env);
+void			ms_export_print(int fd, char **env, int status);
+void			ms_export_destroy(char **env);
+char			*ms_export_get_value(char *s, char **env);
+
+//	builtins/ms_unset.c
+int				ms_unset(t_command cmd, char ***env);
 
 //	pars/ms_errors.c
 int				ms_errors(int cmd);

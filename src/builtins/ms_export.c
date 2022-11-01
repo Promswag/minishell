@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:58:06 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/10/31 18:18:59 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/01 16:25:18 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,44 +32,37 @@ static int	ms_export_delim(char *s)
 static int	ms_export_exists(char *s, char **env)
 {
 	int	i;
-	int	x;
-	int	d;
+	int	l;
 
-	d = ms_export_delim(s);
+	l = 0;
+	while (s[l] && s[l] != '=')
+		l++;
 	i = -1;
 	while (env[++i])
 	{
-		x = ms_export_delim(env[i]);
-		if (!ft_strncmp(s, env[i], ft_strlen(s)))
-		{
-			if (env[i][ft_strlen(s)] == '=')
+		// printf("%d\n", i);
+		// printf("%d\n", l);
+		// printf("%s\n", s);
+		// printf("%s\n", env[i]);
+		if (!ft_strncmp(s, env[i], l))
+			if (env[i][l] == '=' || env[i][l] == '\0')
 				return (i);
-		}
 	}
 	return (-1);
 }
 
-static int	ms_export_length(t_command cmd, char **env)
+char	*ms_export_get_value(char *s, char **env)
 {
-	int		i;
-	int		c;
+	int	i;
 
-	i = -1;
-	c = 0;
-	while (env[++i])
-		c++;
-	i = -1;
-	while (cmd.args[++i])
-	{
-		if ((ft_isalpha(*cmd.args[i]) || *cmd.args[i] == '_') && \
-			ms_export_exists(cmd.args[i], env) == -1)
-			c++;
-	}
-	printf("%d\n", c);
-	return (c);
+	i = ms_export_exists(s, env);
+	if (i != -1)
+		return (ft_strdup(env[i] + ms_export_delim(env[i])));
+	else
+		return (NULL);
 }
 
-void	ms_export_sort(char ***env)
+static void	ms_export_sort(char ***env)
 {
 	int		i;
 	char	*tmp;
@@ -97,81 +90,95 @@ void	ms_export_destroy(char **env)
 	free(env);
 }
 
-static int	ms_export_add(t_command cmd, char ***env)
+static void	ms_export_add(char *s, char ***env)
 {
-	int		error;
-	char	**tmp;
 	int		i;
-	int		j;
-	int		cursor;
+	char	**new_env;
 
-	error = 0;
-	tmp = malloc(sizeof(char *) * (ms_export_length(cmd, *env) + 1));
+	i = 0;
+	while ((*env)[i])
+		i++;
+	new_env = malloc(sizeof(char *) * (i + 2));
 	i = -1;
 	while ((*env)[++i])
-		tmp[i] = ft_strdup((*env)[i]);
-	j = -1;
-	while (cmd.args[++j])
-	{
-		if (ms_export_delim(cmd.args[j]) == -1 && ++error)
-		{
-			write(cmd.err_fd, "export: `", 9);
-			write(cmd.err_fd, cmd.args[j], ft_strlen(cmd.args[j]));
-			write(cmd.err_fd, "': not a valid identifier\n", 26);
-			printf("%lu\n", sizeof("': not a valid identifier\n"));
-			printf("%lu\n", sizeof("export: `"));
-		}
-		else
-		{
-			cursor = ms_export_exists(cmd.args[j], *env);
-			printf("%d\n", cursor);
-			if (cursor == -1)
-				tmp[i++] = ft_strdup(cmd.args[j]);
-			else
-			{	
-				free(tmp[cursor]);
-				tmp[cursor] = ft_strdup(cmd.args[j]);
-			}
-		}
-	}
-	tmp[i] = 0;
+		new_env[i] = ft_strdup((*env)[i]);
+	new_env[i++] = ft_strdup(s);
+	new_env[i] = 0;
 	ms_export_destroy(*env);
-	*env = tmp;
-	if (error)
-		return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	*env = new_env;
 }
 
-int	ms_export_display(t_command cmd, char ***env)
+static int	ms_export_handler(t_command cmd, char *s, char ***env)
+{
+	int	i;
+
+	if (ms_export_delim(s) == -1)
+	{
+		write(cmd.err_fd, "export: `", 9);
+		write(cmd.err_fd, s, ft_strlen(s));
+		write(cmd.err_fd, "': not a valid identifier\n", 26);
+		return (1);
+	}
+	i = ms_export_exists(s, *env);
+	if (i == -1)
+		ms_export_add(s, env);
+	else
+	{
+		if (ms_export_delim(s))
+		{
+			free((*env)[i]);
+			(*env)[i] = ft_strdup(s);
+		}
+	}
+	return (0);
+}
+
+void	ms_export_print(int fd, char **env, int status)
 {
 	int	i;
 
 	i = -1;
-	ms_export_sort(env);
-	while ((*env)[++i])
+	while (env[++i])
 	{
-		write(cmd.out_fd, "declare -x ", 11);
-		if (!ms_export_delim((*env)[i]))
+		if (!status)
 		{
-			write(cmd.out_fd, (*env)[i], ft_strlen((*env)[i]));
-			write(cmd.out_fd, "\n", 1);
+			write(fd, "declare -x ", 11);
+			if (!ms_export_delim(env[i]))
+				write(fd, env[i], ft_strlen(env[i]));
+			else
+			{
+				write(fd, env[i], ms_export_delim(env[i]));
+				write(fd, "\"", 1);
+				write(fd, env[i] + ms_export_delim(env[i]), \
+					ft_strlen(env[i] + ms_export_delim(env[i])));
+				write(fd, "\"", 1);
+			}
+			write(fd, "\n", 1);
 		}
-		else
+		else if (ms_export_delim(env[i]) > 0)
 		{
-			write(cmd.out_fd, (*env)[i], ms_export_delim((*env)[i]));
-			write(cmd.out_fd, "\"", 1);
-			write(cmd.out_fd, (*env)[i] + ms_export_delim((*env)[i]), \
-				ft_strlen((*env)[i] + ms_export_delim((*env)[i])));
-			write(cmd.out_fd, "\"\n", 2);
+			write(fd, env[i], ft_strlen(env[i]));
+			write(fd, "\n", 1);
 		}
 	}
-	return (EXIT_SUCCESS);
 }
 
 int	ms_export(t_command cmd, char ***env)
 {
+	int	err;
+	int	i;
+
+	err = 0;
 	if (!cmd.args)
-		return (ms_export_display(cmd, env));
+	{
+		ms_export_sort(env);
+		ms_export_print(cmd.out_fd, *env, 0);
+	}
 	else
-		return (ms_export_add(cmd, env));
+	{
+		i = -1;
+		while (cmd.args[++i])
+			err += ms_export_handler(cmd, cmd.args[i], env);
+	}
+	return (err);
 }

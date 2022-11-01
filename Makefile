@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/10/31 13:56:22 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/11/01 17:18:18 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC				= 	shell_init.c \
 					signal.c \
 					builtins/ms_echo.c \
 					builtins/ms_export.c \
+					builtins/ms_unset.c \
 					# pars/ms_errors.c \
 					# pars/ms_parsing.c \
 					# pars/ms_syntx.c \
@@ -37,8 +38,8 @@ READLINE_INC	= -I/Users/${USER}/.brew/opt/readline/include
 
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra
-CFLAGS			+= -Werror
-# CFLAGS			+= -fsanitize=address
+# CFLAGS			+= -Werror
+CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf
 
