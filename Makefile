@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/11/01 17:18:18 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/11/02 15:17:03 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,9 +18,11 @@ OUT_DIR			= ./obj/
 
 SRC				= 	shell_init.c \
 					signal.c \
+					builtins/ms_cd.c \
 					builtins/ms_echo.c \
 					builtins/ms_export.c \
 					builtins/ms_unset.c \
+					builtins/ms_pwd.c \
 					# pars/ms_errors.c \
 					# pars/ms_parsing.c \
 					# pars/ms_syntx.c \

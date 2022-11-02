@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:58:06 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/01 16:25:18 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/02 15:17:04 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ static void	ms_export_add(char *s, char ***env)
 	*env = new_env;
 }
 
-static int	ms_export_handler(t_command cmd, char *s, char ***env)
+int	ms_export_handler(t_command cmd, char *s, char ***env)
 {
 	int	i;
 
