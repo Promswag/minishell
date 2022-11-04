@@ -10,3 +10,4 @@ test
 stdin
 stdout
 stderr
+test.c

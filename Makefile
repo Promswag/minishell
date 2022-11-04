@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/11/02 15:17:03 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/11/03 16:35:24 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRC				= 	shell_init.c \
 					signal.c \
 					builtins/ms_cd.c \
 					builtins/ms_echo.c \
+					builtins/ms_exit.c \
 					builtins/ms_export.c \
 					builtins/ms_unset.c \
 					builtins/ms_pwd.c \
@@ -28,7 +29,8 @@ SRC				= 	shell_init.c \
 					# pars/ms_syntx.c \
 
 # SRC 			+=	main.c
-SRC 			+=	main_local.c
+SRC 			+=	test.c \
+					# main_local.c
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
