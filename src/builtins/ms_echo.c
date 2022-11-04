@@ -6,19 +6,20 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 13:20:46 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/10/31 14:52:34 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/04 14:27:41 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_echo(t_command cmd)
+int	ms_echo(t_command cmd, char ***env)
 {
 	int	i;
 	int	j;
 	int	trailing;
 	int	trigger;
 
+	(void)env;
 	i = -1;
 	trailing = 1;
 	trigger = 0;

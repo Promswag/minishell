@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:04:10 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/04 11:22:59 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/04 14:07:43 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,20 @@ int	ll_overflow_check(const char *str)
 
 int	ms_exit_legal(char *s)
 {
-	if (s)
-		while (*s)
-			if (!ft_isdigit(*s++))
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		while (s[i] == '\t' || s[i] == '\n' || s[i] == '\v' || \
+			s[i] == '\f' || s[i] == '\r' || s[i] == ' ')
+		i++;
+		if (s[i] == '-' || s[i] == '+')
+			i++;
+		while (s[i])
+			if (!ft_isdigit(s[i++]))
 				return (0);
+	}
 	return (1);
 }
 

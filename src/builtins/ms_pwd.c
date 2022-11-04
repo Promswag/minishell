@@ -6,16 +6,17 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 11:27:29 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/02 15:17:07 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/04 14:27:32 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_pwd(char ***env)
+int	ms_pwd(t_command cmd, char ***env)
 {
 	char	path[100];
 
+	(void)cmd;
 	getcwd(path, 100);
 	if (errno)
 		perror("");

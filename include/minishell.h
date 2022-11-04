@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/04 10:41:19 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/04 14:26:44 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_command
 int				ms_cd(t_command cmd, char ***env);
 
 //	builtins/ms_echo.c
-int				ms_echo(t_command cmd);
+int				ms_echo(t_command cmd, char ***env);
 
 //	builtins/ms_exit.c
 int				ll_overflow_check(const char *str);
@@ -66,7 +66,7 @@ void			ms_export_destroy(char **env);
 char			*ms_export_get_value(char *s, char **env);
 
 //	builtins/ms_pwd.c
-int				ms_pwd(char ***env);
+int				ms_pwd(t_command cmd, char ***env);
 
 //	builtins/ms_unset.c
 int				ms_unset(t_command cmd, char ***env);

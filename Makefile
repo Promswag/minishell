@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/11/03 16:35:24 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/11/04 14:28:23 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ OUT_DIR			= ./obj/
 
 SRC				= 	shell_init.c \
 					signal.c \
+					cmd_manager.c \
 					builtins/ms_cd.c \
 					builtins/ms_echo.c \
 					builtins/ms_exit.c \
