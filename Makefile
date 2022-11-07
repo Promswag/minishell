@@ -23,7 +23,7 @@ SRC				= 	main.c \
 					shell_init.c \
 					pars/ms_errors.c \
 					pars/ms_parsing.c \
-					pars/ms_syntax.c
+					pars/ms_syntax.c \
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}

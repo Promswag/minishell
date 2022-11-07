@@ -28,22 +28,36 @@ typedef struct s_shell
 
 }	t_shell;
 
-typedef struct s_pars
+/* 0 == str
+ * 1 == < 60
+ * 2 == > 62
+ * 3 == <<
+ * 4 == >>
+ * 5 == ' 39
+ * 6 == " 34
+ * 7 == | 124
+ * 8 == && (28 &)
+ * 9 == ||
+ * 10 == * 42
+*/
+
+typedef struct s_quote
 {
-	int i;
-	int squote;
-	int dquote;
-}	t_pars;
+	int	i;
+	int	squote;
+	int	dquote;
+}	t_quote;
 
-typedef struct s_command
+typedef struct s_section
 {
+	int		field;
+	char	*section;
+}	t_section;
 
-}	t_command;
-
-// Parsing_syntaxe
-t_command	*ms_parsing(char *buff);
-int			ms_errors(int cmd);
-int			ms_syntaxe(char *buff);
+//	parsing.c
+int		ms_parsing(char *buff);
+int		ms_errors(int cmd);
+int		ms_not_covered(char *buff);
 
 //	signal.c
 void		signal_setup(void);
