@@ -41,11 +41,15 @@ typedef struct s_shell
  * 10 == * 42
 */
 
+// --------------------------aho------------------------
+
 typedef struct s_quote
 {
 	int	i;
 	int	squote;
 	int	dquote;
+	int	segment;
+	int	chr;
 }	t_quote;
 
 typedef struct s_section
@@ -57,7 +61,20 @@ typedef struct s_section
 //	parsing.c
 int		ms_parsing(char *buff);
 int		ms_errors(int cmd);
+void	ms_quote_checker(const char *buff,const int *j,
+						 int *squote1, int *dquote1);
+
+//	syntax.c
 int		ms_not_covered(char *buff);
+
+//	section_creation, section.c
+t_section	*ms_section(char *buff);
+int			ms_nbr_section(const char *buff);
+void		ms_word(const char *buff, t_section *section);
+void		ms_word_copy(char *buff, t_section *section);
+void		ms_field(t_section *section, int nbr);
+
+// --------------------------aho------------------------
 
 //	signal.c
 void		signal_setup(void);

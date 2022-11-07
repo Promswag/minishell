@@ -24,6 +24,7 @@ SRC				= 	main.c \
 					pars/ms_errors.c \
 					pars/ms_parsing.c \
 					pars/ms_syntax.c \
+					pars/ms_section.c \
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}

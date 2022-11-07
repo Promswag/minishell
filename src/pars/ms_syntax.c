@@ -14,31 +14,29 @@
 
 int	ms_not_covered(char *buff)
 {
-	int	i;
-	int	squote;
-	int	dquote;
+	t_quote	quote;
 
-	i = -1;
-	squote = 0;
-	dquote = 0;
-	while (buff[++i])
+	quote.i = -1;
+	quote.squote = 0;
+	quote.dquote = 0;
+	while (buff[++quote.i])
 	{
-		if (buff[i] == 34 && squote == 0) // "
+		if (buff[quote.i] == 34 && quote.squote == 0) // "
 		{
-			if (dquote == 0)
-				dquote++;
-			else if (dquote == 1)
-				dquote--;
+			if (quote.dquote == 0)
+				quote.dquote++;
+			else if (quote.dquote == 1)
+				quote.dquote--;
 		}
-		if (buff[i] == 39 && dquote == 0) // '
+		if (buff[quote.i] == 39 && quote.dquote == 0) // '
 		{
-			if (squote == 0)
-				squote++;
-			else if (squote == 1)
-				squote--;
+			if (quote.squote == 0)
+				quote.squote++;
+			else if (quote.squote == 1)
+				quote.squote--;
 		}
 	}
-	if (squote || dquote)
+	if (quote.squote || quote.dquote)
 		return (0);
 	return (1);
 }
