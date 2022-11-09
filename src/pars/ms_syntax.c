@@ -12,7 +12,7 @@
 
 #include "../../include/minishell.h"
 
-int	ms_not_covered(char *buff)
+int	ms_not_covered(char const *buff)
 {
 	t_quote	quote;
 
