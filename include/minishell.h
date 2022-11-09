@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/10/26 14:47:09 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/09 16:11:17 by aho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,39 @@
 # include <termios.h>
 # include <unistd.h>
 # include <stdio.h>
+# include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
+# define SHELL_NAME "minishell"
 
-typedef struct s_pars
+typedef struct s_quote		t_quote;
+typedef struct s_shell		t_shell;
+typedef struct s_section	t_section;
+typedef struct s_command	t_command;
+
+struct s_quote
 {
-	int i;
-	int squote;
-	int dquote;
-}	t_pars;
+	int	i;
+	int	squote;
+	int	dquote;
+};
 
-typedef struct s_shell
+struct s_shell
 {
 	struct termios	termios_config;
 	struct termios	backup;
+	char			**env;
+};
 
-}	t_shell;
+struct s_section
+{
+	int					field;
+	char				*section;
+	struct s_command	*cmd;
+};
 
-typedef struct s_command
+struct s_command
 {
 	char	*fonction;
 	int		fd_in;
@@ -51,17 +65,45 @@ typedef struct s_tree
 	char 	**
 }	t_tree;
 
-// Parsing_syntaxe
+//	builtins/ms_cd.c
+int				ms_cd(t_command cmd, char ***env);
 
-t_command	*ms_parsing(char *buff);
-int			ms_errors(int cmd);
-int			ms_syntaxe(char *buff);
+//	builtins/ms_echo.c
+int				ms_echo(t_command cmd, char ***env);
 
-//	signal.c
-void		signal_setup(void);
+//	builtins/ms_exit.c
+int				ll_overflow_check(const char *str);
+int				ms_exit(t_command cmd, char ***env);
+
+//	builtins/ms_export.c
+int				ms_export(t_command cmd, char ***env);
+void			ms_export_print(int fd, char **env, int status);
+void			ms_export_destroy(char **env);
+char			*ms_export_get_value(char *s, char **env);
+
+//	builtins/ms_pwd.c
+int				ms_pwd(t_command cmd, char ***env);
+
+//	builtins/ms_unset.c
+int				ms_unset(t_command cmd, char ***env);
+
+//	pars/ms_errors.c
+int				ms_errors(int cmd);
+
+//	pars/ms_parsing.c
+int				ms_parsing(char *buff);
+int				ms_errors(int cmd);
+int				ms_not_covered(char *buff);
+
+//	pars/ms_syntax.c
+int				ms_syntaxe(char *buff);
 
 //	shell_init.c
-t_shell		shell_init(void);
-void		shell_restore(t_shell *shell);
+t_shell			shell_init(char **env);
+void			shell_restore(t_shell *shell);
+
+//	signal.c
+void			signal_setup(void);
+void			signal_setup_fork(void);
 
 #endif

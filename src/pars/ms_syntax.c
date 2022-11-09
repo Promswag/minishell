@@ -5,38 +5,40 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/25 16:34:01 by aho               #+#    #+#             */
-/*   Updated: 2022/10/25 16:34:02 by aho              ###   ########.fr       */
+/*   Created: 2022/11/07 11:15:51 by aho               #+#    #+#             */
+/*   Updated: 2022/11/09 16:32:41 by aho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-static int	ms_not_covered(char *buff)
+int	ms_not_covered(char *buff)
 {
-	t_pars	pars;
+	int	i;
+	int	squote;
+	int	dquote;
 
-	pars.i = -1;
-	pars.squote = 0;
-	pars.dquote = 0;
-	while (buff[++pars.i])
+	i = -1;
+	squote = 0;
+	dquote = 0;
+	while (buff[++i])
 	{
-		if (buff[pars.i] == 34 && pars.squote == 0) // "
+		if (buff[i] == 34 && squote == 0) // "
 		{
-			if (pars.dquote == 0)
-				pars.dquote++;
-			else if (pars.dquote == 1)
-				pars.dquote--;
+			if (dquote == 0)
+				dquote++;
+			else if (dquote == 1)
+				dquote--;
 		}
-		if (buff[pars.i] == 39 && pars.dquote == 0) // '
+		if (buff[i] == 39 && dquote == 0) // '
 		{
-			if (pars.squote == 0)
-				pars.squote++;
-			else if (pars.squote == 1)
-				pars.squote--;
+			if (squote == 0)
+				squote++;
+			else if (squote == 1)
+				squote--;
 		}
 	}
-	if (pars.squote || pars.dquote)
+	if (squote || dquote)
 		return (0);
 	return (1);
 }
