@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/09 16:52:48 by aho              ###   ########.fr       */
+/*   Updated: 2022/11/09 17:21:36 by aho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,6 @@
 # include <readline/history.h>
 
 # define SHELL_NAME "minishell"
-
-}	t_shell;
 
 /* 0 == str
  * 1 == < 60
@@ -45,6 +43,7 @@ typedef struct s_quote		t_quote;
 typedef struct s_shell		t_shell;
 typedef struct s_section	t_section;
 typedef struct s_command	t_command;
+typedef struct s_section_aho	t_section_aho;
 
 struct s_quote
 {
@@ -55,11 +54,10 @@ struct s_quote
 	int	chr;
 };
 
-struct s_shell
+struct	s_section_aho
 {
-	struct termios	termios_config;
-	struct termios	backup;
-	char			**env;
+	int		field;
+	char	*section;
 };
 
 //	parsing.c
@@ -79,10 +77,29 @@ void		ms_word_copy(char *buff, t_section *section);
 void		ms_field(t_section *section, int nbr);
 
 // --------------------------aho------------------------
+
 struct s_section
 {
 	int					field;
 	char				*section;
+	struct s_command	*cmd;
+};
+
+struct	s_shell
+{
+	struct	termios	termios_config;
+	struct	termios	backup;
+	char			**env;
+};
+
+struct	s_command
+{
+	char	*name;
+	char	**args;
+	char	*stdout;
+	int		err_fd;
+	int		out_fd;
+	struct s_command	*next;
 };
 
 //	builtins/ms_cd.c

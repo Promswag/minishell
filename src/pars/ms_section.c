@@ -6,7 +6,7 @@
 /*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:19:42 by aho               #+#    #+#             */
-/*   Updated: 2022/11/07 17:19:43 by aho              ###   ########.fr       */
+/*   Updated: 2022/11/09 18:04:06 by aho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	ms_word_copy(char *buff, t_section *section)
 	quote.segment = 0;
 	quote.chr = 0;
 	quote.i = 0;
+	quote.squote = 0;
+	quote.dquote = 0;
 	while (buff[quote.i])
 	{
 		ms_quote_checker(buff, &quote.i, &quote.squote, &quote.dquote);
@@ -82,10 +84,7 @@ void	ms_word_copy(char *buff, t_section *section)
 			quote.segment++;
 		}
 		else
-		{
-			section[quote.segment].section[quote.chr] = buff[quote.i];
-			quote.chr++;
-		}
+			section[quote.segment].section[quote.chr++] = buff[quote.i];
 		quote.i++;
 	}
 }
@@ -110,6 +109,7 @@ t_section	*ms_section(char *buff)
 
 	index = 0;
 	nbr = ms_nbr_section(buff);
+	printf("%d\n", (nbr + (nbr - 1)));
 	section = malloc(sizeof(t_section) * (nbr + (nbr - 1)));
 	ms_word(buff, section);
 	ms_field(section, (nbr + (nbr - 1)));
