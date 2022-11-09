@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/04 14:26:44 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:42:25 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,22 +24,33 @@
 
 # define SHELL_NAME "minishell"
 
-typedef struct s_pars
+typedef struct s_pars		t_pars;
+typedef struct s_shell		t_shell;
+typedef struct s_section	t_section;
+typedef struct s_command	t_command;
+
+struct s_pars
 {
 	int	i;
 	int	squote;
 	int	dquote;
-}	t_pars;
+};
 
-typedef struct s_shell
+struct s_shell
 {
 	struct termios	termios_config;
 	struct termios	backup;
 	char			**env;
 
-}	t_shell;
+};
 
-typedef struct s_command
+struct s_section
+{
+	int					field;
+	struct s_command	*cmd;
+};
+
+struct s_command
 {
 	char				*name;
 	char				**args;
@@ -47,7 +58,7 @@ typedef struct s_command
 	int					err_fd;
 	int					out_fd;
 	struct s_command	*next;
-}	t_command;
+};
 
 //	builtins/ms_cd.c
 int				ms_cd(t_command cmd, char ***env);
