@@ -1,39 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ms_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/21 12:09:44 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/09 16:12:39 by aho              ###   ########.fr       */
+/*   Created: 2022/11/02 13:00:00 by gbaumgar          #+#    #+#             */
+/*   Updated: 2022/11/02 15:25:13 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-//int	main(void)
-//{
-//	t_shell	shell;
-//	char	*buf;
-//
-//	shell = shell_init();
-//	while (1)
-//	{
-//		buf = readline("minishell> ");
-//		if (!buf)
-//		{
-//			ft_putstr_fd("\033[A", 1);
-//			ft_putstr_fd("minishell> exit\n", 1);
-//			break ;
-//		}
-//		else
-//		{
-//			ft_putstr_fd(buf, 1);
-//			if (*buf != 0)
-//				write(1, "\n", 1);
-//		}
-//	}
-//	shell_restore(&shell);
-//	return (0);
-//}
+int	ms_cd(t_command cmd, char ***env)
+{
+	char	buf[1000];
+	char	*oldpwd;
+	char	*pwd;
+
+	getcwd(buf, 1000);
+	oldpwd = ft_strjoin("OLDPWD=", buf);
+	pwd = ft_strjoin("PWD=", cmd.args[0]);
+	if (chdir(cmd.args[0]))
+		printf("%s: %s: %s: %s\n", \
+			SHELL_NAME, cmd.name, cmd.args[0], strerror(errno));
+	else
+		ms_export((t_command){0, (char *[]){oldpwd, pwd, 0}, 0, 0, 0, 0}, env);
+	free(oldpwd);
+	free(pwd);
+	return (errno);
+}
