@@ -6,7 +6,7 @@
 /*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:19:42 by aho               #+#    #+#             */
-/*   Updated: 2022/11/09 18:04:06 by aho              ###   ########.fr       */
+/*   Updated: 2022/11/09 18:52:36 by aho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	ms_word(const char *buff, t_section *section)
 		}
 		i++;
 	}
-	section[segment].section = ft_calloc(sizeof(char), word);
+	word = i - word;
+	section[segment].section = ft_calloc(sizeof(char), (word - 1));
 }
 
 void	ms_word_copy(char *buff, t_section *section)
@@ -84,7 +85,10 @@ void	ms_word_copy(char *buff, t_section *section)
 			quote.segment++;
 		}
 		else
-			section[quote.segment].section[quote.chr++] = buff[quote.i];
+		{
+			section[quote.segment].section[quote.chr] = buff[quote.i];
+			quote.chr++;
+		}
 		quote.i++;
 	}
 }
@@ -116,9 +120,9 @@ t_section	*ms_section(char *buff)
 	ms_word_copy(buff, section);
 	while(index < (nbr + (nbr - 1)))
 	{
-		printf(" ------------------ \n");
-		printf("section = %s\nfield = %d\nnbr tab = %d\n",
-			   section[index].section, section[index].field, index);
+	//	printf(" ------------------ \n");
+	//	printf("section = %s\nfield = %d\nnbr tab = %d\n",
+	//		   section[index].section, section[index].field, index);
 		index++;
 	}
 	return (section);

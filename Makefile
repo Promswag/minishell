@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/11/09 18:06:41 by aho              ###   ########.fr        #
+#    Updated: 2022/11/09 18:23:50 by aho              ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,7 +46,7 @@ READLINE_INC	= -I/Users/${USER}/.brew/opt/readline/include
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra
 CFLAGS			+= -Werror
-CFLAGS			+= -fsanitize=address
+# CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf
 
