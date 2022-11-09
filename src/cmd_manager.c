@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/07 17:46:42 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/09 11:15:26 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 typedef int	(*t_builtins)(t_command, char ***);
 int			ms_command_manager(t_section *section, t_shell *shell);
-static int	ms_cmd_exec(t_command cmd, t_shell *shell, int builtins);
+static int	ms_cmd_exec(t_command cmd, t_shell *shell);
 static int	ms_cmd_is_builtins(t_command cmd);
 static int	ms_cmd_exec_builtins(t_command cmd, t_shell *shell, int index);
 

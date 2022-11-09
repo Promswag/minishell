@@ -10,12 +10,12 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "../../include/minishell.h"
 
 int	ms_errors(int cmd)
 {
-	printf("Error : ");
+	write(2, "Error : ", 8);
 	if (cmd == 1)
-		printf("\' or \" not ended correctly\n");
+		write(2, "\' or \" not ended correctly\n", 28);
 	return (0);
 }

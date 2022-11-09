@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/07 14:42:25 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/09 11:36:12 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,12 @@
 
 # define SHELL_NAME "minishell"
 
-typedef struct s_pars		t_pars;
+typedef struct s_quote		t_quote;
 typedef struct s_shell		t_shell;
 typedef struct s_section	t_section;
 typedef struct s_command	t_command;
 
-struct s_pars
+struct s_quote
 {
 	int	i;
 	int	squote;
@@ -41,12 +41,12 @@ struct s_shell
 	struct termios	termios_config;
 	struct termios	backup;
 	char			**env;
-
 };
 
 struct s_section
 {
 	int					field;
+	char				*section;
 	struct s_command	*cmd;
 };
 
@@ -86,7 +86,9 @@ int				ms_unset(t_command cmd, char ***env);
 int				ms_errors(int cmd);
 
 //	pars/ms_parsing.c
-t_command		ms_parsing(char *buff);
+int				ms_parsing(char *buff);
+int				ms_errors(int cmd);
+int				ms_not_covered(char *buff);
 
 //	pars/ms_syntax.c
 int				ms_syntaxe(char *buff);

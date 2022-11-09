@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/11/04 14:28:23 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/11/09 11:13:21 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,19 +25,19 @@ SRC				= 	shell_init.c \
 					builtins/ms_export.c \
 					builtins/ms_unset.c \
 					builtins/ms_pwd.c \
-					# pars/ms_errors.c \
-					# pars/ms_parsing.c \
-					# pars/ms_syntx.c \
+					pars/ms_errors.c \
+					pars/ms_parsing.c \
+					pars/ms_syntax.c \
 
-# SRC 			+=	main.c
-SRC 			+=	test.c \
+SRC 			+=	main.c
+# SRC 			+=	test.c \
 					# main_local.c
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
 
 INCLUDE			= -I${INC_DIR}
-LIBFT			= -Llibft -lft	
+LIBFT			= -Llibft -lft
 READLINE		= -L/Users/${USER}/.brew/opt/readline/lib -lreadline
 READLINE_INC	= -I/Users/${USER}/.brew/opt/readline/include
 
