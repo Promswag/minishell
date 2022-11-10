@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/11/09 11:13:21 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/11/09 17:24:18 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,9 +29,8 @@ SRC				= 	shell_init.c \
 					pars/ms_parsing.c \
 					pars/ms_syntax.c \
 
-SRC 			+=	main.c
-# SRC 			+=	test.c \
-					# main_local.c
+# SRC 			+=	main.c
+SRC 			+=	main_local.c
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}

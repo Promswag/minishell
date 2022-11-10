@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:58:06 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/02 15:17:04 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/10 15:52:55 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,15 +108,15 @@ static void	ms_export_add(char *s, char ***env)
 	*env = new_env;
 }
 
-int	ms_export_handler(t_command cmd, char *s, char ***env)
+int	ms_export_handler(char *s, char ***env)
 {
 	int	i;
 
 	if (ms_export_delim(s) == -1)
 	{
-		write(cmd.err_fd, "export: `", 9);
-		write(cmd.err_fd, s, ft_strlen(s));
-		write(cmd.err_fd, "': not a valid identifier\n", 26);
+		write(STDERR_FILENO, "export: `", 9);
+		write(STDERR_FILENO, s, ft_strlen(s));
+		write(STDERR_FILENO, "': not a valid identifier\n", 26);
 		return (1);
 	}
 	i = ms_export_exists(s, *env);
@@ -172,13 +172,13 @@ int	ms_export(t_command cmd, char ***env)
 	if (!cmd.args)
 	{
 		ms_export_sort(env);
-		ms_export_print(cmd.out_fd, *env, 0);
+		ms_export_print(STDOUT_FILENO, *env, 0);
 	}
 	else
 	{
 		i = -1;
 		while (cmd.args[++i])
-			err += ms_export_handler(cmd, cmd.args[i], env);
+			err += ms_export_handler(cmd.args[i], env);
 	}
 	return (err);
 }

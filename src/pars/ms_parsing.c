@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.c                                          :+:      :+:    :+:   */
+/*   ms_parsing.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 14:28:23 by aho               #+#    #+#             */
-/*   Updated: 2022/10/25 14:28:24 by aho              ###   ########.fr       */
+/*   Updated: 2022/11/09 12:06:29 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,12 +169,12 @@ int	ms_parsing(char *buff)
 	return (0);
 }
 
-int	main(void)
-{
-	char *buff;
+// int	main(void)
+// {
+// 	char *buff;
 
-	buff = readline(NULL);
-	ms_parsing(buff);
-	free(buff);
-	return 0;
-}
+// 	buff = readline(NULL);
+// 	ms_parsing(buff);
+// 	free(buff);
+// 	return 0;
+// }

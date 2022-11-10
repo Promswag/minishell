@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/09 11:36:12 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/10 15:45:46 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ struct s_command
 {
 	char				*name;
 	char				**args;
-	char				*stdout;
-	int					err_fd;
+	int					in_fd;
 	int					out_fd;
+	int					err_fd;
 	struct s_command	*next;
 };
 
@@ -92,6 +92,9 @@ int				ms_not_covered(char *buff);
 
 //	pars/ms_syntax.c
 int				ms_syntaxe(char *buff);
+
+//	cmd_manager.c
+int				ms_command_manager(t_section *section, t_shell *shell);
 
 //	shell_init.c
 t_shell			shell_init(char **env);
