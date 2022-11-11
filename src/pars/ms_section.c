@@ -35,32 +35,31 @@ int	ms_nbr_section(const char *buff)
 
 void	ms_word(const char *buff, t_section *section)
 {
-	int	i;
-	int	squote;
-	int	dquote;
-	int segment;
-	int	word;
+	t_quote	quote;
+	int		x;
 
-	segment = 0;
-	i = 0;
-	squote = 0;
-	dquote = 0;
-	word = 0;
-	while(buff[i])
+	x = 0;
+	quote.segment = 0;
+	quote.i = 0;
+	quote.squote = 0;
+	quote.dquote = 0;
+	quote.chr = 0;
+	while(buff[quote.i])
 	{
-		ms_quote_checker(buff, &i, &squote, &dquote);
-		if (buff[i] == 124 && squote == 0 && dquote == 0)
+		ms_quote_checker(buff, &quote.i, &quote.squote, &quote.dquote);
+		if (buff[quote.i] == 124 && quote.squote == 0 && quote.dquote == 0)
 		{
-			word = i - word;
-			section[segment].section = ft_calloc(sizeof(char), word);
-			segment++;
-			section[segment].section = ft_calloc(sizeof(char), 1);
-			segment++;
+			quote.chr = quote.i - quote.chr;
+			section[quote.segment].section = ft_calloc(sizeof(char), quote.chr + 1);
+			quote.segment++;
+//			section[quote.segment].section = ft_calloc(sizeof(char), 1);
+//			quote.segment++;
+			x = 1;
 		}
-		i++;
+		quote.i++;
 	}
-	word = i - word;
-	section[segment].section = ft_calloc(sizeof(char), (word - 1));
+	quote.chr = quote.i - quote.chr;
+	section[quote.segment].section = ft_calloc(sizeof(char), (quote.chr - x + 1));
 }
 
 void	ms_word_copy(char *buff, t_section *section)
@@ -78,19 +77,17 @@ void	ms_word_copy(char *buff, t_section *section)
 		if (buff[quote.i] == 124
 			&& quote.squote == 0 && quote.dquote == 0)
 		{
-			quote.segment++;
-			quote.chr = 0;
-			section[quote.segment].section[quote.chr] = buff[quote.i];
 			section[quote.segment].field = 1;
 			quote.segment++;
+			quote.chr = 0;
+//			section[quote.segment].section[quote.chr] = buff[quote.i];
+//			quote.segment++;
 		}
 		else
-		{
-			section[quote.segment].section[quote.chr] = buff[quote.i];
-			quote.chr++;
-		}
+			section[quote.segment].section[quote.chr++] = buff[quote.i];
 		quote.i++;
 	}
+	section[++quote.segment].section = NULL;
 }
 
 void	ms_field(t_section *section, int nbr)
@@ -109,21 +106,21 @@ t_section	*ms_section(char *buff)
 {
 	t_section	*section;
 	int 		nbr;
-	int			index;
-
-	index = 0;
+//	int			index;
+//
+//	index = 0;
 	nbr = ms_nbr_section(buff);
-	printf("%d\n", (nbr + (nbr - 1)));
-	section = malloc(sizeof(t_section) * (nbr + (nbr - 1)));
+//	printf("%d\n", (nbr + (nbr - 1)));
+	section = malloc(sizeof(t_section) * (nbr + 1));
 	ms_word(buff, section);
-	ms_field(section, (nbr + (nbr - 1)));
+	ms_field(section, (nbr) + 1);
 	ms_word_copy(buff, section);
-	while(index < (nbr + (nbr - 1)))
-	{
-	//	printf(" ------------------ \n");
-	//	printf("section = %s\nfield = %d\nnbr tab = %d\n",
-	//		   section[index].section, section[index].field, index);
-		index++;
-	}
+//	while(index < (nbr + (nbr - 1)))
+//	{
+//		printf(" ------------------ \n");
+//		printf("section = %s\nfield = %d\nnbr tab = %d\n",
+//			   section[index].section, section[index].field, index);
+//		index++;
+//	}
 	return (section);
 }

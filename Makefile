@@ -30,6 +30,8 @@ SRC				= 	shell_init.c \
 					pars/ms_parsing.c \
 					pars/ms_syntax.c \
 					pars/ms_section.c \
+					pars/ms_tmp.c \
+					pars/ms_list.c \
 
 SRC 			+=	main.c
 # SRC 			+=	test.c \

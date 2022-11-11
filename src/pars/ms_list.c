@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_syntax.c                                        :+:      :+:    :+:   */
+/*   ms_list.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/07 11:15:51 by aho               #+#    #+#             */
-/*   Updated: 2022/11/09 16:56:21 by aho              ###   ########.fr       */
+/*   Created: 2022/11/11 11:18:23 by aho               #+#    #+#             */
+/*   Updated: 2022/11/11 11:18:25 by aho              ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/minishell.h"
 
-int	ms_not_covered(char const *buff)
+int	ms_new(t_tmp **tmp, int field, char *str)
 {
-	t_quote	quote;
+	t_tmp	*elemt;
 
-	quote.i = -1;
-	quote.squote = 0;
-	quote.dquote = 0;
-	while (buff[++quote.i])
-	{
-		ms_quote_checker(buff, &quote.i, &quote.squote, &quote.dquote);
-	}
-	if (quote.squote || quote.dquote)
+	elemt = malloc(sizeof(t_tmp));
+	if (!(elemt))
 		return (0);
+	elemt->field = field;
+	elemt->str = str;
+	elemt->next = *tmp;
+	*tmp = elemt;
 	return (1);
 }

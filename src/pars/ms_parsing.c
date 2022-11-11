@@ -43,10 +43,27 @@ void	ms_quote_checker(const char *buff,const int *j,
 int	ms_parsing(char *buff)
 {
 	t_section	*section;
+	t_tmp		*tmp;
+//	int	index;
 
+//	index = 0;
 	if (!(ms_not_covered(buff)))
 		return (ms_errors(1));
 	section = ms_section(buff);
+//	while(section[index].section)
+//	{
+//		printf(" ------------------ \n");
+//		printf("section = %s\nfield = %d\nnbr tab = %d\n",
+//			   section[index].section, section[index].field, 1);
+//		index++;
+//	}
+	tmp = ms_tmp(section);
+	while (tmp)
+	{
+//		puts(tmp->str);
+		printf("%s [%d]\n", tmp->str, tmp->field);
+		tmp = tmp->next;
+	}
 	free(section);
 	return (0);
 }

@@ -43,7 +43,7 @@ typedef struct s_quote		t_quote;
 typedef struct s_shell		t_shell;
 typedef struct s_section	t_section;
 typedef struct s_command	t_command;
-typedef struct s_section_aho	t_section_aho;
+typedef struct s_tmp		t_tmp;
 
 struct s_quote
 {
@@ -52,12 +52,6 @@ struct s_quote
 	int	dquote;
 	int	segment;
 	int	chr;
-};
-
-struct	s_section_aho
-{
-	int		field;
-	char	*section;
 };
 
 //	parsing.c
@@ -76,12 +70,29 @@ void		ms_word(const char *buff, t_section *section);
 void		ms_word_copy(char *buff, t_section *section);
 void		ms_field(t_section *section, int nbr);
 
+//	ms_list.c
+int			ms_new(t_tmp **tmp, int field, char *str);
+
+//	ms_tmp.c
+t_tmp	*ms_tmp(t_section *section);
+int		ms_qbuffer(t_tmp **tmp, int index, int field_buff,const char *str);
+int		ms_sbuffer(t_tmp **tmp, int index, int field_buff,const char *str);
+int		ms_check_buffer(const char *str, int index);
+
 // --------------------------aho------------------------
+
+struct s_tmp
+{
+	int		field;
+	char	*str;
+	t_tmp	*next;
+};
 
 struct s_section
 {
 	int					field;
 	char				*section;
+	t_tmp				*tmp;
 	struct s_command	*cmd;
 };
 
@@ -96,7 +107,7 @@ struct	s_command
 {
 	char	*name;
 	char	**args;
-	char	*stdout;
+	int		in_fd;
 	int		err_fd;
 	int		out_fd;
 	struct s_command	*next;
