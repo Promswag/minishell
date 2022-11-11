@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/10 15:45:46 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/11 17:54:18 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_quote		t_quote;
 typedef struct s_shell		t_shell;
 typedef struct s_section	t_section;
 typedef struct s_command	t_command;
+typedef struct s_pipe		t_pipe;
 
 struct s_quote
 {
@@ -58,6 +59,14 @@ struct s_command
 	int					out_fd;
 	int					err_fd;
 	struct s_command	*next;
+};
+
+struct s_pipe
+{
+	int	prev_r;
+	int	prev_w;
+	int	cur_r;
+	int	cur_w;
 };
 
 //	builtins/ms_cd.c
