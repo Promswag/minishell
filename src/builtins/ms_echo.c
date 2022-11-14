@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 13:20:46 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/11 11:07:21 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/14 18:55:58 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@ int	ms_echo(t_command cmd, char ***env)
 	trigger = 0;
 	while (cmd.args && cmd.args[++i])
 	{
-		// write(STDOUT_FILENO, cmd.args[i], ft_strlen(cmd.args[i]));
 		j = -1;
-		if (!trigger && cmd.args[i][++j] == '-' && cmd.args[i][++j] == 'n')
+		if (!trigger & 255 && cmd.args[i][++j] == '-' && cmd.args[i][++j] == 'n')
 		{
 			trailing = 0;
 			while (cmd.args[i][++j])
@@ -42,13 +41,11 @@ int	ms_echo(t_command cmd, char ***env)
 		}
 		else
 			trigger = 1;
-		// printf("%d - %c\n", trigger, cmd.args[i][0]);
 		if (trigger && cmd.args[i][0])
 			write(STDOUT_FILENO, cmd.args[i], ft_strlen(cmd.args[i]));
 		if (trigger && cmd.args[i + 1] && *cmd.args[i + 1])
 			write(STDOUT_FILENO, " ", 1);
 	}
-	// printf("%d\n", trailing);
 	if (trailing)
 		write(STDOUT_FILENO, "\n", 1);
 	exit(0);

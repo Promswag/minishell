@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/11 17:54:18 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/14 18:55:41 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_shell		t_shell;
 typedef struct s_section	t_section;
 typedef struct s_command	t_command;
 typedef struct s_pipe		t_pipe;
+typedef int					(*t_builtins)(t_command, char ***);
 
 struct s_quote
 {
@@ -76,8 +77,7 @@ int				ms_cd(t_command cmd, char ***env);
 int				ms_echo(t_command cmd, char ***env);
 
 //	builtins/ms_exit.c
-int				ll_overflow_check(const char *str);
-int				ms_exit(t_command cmd, char ***env);
+void			ms_exit(t_command cmd, char ***env);
 
 //	builtins/ms_export.c
 int				ms_export(t_command cmd, char ***env);
@@ -106,7 +106,7 @@ int				ms_syntaxe(char *buff);
 int				ms_command_manager(t_section *section, t_shell *shell);
 
 //	shell_init.c
-t_shell			shell_init(char **env);
+t_shell			shell_init(int argc, char **argv, char **env);
 void			shell_restore(t_shell *shell);
 
 //	signal.c

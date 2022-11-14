@@ -6,14 +6,14 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:04:10 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/10 17:50:36 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/14 18:49:49 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <stdio.h>
 
-int	ll_overflow_check(const char *str)
+static int	ll_overflow_check(const char *str)
 {
 	int			i;
 	long long	r;
@@ -42,7 +42,7 @@ int	ll_overflow_check(const char *str)
 	return (0);
 }
 
-int	ms_exit_legal(char *s)
+static int	ms_exit_legal(char *s)
 {
 	int	i;
 
@@ -61,8 +61,9 @@ int	ms_exit_legal(char *s)
 	return (1);
 }
 
-int	ms_exit(t_command cmd, char ***env)
+void	ms_exit(t_command cmd, char ***env)
 {
+	(void)env;
 	if (!cmd.args)
 	{
 		write(STDERR_FILENO, "exit\n", 5);
