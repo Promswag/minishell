@@ -35,85 +35,35 @@ int	ms_check_buffer(const char *str, int index)
 	return (0);
 }
 
-int	ms_sbuffer(t_tmp **tmp, int index, int field_buff, const char *str)
+int	ms_buffer_ch(t_tmp **tmp, int index, int field_buff, const char *str)
 {
-	int		end;
-	char	*cpy;
-	int		result;
-
-	end = index;
-	while (str[end])
-	{
-		if (str[end] == ' ')
-		{
-			end++;
-			break ;
-		}
-		end++;
-	}
-	cpy = malloc(sizeof(char) * (end - index + 1));
-	cpy[end - index] = '\0';
-	result = end;
-	while (--end != index - 1)
-		cpy[end - index] = str[end];
-	ms_new(tmp, field_buff, cpy);
-	return (result);
+	if (field_buff == 0)
+		index = ms_sbuffer(tmp, index, field_buff, str);
+	else if (field_buff == 5 || field_buff == 6)
+		index = ms_qbuffer(tmp, index, field_buff, str);
+	else if (field_buff == 1 || field_buff == 3)
+		index = ms_ibuffer(tmp, index, field_buff, str);
+	else if (field_buff == 2 || field_buff == 4)
+		index = ms_obuffer(tmp, index, field_buff, str);
+	return (index);
 }
 
-int	ms_qbuffer(t_tmp **tmp, int index, int field_buff, const char *str)
-{
-	int		stat;
-	int		end;
-	char	*cpy;
-	int		result;
-
-	stat = field_buff;
-	end = index;
-	while (str[++end])
-	{
-		if (str[end] == ' ' && stat == 0)
-			break ;
-		if (str[end] == 39 && stat == 5)
-			stat = 0;
-		if (str[end] == 34 && stat == 6)
-			stat = 0;
-	}
-//	printf("%d\n", end);
-//	printf("index = %d\n", index);
-	cpy = malloc(sizeof(char) * (end - index + 1));
-	cpy[end - index] = '\0';
-	result = end;
-	while (--end != index - 1)
-		cpy[end - index] = str[end];
-//	printf("%d\n", (int)ft_strlen(cpy));
-//	printf(" cpy = %s\n", cpy);
-	ms_new(tmp, field_buff, cpy);
-	return (result);
-}
-
-t_tmp	*ms_tmp(t_section *section)
+t_tmp	*ms_tmp(char *str)
 {
 	int		index;
 	t_tmp	*tmp;
 	int		field_buff;
-	int		LaTex;
 
-	LaTex = 0;
 	index = 0;
 	tmp = NULL;
-	while (section[index].section[LaTex])
+	while (str[index])
 	{
-		if (section[index].section[LaTex] == ' ')
-			LaTex++;
+		if (str[index] == ' ')
+			index++;
 		else
 		{
-			field_buff = ms_check_buffer(section[index].section, LaTex);
-			if (field_buff == 0)
-				LaTex = ms_sbuffer(&tmp, LaTex,
-								   field_buff, section[index].section);
-			else if (field_buff == 5 || field_buff == 6)
-				LaTex = ms_qbuffer(&tmp, LaTex,
-								   field_buff, section[index].section);
+			field_buff = ms_check_buffer(str, index);
+			index = ms_buffer_ch(&tmp, index, field_buff, str);
 		}
 	}
 	return (tmp);

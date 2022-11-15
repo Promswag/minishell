@@ -74,10 +74,16 @@ void		ms_field(t_section *section, int nbr);
 int			ms_new(t_tmp **tmp, int field, char *str);
 
 //	ms_tmp.c
-t_tmp	*ms_tmp(t_section *section);
+t_tmp	*ms_tmp(char *str);
+int		ms_check_buffer(const char *str, int index);
+
+// ms_buffer.c
 int		ms_qbuffer(t_tmp **tmp, int index, int field_buff,const char *str);
 int		ms_sbuffer(t_tmp **tmp, int index, int field_buff,const char *str);
-int		ms_check_buffer(const char *str, int index);
+int		ms_obuffer(t_tmp **tmp, int index, int field_buff, const char *str);
+
+// ms_ibuffer.c
+int		ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str);
 
 // --------------------------aho------------------------
 

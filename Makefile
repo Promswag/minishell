@@ -32,6 +32,11 @@ SRC				= 	shell_init.c \
 					pars/ms_section.c \
 					pars/ms_tmp.c \
 					pars/ms_list.c \
+					pars/ms_buffer.c \
+					pars/ms_ibuffer.c \
+					pars/ms_obuffer.c \
+					pars/ms_qbuffer.c \
+					pars/ms_sbuffer.c \
 
 SRC 			+=	main.c
 # SRC 			+=	test.c \
@@ -48,7 +53,7 @@ READLINE_INC	= -I/Users/${USER}/.brew/opt/readline/include
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra
 CFLAGS			+= -Werror
-# CFLAGS			+= -fsanitize=address
+# CFLAGS		+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf
 

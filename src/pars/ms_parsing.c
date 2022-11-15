@@ -57,7 +57,7 @@ int	ms_parsing(char *buff)
 //			   section[index].section, section[index].field, 1);
 //		index++;
 //	}
-	tmp = ms_tmp(section);
+	tmp = ms_tmp(section[0].section);
 	while (tmp)
 	{
 //		puts(tmp->str);
