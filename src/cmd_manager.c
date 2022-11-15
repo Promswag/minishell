@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/14 13:22:54 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/15 11:27:16 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,5 +99,7 @@ static int	ms_cmd_error(const char *str)
 	write(STDERR_FILENO, ": ", 2);
 	write(STDERR_FILENO, strerror(errno), ft_strlen(strerror(errno)));
 	write(STDERR_FILENO, "\n", 1);
-	return (errno);
+	if (ft_strncmp(str, "pipe", 5))
+		return (errno);
+	exit(errno);
 }

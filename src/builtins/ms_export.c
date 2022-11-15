@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:58:06 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/10 15:52:55 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/15 15:20:24 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ static int	ms_export_exists(char *s, char **env)
 	int	i;
 	int	l;
 
+	if (!s)
+		return (-1);
 	l = 0;
 	while (s[l] && s[l] != '=')
 		l++;

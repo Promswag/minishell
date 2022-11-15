@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 13:20:46 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/14 18:55:58 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/15 18:08:29 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ms_echo(t_command cmd, char ***env)
 	while (cmd.args && cmd.args[++i])
 	{
 		j = -1;
-		if (!trigger & 255 && cmd.args[i][++j] == '-' && cmd.args[i][++j] == 'n')
+		if (!trigger && cmd.args[i][++j] == '-' && cmd.args[i][++j] == 'n')
 		{
 			trailing = 0;
 			while (cmd.args[i][++j])

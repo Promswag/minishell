@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/11/09 17:24:18 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/11/15 18:28:11 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,9 @@ OUT_DIR			= ./obj/
 SRC				= 	shell_init.c \
 					signal.c \
 					cmd_manager.c \
+					ms_fd_manager.c \
+					ms_heredoc.c \
+					ms_heredoc_utils.c \
 					builtins/ms_cd.c \
 					builtins/ms_echo.c \
 					builtins/ms_exit.c \
@@ -29,8 +32,10 @@ SRC				= 	shell_init.c \
 					pars/ms_parsing.c \
 					pars/ms_syntax.c \
 
-# SRC 			+=	main.c
-SRC 			+=	main_local.c
+SRC 			+=	main.c
+# SRC 			+=	test/main_local.c
+# SRC 			+=	test/test_pipe.c
+# SRC 			+=	test/test_heredoc.c
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
