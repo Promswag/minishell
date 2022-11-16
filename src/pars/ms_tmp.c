@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "parser.h"
 
 int	ms_check_buffer(const char *str, int index)
 {

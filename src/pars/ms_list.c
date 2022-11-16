@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "parser.h"
 
 static t_tmp	*ms_lstlast(t_tmp *lst)
 {

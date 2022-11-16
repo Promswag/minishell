@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "parser.h"
 
 void	ms_quote_checker(const char *buff,const int *j,
 						 int *squote1, int *dquote1)

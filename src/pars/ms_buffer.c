@@ -10,65 +10,81 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "parser.h"
 
-int	ms_cpt_expend(const char *str)
+int	ms_expend_index(const char *str, int index)
 {
+	int		i;
+
+	i = index;
+	while (ft_isalpha(str[i]) || str[i] == '_')
+		i++;
+	return (i);
+}
+
+char	*ms_expend_getname(const char *str, int index)
+{
+	int		i;
+	char	*name;
+	int		length;
+
+	i = index;
+	while(str[i] == ' ')
+		i++;
+	length = 0;
+	while (ft_isalpha(str[i]) || str[i] == '_')
+	{
+		i++;
+		length++;
+	}
+	name = malloc((length + 1) * sizeof(char));
+	name[length] = '\0';
+	i = index;
+	length = 0;
+	while (ft_isalpha(str[i]) || str[i] == '_')
+	{
+		name[length] = str[i];
+		length++;
+		i++;
+	}
+	return (name);
+}
+
+int	ms_expend_length(const char *str, int index)
+{
+	char	*name;
 	char	*chr;
 	int		i;
 
 	i = 0;
-	chr = getenv(str);
+	name = ms_expend_getname(str, index);
+	chr = getenv(name);
+	if (!chr)
+		return (0);
 	while (chr[i])
 		i++;
 	return (i);
 }
 
-//int	ms_sbuffer(t_tmp **tmp, int index, int field_buff, const char *str)
-//{
-//	int		end;
-//	char	*cpy;
-//	int		result;
-//
-//	end = index;
-//	while (str[end])
-//	{
-//		if (str[end] == ' ' || str[end] == 60 || str[end] == 62)
-//			break ;
-//		end++;
-//	}
-//	cpy = malloc(sizeof(char) * (end - index + 1));
-//	cpy[end - index] = '\0';
-//	result = end;
-//	while (--end != index - 1)
-//		cpy[end - index] = str[end];
-//	ms_new(tmp, field_buff, cpy);
-//	return (result);
-//}
+void	ms_expend_copy(char *cpy, int *i, const char *str, int *end)
+{
+	char	*name;
+	char	*chr;
+	int		index;
 
-//int	ms_qbuffer(t_tmp **tmp, int index, int field_buff, const char *str)
-//{
-//	int		stat;
-//	int		end;
-//	char	*cpy;
-//	int		result;
-//
-//	stat = field_buff;
-//	end = index;
-//	while (str[++end])
-//	{
-//		if (str[end] == ' ' && stat == 0)
-//			break ;
-//		if (str[end] == 39 && stat == 5)
-//			stat = 0;
-//		if (str[end] == 34 && stat == 6)
-//			stat = 0;
-//	}
-//	cpy = malloc(sizeof(char) * (end - index + 1));
-//	cpy[end - index] = '\0';
-//	result = end;
-//	while (--end != index - 1)
-//		cpy[end - index] = str[end];
-//	ms_new(tmp, field_buff, cpy);
-//	return (result);
-//}
+	index = 0;
+	name = ms_expend_getname(str, *i);
+	chr = getenv(name);
+	if (!chr)
+	{
+		cpy[*end] = 0;
+		(*end)++;
+		return ;
+	}
+	while (chr[index])
+	{
+		cpy[*end] = chr[index];
+		(*end)++;
+		index++;
+	}
+}
