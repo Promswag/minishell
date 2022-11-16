@@ -6,60 +6,68 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:40:16 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/15 18:26:18 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/16 17:41:44 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ms_fd_manager.h"
 
-void	ms_heredoc_handler(t_fdlst *fdlst, char **env);
-void	ms_heredoc_expand(char **str, char **env);
+int		ms_heredoc_handler(t_fdlst *fdlst, char **env);
+int		ms_heredoc_read_stdin(t_fdlst *fdlst, char **str);
 t_list	*ms_heredoc_expand_lst(char *str, char **env);
+void	ms_heredoc_if_handler(t_list **lst, char *str, int *i, char **env);
 void	ms_heredoc_expand_str(t_list *lst, char **str);
-void	ms_heredoc_clear_lst(t_list **lst);
 
-void	ms_heredoc_handler(t_fdlst *fdlst, char **env)
+int	ms_heredoc_handler(t_fdlst *fdlst, char **env)
 {
-	char	*res;
-	char	*tmp;
-	char	buf[1024];
+	char	*str;
 	long	pipefd;
+	t_list	*lst;
+
+	lst = NULL;
+	str = ft_calloc(1, 1);
+	if (!str)
+		return (ms_fd_error("heredoc"));
+	if (ms_heredoc_read_stdin(fdlst, &str))
+		return (ms_fd_error("heredoc"));
+	if (fdlst->type == HEREDOC)
+	{
+		lst = ms_heredoc_expand_lst(str, env);
+		ms_heredoc_expand_str(lst, &str);
+		ms_heredoc_clear_lst(&lst);
+	}
+	pipe((int *)&pipefd);
+	write(pipefd >> 32, str, ft_strlen(str));
+	free(str);
+	close(pipefd >> 32);
+	fdlst->fd = (int)pipefd;
+	return (0);
+}
+
+int	ms_heredoc_read_stdin(t_fdlst *fdlst, char **str)
+{
+	char	buf[256];
+	char	*tmp;
 	int		r;
 
 	r = 1;
-	tmp = ft_calloc(1, 1);
-	if (!tmp)
-		ms_fd_error("heredoc");
 	while (r)
 	{
 		r = read(0, buf, sizeof(buf) - sizeof(char));
 		if (r < 0)
-			break ;
+			return (1);
 		buf[r] = 0;
-		if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path)))
+		if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path)) \
+			&& buf[ft_strlen(fdlst->path)] == '\n')
 			break ;
-		res = ft_strjoin(tmp, buf);
-		free(tmp);
-		tmp = res;
-		if (!res)
-			ms_fd_error("heredoc");
+		tmp = ft_strjoin(*str, buf);
+		free(*str);
+		*str = tmp;
+		if (!*str)
+			return (1);
 	}
-	if (fdlst->type == HEREDOC)
-		ms_heredoc_expand(&res, env);
-	pipe(&pipefd);
-	write(pipefd >> 32, res, ft_strlen(res));
-	close(pipefd >> 32);
-	fdlst->fd = (int)pipefd;
-}
-
-void	ms_heredoc_expand(char **str, char **env)
-{
-	t_list	*lst;
-
-	lst = ms_heredoc_expand_lst(*str, env);
-	ms_heredoc_expand_str(lst, str);
-	ms_heredoc_clear_lst(&lst);
+	return (0);
 }
 
 t_list	*ms_heredoc_expand_lst(char *str, char **env)
@@ -67,7 +75,6 @@ t_list	*ms_heredoc_expand_lst(char *str, char **env)
 	int		i;
 	int		l;
 	t_list	*lst;
-	char	*name;
 
 	lst = NULL;
 	i = -1;
@@ -77,16 +84,33 @@ t_list	*ms_heredoc_expand_lst(char *str, char **env)
 		if (str[i] == '$')
 		{
 			ft_lstadd_back(&lst, ft_lstnew(ft_substr(str, l, i - l)));
-			name = ms_get_name(str);
-			ft_lstadd_back(&lst, \
-				ft_lstnew(ms_export_get_value(name, env)));
-			if (name)
-				free (name);
-			i += ms_get_name_length((*str));
-			l = i;
+			ms_heredoc_if_handler(&lst, str, &i, env);
+			l = i + 1;
 		}
+		if (str[i + 1] == '\0')
+			ft_lstadd_back(&lst, ft_lstnew(ft_substr(str, l, i - l + 1)));
 	}
 	return (lst);
+}
+
+void	ms_heredoc_if_handler(t_list **lst, char *str, int *i, char **env)
+{
+	char	*name;
+
+	if (str[*i + 1] == '?' && ++(*i))
+		ft_lstadd_back(lst, ft_lstnew(ft_itoa(g_exit_code)));
+	else if ((str[*i + 1] == '\n' || str[*i + 1] == ' '))
+		ft_lstadd_back(lst, ft_lstnew(ft_strdup("$")));
+	else if (str[*i + 1] == '$' && ++(*i))
+		ft_lstadd_back(lst, ft_lstnew(ft_strdup("")));
+	else
+	{
+		name = ft_substr(str + *i + 1, 0, ms_get_name_length(str + *i + 1));
+		ft_lstadd_back(lst, ft_lstnew(ms_export_get_value(name, env)));
+		if (name)
+			free (name);
+		*i += ms_get_name_length((str + *i + 1));
+	}
 }
 
 void	ms_heredoc_expand_str(t_list *lst, char **str)
@@ -103,26 +127,9 @@ void	ms_heredoc_expand_str(t_list *lst, char **str)
 		**str = 0;
 		while (lst)
 		{
-			ft_strlcat(*str, lst->content, i);
+			if (lst->content)
+				ft_strlcat(*str, lst->content, i);
 			lst = lst->next;
 		}
 	}
-}
-
-void	ms_heredoc_clear_lst(t_list **lst)
-{
-	t_list	*prev;
-
-	while (*lst)
-	{
-		prev = *lst;
-		*lst = (*lst)->next;
-		if (prev->content)
-		{
-			ft_bzero(prev->content, ft_strlen(prev->content));
-			free(prev->content);
-		}
-		free(prev);
-	}
-	lst = NULL;
 }

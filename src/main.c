@@ -6,11 +6,13 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:09:44 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/14 18:53:40 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/16 17:44:35 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	g_exit_code;
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -35,7 +37,7 @@ int	main(int argc, char **argv, char **envp)
 			if (*buf)
 			{
 				add_history(buf);
-				// PARSE COME HERE
+				/* PARSE COME HERE */
 				ms_command_manager((t_section []){(t_section){0, 0, 0}}, &shell);
 			}
 		}

@@ -6,15 +6,14 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/15 14:48:33 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/16 17:38:27 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-# include "../libft/include/libft.h"
-# include "minishell.h"
+# include "../libft/include/libft.h"            
 # include <termios.h>
 # include <unistd.h>
 # include <stdio.h>
@@ -23,6 +22,8 @@
 # include <readline/history.h>
 
 # define SHELL_NAME "minishell"
+
+extern int					g_exit_code;
 
 typedef struct s_quote		t_quote;
 typedef struct s_shell		t_shell;

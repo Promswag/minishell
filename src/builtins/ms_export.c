@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:58:06 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/15 15:20:24 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/16 14:15:31 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,6 @@ static int	ms_export_exists(char *s, char **env)
 	i = -1;
 	while (env[++i])
 	{
-		// printf("%d\n", i);
-		// printf("%d\n", l);
-		// printf("%s\n", s);
-		// printf("%s\n", env[i]);
 		if (!ft_strncmp(s, env[i], l))
 			if (env[i][l] == '=' || env[i][l] == '\0')
 				return (i);
