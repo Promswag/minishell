@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:09:44 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/16 17:44:35 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/16 18:02:22 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	main(int argc, char **argv, char **envp)
 			{
 				add_history(buf);
 				/* PARSE COME HERE */
-				ms_command_manager((t_section []){(t_section){0, 0, 0}}, &shell);
+				/* PRENDRE EN CHARGE EXIT EN DEHORS DU FORK */
+				ms_command_manager((t_section []){(t_section){0, 0, 0, 0}}, &shell);
 			}
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/15 11:27:16 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/16 18:00:03 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static void	ms_cmd_exec(t_section section, t_shell *shell, t_pipe pfd)
 static int	ms_cmd_is_builtins(t_command cmd)
 {
 	static char	*builtins[] = \
-		{"exit", "pwd", "cd", "echo", "export", "unset", 0};
+		{"pwd", "cd", "echo", "export", "unset", 0};
 	int			i;
 
 	i = -1;
@@ -85,7 +85,7 @@ static int	ms_cmd_is_builtins(t_command cmd)
 static void	ms_cmd_exec_builtins(t_command cmd, t_shell *shell, int index)
 {
 	static t_builtins	builtins[] = \
-		{ms_exit, ms_pwd, ms_cd, ms_echo, ms_export, ms_unset};
+		{ms_pwd, ms_cd, ms_echo, ms_export, ms_unset};
 
 	builtins[index](cmd, &shell->env);
 	exit(0);

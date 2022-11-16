@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/16 17:38:27 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/16 17:58:50 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,47 +20,23 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "parser.h"
 
 # define SHELL_NAME "minishell"
 
-extern int					g_exit_code;
+extern int g_exit_code;
 
-typedef struct s_quote		t_quote;
 typedef struct s_shell		t_shell;
 typedef struct s_section	t_section;
 typedef struct s_command	t_command;
 typedef struct s_pipe		t_pipe;
 typedef int					(*t_builtins)(t_command, char ***);
 
-struct s_quote
+struct	s_shell
 {
-	int	i;
-	int	squote;
-	int	dquote;
-};
-
-struct s_shell
-{
-	struct termios	termios_config;
-	struct termios	backup;
+	struct	termios	termios_config;
+	struct	termios	backup;
 	char			**env;
-};
-
-struct s_section
-{
-	int					field;
-	char				*section;
-	struct s_command	*cmd;
-};
-
-struct s_command
-{
-	char				*name;
-	char				**args;
-	int					in_fd;
-	int					out_fd;
-	int					err_fd;
-	struct s_command	*next;
 };
 
 struct s_pipe
@@ -91,17 +67,6 @@ int				ms_pwd(t_command cmd, char ***env);
 
 //	builtins/ms_unset.c
 int				ms_unset(t_command cmd, char ***env);
-
-//	pars/ms_errors.c
-int				ms_errors(int cmd);
-
-//	pars/ms_parsing.c
-int				ms_parsing(char *buff);
-int				ms_errors(int cmd);
-int				ms_not_covered(char *buff);
-
-//	pars/ms_syntax.c
-int				ms_syntaxe(char *buff);
 
 //	cmd_manager.c
 int				ms_command_manager(t_section *section, t_shell *shell);

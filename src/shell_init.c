@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 14:34:55 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/14 18:44:34 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/16 17:54:15 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_shell	shell_init(int argc, char **argv, char **env)
 {
 	t_shell	shell;
 
+	(void)argv;
 	if (argc != 1)
 	{
 		write(2, SHELL_NAME, ft_strlen(SHELL_NAME));

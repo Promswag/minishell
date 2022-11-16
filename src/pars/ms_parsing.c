@@ -6,11 +6,11 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 14:28:23 by aho               #+#    #+#             */
-/*   Updated: 2022/11/09 12:06:29 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/16 17:53:07 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/minishell.h"
+#include "parser.h"
 
 void	ms_quote_checker(const char *buff,const int *j,
 						 int *squote1, int *dquote1)
@@ -40,131 +40,30 @@ void	ms_quote_checker(const char *buff,const int *j,
 	*dquote1 = dquote;
 }
 
-int	ms_nbr_section(const char *buff)
-{
-	int	i;
-	int	squote;
-	int	dquote;
-	int	pipeline;
-
-	i = 0;
-	squote = 0;
-	dquote = 0;
-	pipeline = 1;
-	while(buff[i])
-	{
-		ms_quote_checker(buff, &i, &squote, &dquote);
-		if (buff[i] == 124 && squote == 0 && dquote == 0)
-			pipeline++;
-		i++;
-	}
-	return (pipeline);
-}
-
-void	ms_word(const char *buff, t_section *section)
-{
-	int	i;
-	int	squote;
-	int	dquote;
-	int segment;
-	int	word;
-
-	segment = 0;
-	i = 0;
-	squote = 0;
-	dquote = 0;
-	word = 0;
-	while(buff[i])
-	{
-		ms_quote_checker(buff, &i, &squote, &dquote);
-		if (buff[i] == 124 && squote == 0 && dquote == 0)
-		{
-			word = i - word;
-			section[segment].section = ft_calloc(sizeof(char), word);
-			segment++;
-			section[segment].section = ft_calloc(sizeof(char), 1);
-			segment++;
-		}
-		i++;
-	}
-	section[segment].section = ft_calloc(sizeof(char), word);
-}
-
-void	ms_word_copy(char *buff, t_section *section)
-{
-	t_quote	quote;
-	int		segment;
-	int		chr;
-
-	segment = 0;
-	chr = 0;
-	quote.i = 0;
-	while (buff[quote.i])
-	{
-		ms_quote_checker(buff, &quote.i, &quote.squote, &quote.dquote);
-		if (buff[quote.i] == 124
-			&& quote.squote == 0 && quote.dquote == 0)
-		{
-			segment++;
-			chr = 0;
-			section[segment].section[chr] = buff[quote.i];
-			section[segment].field = 1;
-			segment++;
-		}
-		else
-		{
-			section[segment].section[chr] = buff[quote.i];
-			chr++;
-		}
-		quote.i++;
-	}
-}
-
-void	ms_field(t_section *section, int nbr)
-{
-	int	index;
-
-	index = 0;
-	while (index < nbr)
-	{
-		section[index].field = 0;
-		index++;
-	}
-}
-
-t_section	*ms_section(char *buff)
-{
-	t_section	*section;
-	int 		nbr;
-	int			index;
-
-	index = 0;
-	nbr = ms_nbr_section(buff);
-	section = malloc(sizeof(t_section) * (nbr + (nbr - 1)));
-	ms_word(buff, section);
-	ms_field(section, (nbr + (nbr - 1)));
-	ms_word_copy(buff, section);
-	while(index < (nbr + (nbr - 1)))
-	{
-		printf(" ------------------ \n");
-		printf("section = %s\nfield = %d\nnbr tab = %d\n",
-			   section[index].section, section[index].field, index);
-		index++;
-	}
-	return (section);
-}
-
-	//	count nbr section ; ok
-	//	allocation memory ; ok
-	//	cpy = count word, allocation, copy
-
 int	ms_parsing(char *buff)
 {
 	t_section	*section;
+	t_tmp		*tmp;
+//	int	index;
 
+//	index = 0;
 	if (!(ms_not_covered(buff)))
 		return (ms_errors(1));
 	section = ms_section(buff);
+//	while(section[index].section)
+//	{
+//		printf(" ------------------ \n");
+//		printf("section = %s\nfield = %d\nnbr tab = %d\n",
+//			   section[index].section, section[index].field, 1);
+//		index++;
+//	}
+	tmp = ms_tmp(section[0].section);
+	while (tmp)
+	{
+//		puts(tmp->str);
+		printf("%s [%d]\n", tmp->str, tmp->field);
+		tmp = tmp->next;
+	}
 	free(section);
 	return (0);
 }
