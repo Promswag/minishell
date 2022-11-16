@@ -66,7 +66,7 @@ int	ms_expend_length(const char *str, int index)
 	return (i);
 }
 
-void	ms_expend_copy(char *cpy, int *i, const char *str, int *end)
+void	ms_expend_copy(char *cpy,int *i, const char *str, int *end)
 {
 	char	*name;
 	char	*chr;

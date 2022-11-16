@@ -55,7 +55,7 @@ int	ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str)
 	result = index;
 	while (str[quote.i])
 	{
-		if ((str[index] == 60 || str[index] == 62 || str[index] == ' ')
+		if ((str[quote.i] == 60 || str[quote.i] == 62 || str[quote.i] == ' ')
 			&& (quote.squote == 0 && quote.dquote == 0))
 			break ;
 		ms_quote_checker(str, &quote.i, &quote.squote, &quote.dquote);

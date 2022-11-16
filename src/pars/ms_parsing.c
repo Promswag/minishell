@@ -67,13 +67,3 @@ int	ms_parsing(char *buff)
 	free(section);
 	return (0);
 }
-
-// int	main(void)
-// {
-// 	char *buff;
-
-// 	buff = readline(NULL);
-// 	ms_parsing(buff);
-// 	free(buff);
-// 	return 0;
-// }

@@ -39,10 +39,12 @@ SRC				= 	shell_init.c \
 					pars/ms_qbuffer.c \
 					pars/ms_sbuffer.c \
 
-SRC 			+=	main.c
+#SRC 			+=	main.c
 # SRC 			+=	test/main_local.c
 # SRC 			+=	test/test_pipe.c
 # SRC 			+=	test/test_heredoc.c
+
+SRC				+= pars/truc.c
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
