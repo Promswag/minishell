@@ -6,59 +6,11 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:58:06 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/16 14:15:31 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:57:11 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	ms_export_delim(char *s)
-{
-	int	i;
-
-	i = -1;
-	if (!ft_isalpha(*s) && *s != '_')
-		return (-1);
-	while (s[++i])
-	{
-		if (s[i] == '=')
-			return (++i);
-		if (!ft_isalnum(s[i]) && s[i] != '_')
-			return (-1);
-	}
-	return (0);
-}
-
-static int	ms_export_exists(char *s, char **env)
-{
-	int	i;
-	int	l;
-
-	if (!s)
-		return (-1);
-	l = 0;
-	while (s[l] && s[l] != '=')
-		l++;
-	i = -1;
-	while (env[++i])
-	{
-		if (!ft_strncmp(s, env[i], l))
-			if (env[i][l] == '=' || env[i][l] == '\0')
-				return (i);
-	}
-	return (-1);
-}
-
-char	*ms_export_get_value(char *s, char **env)
-{
-	int	i;
-
-	i = ms_export_exists(s, env);
-	if (i != -1)
-		return (ft_strdup(env[i] + ms_export_delim(env[i])));
-	else
-		return (NULL);
-}
 
 static void	ms_export_sort(char ***env)
 {
@@ -76,16 +28,6 @@ static void	ms_export_sort(char ***env)
 			i = 0;
 		}
 	}
-}
-
-void	ms_export_destroy(char **env)
-{
-	int	i;
-
-	i = -1;
-	while (env[++i])
-		free(env[i]);
-	free(env);
 }
 
 static void	ms_export_add(char *s, char ***env)
@@ -106,17 +48,12 @@ static void	ms_export_add(char *s, char ***env)
 	*env = new_env;
 }
 
-int	ms_export_handler(char *s, char ***env)
+static int	ms_export_handler(char *s, char ***env)
 {
 	int	i;
 
 	if (ms_export_delim(s) == -1)
-	{
-		write(STDERR_FILENO, "export: `", 9);
-		write(STDERR_FILENO, s, ft_strlen(s));
-		write(STDERR_FILENO, "': not a valid identifier\n", 26);
-		return (1);
-	}
+		return (ms_error("export"));
 	i = ms_export_exists(s, *env);
 	if (i == -1)
 		ms_export_add(s, env);
@@ -131,7 +68,7 @@ int	ms_export_handler(char *s, char ***env)
 	return (0);
 }
 
-void	ms_export_print(int fd, char **env, int status)
+void	ms_export_print(char **env, int status)
 {
 	int	i;
 
@@ -140,43 +77,46 @@ void	ms_export_print(int fd, char **env, int status)
 	{
 		if (!status)
 		{
-			write(fd, "declare -x ", 11);
+			write(STDOUT_FILENO, "declare -x ", 11);
 			if (!ms_export_delim(env[i]))
-				write(fd, env[i], ft_strlen(env[i]));
+				write(STDOUT_FILENO, env[i], ft_strlen(env[i]));
 			else
 			{
-				write(fd, env[i], ms_export_delim(env[i]));
-				write(fd, "\"", 1);
-				write(fd, env[i] + ms_export_delim(env[i]), \
+				write(STDOUT_FILENO, env[i], ms_export_delim(env[i]));
+				write(STDOUT_FILENO, "\"", 1);
+				write(STDOUT_FILENO, env[i] + ms_export_delim(env[i]), \
 					ft_strlen(env[i] + ms_export_delim(env[i])));
-				write(fd, "\"", 1);
+				write(STDOUT_FILENO, "\"", 1);
 			}
-			write(fd, "\n", 1);
 		}
 		else if (ms_export_delim(env[i]) > 0)
-		{
-			write(fd, env[i], ft_strlen(env[i]));
-			write(fd, "\n", 1);
-		}
+			write(STDOUT_FILENO, env[i], ft_strlen(env[i]));
+		if (!status || ms_export_delim(env[i]) > 0)
+			write(STDOUT_FILENO, "\n", 1);
 	}
 }
 
-int	ms_export(t_command cmd, char ***env)
+void	ms_export(t_command *cmd, char ***env)
 {
 	int	err;
 	int	i;
 
 	err = 0;
-	if (!cmd.args)
+	if (!cmd->args)
 	{
 		ms_export_sort(env);
-		ms_export_print(STDOUT_FILENO, *env, 0);
+		if (!ft_strncmp(cmd->name, "export", ft_strlen("export")))
+			ms_export_print(*env, 0);
+		else
+			ms_export_print(*env, 1);
 	}
 	else
 	{
 		i = -1;
-		while (cmd.args[++i])
-			err += ms_export_handler(cmd.args[i], env);
+		while (cmd->args[++i])
+			err += ms_export_handler(cmd->args[i], env);
 	}
-	return (err);
+	if (err)
+		exit(err);
+	exit(EXIT_SUCCESS);
 }

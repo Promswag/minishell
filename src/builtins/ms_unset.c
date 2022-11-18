@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:00:41 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/01 17:17:09 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:57:37 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,21 @@ static void	ms_unset_remove(char *s, char ***env)
 	*env = new_env;
 }
 
-int	ms_unset(t_command cmd, char ***env)
+void	ms_unset(t_command *cmd, char ***env)
 {
 	int		err;
 	int		i;
 
 	err = 0;
 	i = -1;
-	while (cmd.args[++i])
+	while (cmd->args[++i])
 	{
-		if (ms_unset_is_name(cmd.args[i]))
-			ms_unset_remove(cmd.args[i], env);
+		if (ms_unset_is_name(cmd->args[i]))
+			ms_unset_remove(cmd->args[i], env);
 		else
 			err++;
 	}
-	return (err);
+	if (err)
+		exit(err);
+	exit(EXIT_SUCCESS);
 }

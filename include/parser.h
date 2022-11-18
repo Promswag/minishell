@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parseur.h                                          :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 13:15:29 by aho               #+#    #+#             */
-/*   Updated: 2022/11/16 13:15:30 by aho              ###   ########.fr       */
+/*   Updated: 2022/11/18 11:21:45 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSEUR_H
-# define PARSEUR_H
+#ifndef PARSER_H
+# define PARSER_H
 
 # include "../libft/include/libft.h"
 # include "minishell.h"
@@ -69,22 +69,22 @@ struct s_section
 
 struct	s_command
 {
-	char	*name;
-	char	**args;
-	int		in_fd;
-	int		err_fd;
-	int		out_fd;
+	char				*name;
+	char				**args;
+	int					in_fd;
+	int					out_fd;
+	int					err_fd;
 	struct s_command	*next;
 };
 
 //	parsing.c
-int		ms_parsing(char *buff);
-int		ms_errors(int cmd);
-void	ms_quote_checker(const char *buff,const int *j,
-						 int *squote1, int *dquote1);
+int			ms_parsing(char *buff);
+int			ms_errors(int cmd);
+void		ms_quote_checker(const char *buff, const int *j, \
+	int *squote1, int *dquote1);
 
 //	syntax.c
-int		ms_not_covered(const char *buff);
+int			ms_not_covered(const char *buff);
 
 //	section_creation, section.c
 t_section	*ms_section(char *buff);
@@ -97,18 +97,18 @@ void		ms_field(t_section *section, int nbr);
 int			ms_new(t_tmp **tmp, int field, char *str);
 
 //	ms_tmp.c
-t_tmp	*ms_tmp(char *str);
-int		ms_check_buffer(const char *str, int index);
+t_tmp		*ms_tmp(char *str);
+int			ms_check_buffer(const char *str, int index);
 
 // ms_buffer.c
-int		ms_expend_length(const char *str, int index);
-int		ms_expend_index(const char *str, int index);
-void	ms_expend_copy(char *cpy, int *i, const char *str, int *end);
+int			ms_expend_length(const char *str, int index);
+int			ms_expend_index(const char *str, int index);
+void		ms_expend_copy(char *cpy, int *i, const char *str, int *end);
 
 
-int		ms_qbuffer(t_tmp **tmp, int index, int field_buff,const char *str);
-int		ms_sbuffer(t_tmp **tmp, int index, int field_buff,const char *str);
-int		ms_obuffer(t_tmp **tmp, int index, int field_buff, const char *str);
-int		ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str);
+int			ms_qbuffer(t_tmp **tmp, int index, int field_buff, const char *str);
+int			ms_sbuffer(t_tmp **tmp, int index, int field_buff, const char *str);
+int			ms_obuffer(t_tmp **tmp, int index, int field_buff, const char *str);
+int			ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str);
 
 #endif

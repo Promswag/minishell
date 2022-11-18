@@ -1,27 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ms_pwd.c                                           :+:      :+:    :+:   */
+/*   ms_error.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/11/02 11:27:29 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/18 15:57:21 by gbaumgar         ###   ########.fr       */
+/*   Created: 2022/11/18 15:23:04 by gbaumgar          #+#    #+#             */
+/*   Updated: 2022/11/18 15:23:57 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_pwd(t_command *cmd, char ***env)
+int	ms_error(const char *str)
 {
-	char	path[100];
-
-	(void)cmd;
-	(void)env;
-	getcwd(path, 100);
-	if (errno)
-		perror("");
-	write(STDOUT_FILENO, path, ft_strlen(path));
-	write(STDOUT_FILENO, "\n", 1);
-	exit(EXIT_SUCCESS);
+	write(STDERR_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, str, ft_strlen(str));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, strerror(errno), ft_strlen(strerror(errno)));
+	write(STDERR_FILENO, "\n", 1);
+	return (1);
 }

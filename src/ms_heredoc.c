@@ -6,12 +6,14 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:40:16 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/16 17:41:44 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/18 15:31:54 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ms_fd_manager.h"
+#include <fcntl.h>
+#include <sys/ioctl.h>
 
 int		ms_heredoc_handler(t_fdlst *fdlst, char **env);
 int		ms_heredoc_read_stdin(t_fdlst *fdlst, char **str);
@@ -27,9 +29,7 @@ int	ms_heredoc_handler(t_fdlst *fdlst, char **env)
 
 	lst = NULL;
 	str = ft_calloc(1, 1);
-	if (!str)
-		return (ms_fd_error("heredoc"));
-	if (ms_heredoc_read_stdin(fdlst, &str))
+	if (!str || pipe((int *)&pipefd) || ms_heredoc_read_stdin(fdlst, &str))
 		return (ms_fd_error("heredoc"));
 	if (fdlst->type == HEREDOC)
 	{
@@ -37,7 +37,7 @@ int	ms_heredoc_handler(t_fdlst *fdlst, char **env)
 		ms_heredoc_expand_str(lst, &str);
 		ms_heredoc_clear_lst(&lst);
 	}
-	pipe((int *)&pipefd);
+	ioctl(pipefd >> 32, FIONBIO, (int *)1);
 	write(pipefd >> 32, str, ft_strlen(str));
 	free(str);
 	close(pipefd >> 32);
@@ -47,25 +47,25 @@ int	ms_heredoc_handler(t_fdlst *fdlst, char **env)
 
 int	ms_heredoc_read_stdin(t_fdlst *fdlst, char **str)
 {
-	char	buf[256];
+	char	buf[1024];
 	char	*tmp;
+	t_list	*lst;
 	int		r;
 
+	lst = NULL;
 	r = 1;
 	while (r)
 	{
+		ft_putstr_fd("🐐 ", 1);
 		r = read(0, buf, sizeof(buf) - sizeof(char));
 		if (r < 0)
-			return (1);
+			return (0);
 		buf[r] = 0;
-		if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path)) \
-			&& buf[ft_strlen(fdlst->path)] == '\n')
+		if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path) + 1))
 			break ;
-		tmp = ft_strjoin(*str, buf);
-		free(*str);
-		*str = tmp;
-		if (!*str)
-			return (1);
+		tmp = *str;
+		*str = ft_strjoin(*str, buf);
+		free(tmp);
 	}
 	return (0);
 }

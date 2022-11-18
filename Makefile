@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/11/16 17:54:55 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/11/18 15:54:10 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,9 +15,10 @@ INC_DIR			= ./include/
 SRC_DIR			= ./src/
 OUT_DIR			= ./obj/
 
-SRC				= 	shell_init.c \
-					signal.c \
-					cmd_manager.c \
+SRC				= 	ms_error.c \
+					ms_shell_init.c \
+					ms_signal.c \
+					ms_cmd_manager.c \
 					ms_fd_manager.c \
 					ms_heredoc.c \
 					ms_heredoc_utils.c \
@@ -25,6 +26,7 @@ SRC				= 	shell_init.c \
 					builtins/ms_echo.c \
 					builtins/ms_exit.c \
 					builtins/ms_export.c \
+					builtins/ms_export_utils.c \
 					builtins/ms_unset.c \
 					builtins/ms_pwd.c \
 					pars/ms_errors.c \
@@ -39,8 +41,9 @@ SRC				= 	shell_init.c \
 					pars/ms_qbuffer.c \
 					pars/ms_sbuffer.c \
 
-SRC 			+=	main.c
-# SRC 			+=	test/main_local.c
+# SRC 			+=	main.c
+SRC 			+=	ms_debug.c
+SRC 			+=	test/main_local.c
 # SRC 			+=	test/test_pipe.c
 # SRC 			+=	test/test_heredoc.c
 
@@ -54,8 +57,8 @@ READLINE_INC	= -I/Users/${USER}/.brew/opt/readline/include
 
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra
-CFLAGS			+= -Werror
-# CFLAGS		+= -fsanitize=address
+# CFLAGS			+= -Werror
+CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf
 
