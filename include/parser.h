@@ -21,6 +21,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "ms_fd_manager.h"
 
 # define SHELL_NAME "minishell"
 
@@ -59,22 +60,22 @@ struct s_tmp
 	t_tmp	*next;
 };
 
-struct s_section
-{
-	int					field;
-	char				*section;
-	t_tmp				*tmp;
-	struct s_command	*cmd;
-};
-
 struct	s_command
 {
 	char	*name;
 	char	**args;
-	int		in_fd;
-	int		err_fd;
-	int		out_fd;
-	struct s_command	*next;
+	t_fdlst		*unknow;
+//	int		in_fd;
+//	int		err_fd;
+//	int		out_fd;
+//	struct s_command	*next;
+};
+
+struct s_section
+{
+	int			field;
+	char		*section;
+	t_command	cmd;
 };
 
 //	parsing.c
@@ -93,8 +94,9 @@ void		ms_word(const char *buff, t_section *section);
 void		ms_word_copy(char *buff, t_section *section);
 void		ms_field(t_section *section, int nbr);
 
-//	ms_list.c
+//	ms_list.c - ms_list2.c
 int			ms_new(t_tmp **tmp, int field, char *str);
+int			ms_new2(t_fdlst **unknow, int field, char *str);
 
 //	ms_tmp.c
 t_tmp	*ms_tmp(char *str);
@@ -105,10 +107,12 @@ int		ms_expend_length(const char *str, int index);
 int		ms_expend_index(const char *str, int index);
 void	ms_expend_copy(char *cpy, int *i, const char *str, int *end);
 
-
 int		ms_qbuffer(t_tmp **tmp, int index, int field_buff,const char *str);
 int		ms_sbuffer(t_tmp **tmp, int index, int field_buff,const char *str);
 int		ms_obuffer(t_tmp **tmp, int index, int field_buff, const char *str);
 int		ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str);
+
+// ms_result.c
+t_command	ms_result(t_tmp *tmp);
 
 #endif

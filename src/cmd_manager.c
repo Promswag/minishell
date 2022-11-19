@@ -47,6 +47,9 @@ int	ms_command_manager(t_section *section, t_shell *shell)
 
 static void	ms_cmd_exec(t_section section, t_shell *shell, t_pipe pfd)
 {
+	(void)section;
+	(void)shell;
+	(void)pfd;
 	int		builtins;
 
 	if (pfd.prev_r != -1)

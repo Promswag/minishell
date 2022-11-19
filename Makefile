@@ -15,19 +15,20 @@ INC_DIR			= ./include/
 SRC_DIR			= ./src/
 OUT_DIR			= ./obj/
 
-SRC				= 	shell_init.c \
-					signal.c \
-					cmd_manager.c \
-					ms_fd_manager.c \
-					ms_heredoc.c \
-					ms_heredoc_utils.c \
-					builtins/ms_cd.c \
-					builtins/ms_echo.c \
-					builtins/ms_exit.c \
-					builtins/ms_export.c \
-					builtins/ms_unset.c \
-					builtins/ms_pwd.c \
-					pars/ms_errors.c \
+#SRC				=   shell_init.c \
+#					signal.c \
+#					cmd_manager.c \
+#					ms_fd_manager.c \
+#					ms_heredoc.c \
+#					ms_heredoc_utils.c \
+#					builtins/ms_cd.c \
+#					builtins/ms_echo.c \
+#					builtins/ms_exit.c \
+#					builtins/ms_export.c \
+#					builtins/ms_unset.c \
+#					builtins/ms_pwd.c \
+
+SRC = 				pars/ms_errors.c \
 					pars/ms_parsing.c \
 					pars/ms_syntax.c \
 					pars/ms_section.c \
@@ -38,6 +39,8 @@ SRC				= 	shell_init.c \
 					pars/ms_obuffer.c \
 					pars/ms_qbuffer.c \
 					pars/ms_sbuffer.c \
+					pars/ms_result.c \
+					pars/ms_list2.c
 
 #SRC 			+=	main.c
 # SRC 			+=	test/main_local.c
