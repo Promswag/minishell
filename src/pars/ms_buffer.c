@@ -17,8 +17,15 @@ int	ms_expend_index(const char *str, int index)
 	int		i;
 
 	i = index;
-	while (ft_isalpha(str[i]) || str[i] == '_')
-		i++;
+	if (str[index] == '?')
+		i += (int)ft_strlen(ft_itoa(g_exit_code));
+	else if (!(ft_isalpha(str[index]) || (str[index] == '_')))
+		return (i);
+	else
+	{
+		while (ft_isalpha(str[i]) || str[i] == '_')
+			i++;
+	}
 	return (i);
 }
 
@@ -29,8 +36,10 @@ char	*ms_expend_getname(const char *str, int index)
 	int		length;
 
 	i = index;
-	while(str[i] == ' ')
-		i++;
+	if (str[index] == '?')
+		return (ft_itoa(g_exit_code));
+	else if (!(ft_isalpha(str[index]) || (str[index] == '_')))
+		return ("$");
 	length = 0;
 	while (ft_isalpha(str[i]) || str[i] == '_')
 	{
@@ -58,7 +67,12 @@ int	ms_expend_length(const char *str, int index)
 
 	i = 0;
 	name = ms_expend_getname(str, index);
-	chr = getenv(name);
+	if (str[index] == '?')
+		chr = ft_itoa(g_exit_code);
+	else if (!(ft_isalpha(str[index]) || (str[index] == '_')))
+		return (1);
+	else
+		chr = getenv(name);
 	if (!chr)
 		return (0);
 	while (chr[i])
@@ -74,13 +88,18 @@ void	ms_expend_copy(char *cpy,int *i, const char *str, int *end)
 
 	index = 0;
 	name = ms_expend_getname(str, *i);
-	chr = getenv(name);
-	if (!chr)
+	if (str[*i] == '?')
+		chr = ft_itoa(g_exit_code);
+	else if (!(ft_isalpha(str[*i]) || (str[*i] == '_')))
 	{
-		cpy[*end] = 0;
+		cpy[*end] = '$';
 		(*end)++;
 		return ;
 	}
+	else
+		chr = getenv(name);
+	if (!chr)
+		return ;
 	while (chr[index])
 	{
 		cpy[*end] = chr[index];
