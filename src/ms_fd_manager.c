@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:44:15 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/16 17:38:27 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 13:36:41 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,21 @@
 #include "ms_fd_manager.h"
 #include <fcntl.h>
 
-int		ms_fd_manager(t_fdlst *fdlst, char **env);
+int		ms_fd_manager(t_fdlst *fdlst, t_shell *shell);
+void	ms_fd_close(t_fdlst *fdlst, t_shell *shell);
 int		ms_fd_error(const char *str);
-void	ms_fd_close(t_fdlst *fdlst);
 
-int	ms_fd_manager(t_fdlst *fdlst, char **env)
+int	ms_fd_manager(t_fdlst *fdlst, t_shell *shell)
 {
 	t_fdlst	*tmp;
 
+	shell->stdin_backup = dup(STDIN_FILENO);
 	tmp = fdlst;
 	while (tmp)
 	{
+		printf("%d, %s\n", tmp->type, tmp->path);
 		if (tmp->type == HEREDOC || tmp->type == HEREDOC_QUOTED)
-			if (ms_heredoc_handler(tmp, env))
+			if (ms_heredoc_handler(tmp, shell->env))
 				return (1);
 		tmp = tmp->next;
 	}
@@ -40,14 +42,16 @@ int	ms_fd_manager(t_fdlst *fdlst, char **env)
 		else if (tmp->type == REDIR_OUT_APPEND)
 			tmp->fd = open(tmp->path, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		if (tmp->fd == -1)
-			return (ms_fd_error("fd_manager"));
+			return (ms_fd_error(tmp->path));
 		tmp = tmp->next;
 	}
 	return (0);
 }
 
-void	ms_fd_close(t_fdlst *fdlst)
+void	ms_fd_close(t_fdlst *fdlst, t_shell *shell)
 {
+	dup2(shell->stdin_backup, STDIN_FILENO);
+	(void)shell;
 	while (fdlst)
 	{
 		close(fdlst->fd);

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:04:10 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/14 18:49:49 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 12:45:03 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,10 @@ static int	ms_exit_legal(char *s)
 	return (1);
 }
 
-void	ms_exit(t_command cmd, char ***env)
+void	ms_exit(t_command *cmd, char ***env)
 {
 	(void)env;
-	if (!cmd.args)
+	if (!cmd->args[1])
 	{
 		write(STDERR_FILENO, "exit\n", 5);
 		exit(0);
@@ -72,21 +72,21 @@ void	ms_exit(t_command cmd, char ***env)
 	else
 	{
 		write(STDERR_FILENO, "exit\n", 5);
-		if (ms_exit_legal(cmd.args[0]) && ll_overflow_check(cmd.args[0]) != -1)
+		if (ms_exit_legal(cmd->args[1]) && ll_overflow_check(cmd->args[1]) != -1)
 		{
-			if (cmd.args[1])
+			if (cmd->args[2])
 			{
 				write(STDERR_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
 				write(STDERR_FILENO, ": exit: too many arguments\n", 27);
 			}
 			else
-				exit(ft_atoi(cmd.args[0]) & 255);
+				exit(ft_atoi(cmd->args[1]) & 255);
 		}
 		else
 		{
 			write(STDERR_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
 			write(STDERR_FILENO, ": exit: ", 8);
-			write(STDERR_FILENO, cmd.args[0], ft_strlen(cmd.args[0]));
+			write(STDERR_FILENO, cmd->args[1], ft_strlen(cmd->args[1]));
 			write(STDERR_FILENO, ": numeric argument required\n", 28);
 			exit(255);
 		}

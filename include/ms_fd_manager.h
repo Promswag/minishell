@@ -6,14 +6,16 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:46:18 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/16 17:42:05 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 13:11:48 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MS_FD_MANAGER_H
 # define MS_FD_MANAGER_H
 
-# include "../libft/include/libft.h"
+# include "minishell.h"
+
+typedef struct s_shell	t_shell;
 
 typedef enum e_redir_type
 {
@@ -28,14 +30,14 @@ typedef struct s_fdlst
 {
 	int				fd;
 	int				type;
-	char			*entry;
 	char			*path;
+	char			*entry;
 	struct s_fdlst	*next;
 }	t_fdlst;
 
 //	ms_fd_manager.c
-int			ms_fd_manager(t_fdlst *fdlst, char **env);
-void		ms_fd_close(t_fdlst *fdlst);
+int			ms_fd_manager(t_fdlst *fdlst, t_shell *shell);
+void		ms_fd_close(t_fdlst *fdlst, t_shell *shell);
 int			ms_fd_error(const char *str);
 
 //	ms_heredoc.c

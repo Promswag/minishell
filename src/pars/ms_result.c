@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ms_result.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 11:35:53 by aho               #+#    #+#             */
-/*   Updated: 2022/11/19 11:35:55 by aho              ###   ########.fr       */
+/*   Updated: 2022/11/21 14:34:20 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/parser.h"
 
-void	ms_result_adress(t_tmp *tmp, t_command cmd)
+void	ms_result_adress(t_tmp *tmp, t_command *cmd)
 {
 	int	index;
 
@@ -21,7 +21,7 @@ void	ms_result_adress(t_tmp *tmp, t_command cmd)
 	{
 		if (tmp->field == 0 || tmp->field == 5 || tmp->field == 6)
 		{
-			cmd.args[index] = tmp->str;
+			cmd->args[index] = tmp->str;
 			index++;
 		}
 		tmp = tmp->next;
@@ -42,57 +42,32 @@ int	ms_result_init_arg(t_tmp *tmp)
 	return (index);
 }
 
-void	ms_result_fd_in(t_tmp *tmp, t_fdlst **unknow)
+void	ms_result_fd(t_command **result, t_tmp *tmp, t_fdlst **fdlst)
 {
-	int	i;
-	char	*str;
-	char	*entry;
+	t_fdlst	*elem;
 
-	str = NULL;
-	entry = NULL;
 	while (tmp)
 	{
+		if (tmp->field == 1 || tmp->field == 2 || tmp->field == 3 \
+			|| tmp->field == 4)
+		{
+			elem = ms_new_fdlst(tmp->field, tmp->str);
+			ms_fdlstadd_back(fdlst, elem);
+		}
+		else if (tmp->field == 12)
+		{
+			elem = ms_new_fdlst(HEREDOC_QUOTED, tmp->str);
+			ms_fdlstadd_back(fdlst, elem);
+		}
 		if (tmp->field == 1 || tmp->field == 3 || tmp->field == 12)
-		{
-			i = tmp->field;
-			str = tmp->str;
-			entry = tmp->entry;
-		}
-		tmp = tmp->next;
-	}
-	if (i == 1)
-		ms_new2(unknow, REDIR_IN, str, entry);
-	else if (i == 3)
-		ms_new2(unknow, HEREDOC, str, entry);
-	else if (i == 12)
-		ms_new2(unknow, HEREDOC_QUOTED, str, entry);
-}
-
-void	ms_result_fd_out(t_tmp *tmp, t_fdlst **unknow)
-{
-	int	i;
-	char	*str;
-	char	*entry;
-
-	str = NULL;
-	entry = NULL;
-	while (tmp)
-	{
+			(*result)->fd_in = elem;
 		if (tmp->field == 2 || tmp->field == 4)
-		{
-			i = tmp->field;
-			str = tmp->str;
-			entry = tmp->entry;
-		}
+			(*result)->fd_out = elem;
 		tmp = tmp->next;
 	}
-	if (i == 2)
-		ms_new2(unknow, REDIR_OUT_TRUNCATE, str, entry);
-	else if (i == 4)
-		ms_new2(unknow, REDIR_OUT_APPEND, str, entry);
 }
 
-t_command	*ms_result(t_tmp *tmp)
+t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst)
 {
 	t_command	*result;
 	int			index;
@@ -103,8 +78,7 @@ t_command	*ms_result(t_tmp *tmp)
 	index = ms_result_init_arg(tmp);
 	result->args = malloc(sizeof(char *) * (index + 1));
 	result->args[index] = NULL;
-	ms_result_adress(tmp, *result);
-	ms_result_fd_in(tmp, &result->fd_in);
-	ms_result_fd_out(tmp, &result->fd_out);
+	ms_result_adress(tmp, result);
+	ms_result_fd(&result, tmp, fdlst);
 	return (result);
 }

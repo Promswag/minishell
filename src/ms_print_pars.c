@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ms_print_pars.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 07:21:58 by aho               #+#    #+#             */
-/*   Updated: 2022/11/21 07:21:59 by aho              ###   ########.fr       */
+/*   Updated: 2022/11/21 14:34:40 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../include/parser.h"
+#include "parser.h"
 
 void	ms_print_section(t_section *section)
 {

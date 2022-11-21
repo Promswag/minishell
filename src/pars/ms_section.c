@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_section.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 17:19:42 by aho               #+#    #+#             */
-/*   Updated: 2022/11/09 18:52:36 by aho              ###   ########.fr       */
+/*   Updated: 2022/11/21 12:27:45 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,13 +98,14 @@ void	ms_field(t_section *section, int nbr)
 	}
 }
 
-t_section	*ms_section(char *buff)
+t_section	*ms_section(char *buff, t_fdlst *fdlst)
 {
 	t_section	*section;
 	int 		nbr;
 
 	nbr = ms_nbr_section(buff);
 	section = malloc(sizeof(t_section) * (nbr + 1));
+	section->fdlst = fdlst;
 	ms_word(buff, section);
 	ms_field(section, (nbr) + 1);
 	ms_word_copy(buff, section);

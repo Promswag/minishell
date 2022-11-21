@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/11/16 17:54:55 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/11/21 12:38:41 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,20 +15,21 @@ INC_DIR			= ./include/
 SRC_DIR			= ./src/
 OUT_DIR			= ./obj/
 
-#SRC				=   shell_init.c \
-#					signal.c \
-#					cmd_manager.c \
-#					ms_fd_manager.c \
-#					ms_heredoc.c \
-#					ms_heredoc_utils.c \
-#					builtins/ms_cd.c \
-#					builtins/ms_echo.c \
-#					builtins/ms_exit.c \
-#					builtins/ms_export.c \
-#					builtins/ms_unset.c \
-#					builtins/ms_pwd.c \
-
-SRC = 				pars/ms_errors.c \
+SRC				= 	ms_error.c \
+					ms_shell_init.c \
+					ms_signal.c \
+					ms_cmd_manager.c \
+					ms_fd_manager.c \
+					ms_heredoc.c \
+					ms_heredoc_utils.c \
+					builtins/ms_cd.c \
+					builtins/ms_echo.c \
+					builtins/ms_exit.c \
+					builtins/ms_export.c \
+					builtins/ms_export_utils.c \
+					builtins/ms_unset.c \
+					builtins/ms_pwd.c \
+					pars/ms_errors.c \
 					pars/ms_parsing.c \
 					pars/ms_syntax.c \
 					pars/ms_section.c \
@@ -44,13 +45,13 @@ SRC = 				pars/ms_errors.c \
 					pars/ms_list3.c \
 					pars/ms_fdlst.c \
 
-#SRC 			+=	main.c
-# SRC 			+=	test/main_local.c
+# SRC 			+=	main.c
+SRC 			+=	ms_debug.c
+SRC				+=  ms_print_pars.c
+SRC 			+=	test/main_local.c
 # SRC 			+=	test/test_pipe.c
 # SRC 			+=	test/test_heredoc.c
-
-SRC				+= pars/truc.c
-SRC				+= pars/ms_print_pars.c
+# SRC				+= pars/truc.c
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}
@@ -62,8 +63,8 @@ READLINE_INC	= -I/Users/${USER}/.brew/opt/readline/include
 
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra
-CFLAGS			+= -Werror
-# CFLAGS		+= -fsanitize=address
+# CFLAGS			+= -Werror
+CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf
 

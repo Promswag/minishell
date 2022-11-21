@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   ms_signal.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:28:22 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/10/28 15:05:41 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 10:27:28 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,26 +28,31 @@ static void	signal_handler(int signum)
 	}
 }
 
-static void	signal_handler_fork(int signum)
+static void	signal_handler_heredoc(int signum)
 {
 	if (signum == SIGINT)
 	{
-		write(1, "\n", 1);
+		write(STDIN_FILENO, "\n", 1);
+		close(STDIN_FILENO);
 	}
 	if (signum == SIGQUIT)
-	{
-		write(1, "Quit: 3\n", 8);
-	}
+		return ;
 }
 
-void	signal_setup(void)
+void	signal_setup(t_shell *shell)
 {
-	signal(SIGINT, &signal_handler);
-	signal(SIGQUIT, &signal_handler);
+	struct sigaction	sa;
+
+	sa.sa_handler = &signal_handler;
+	sigaction(SIGINT, &sa, &shell->signal_backup);
+	sigaction(SIGQUIT, &sa, &shell->signal_backup);
 }
 
-void	signal_setup_fork(void)
+void	signal_restore(t_shell *shell)
 {
-	signal(SIGINT, &signal_handler_fork);
-	signal(SIGQUIT, &signal_handler_fork);
+	(void)shell;
+	signal(SIGINT, &signal_handler_heredoc);
+	signal(SIGQUIT, &signal_handler_heredoc);
+	// sigaction(SIGINT, &shell->signal_backup, NULL);
+	// sigaction(SIGQUIT, &shell->signal_backup, NULL);
 }
