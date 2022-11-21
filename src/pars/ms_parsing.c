@@ -45,37 +45,18 @@ int	ms_parsing(char *buff)
 	t_section	*section;
 	t_tmp		*tmp;
 	int	index;
-	int yank;
 
 	index = 0;
-	yank = 0;
 	if (!(ms_not_covered(buff)))
 		return (ms_errors(1));
 	section = ms_section(buff);
 	while (section[index].section)
 	{
+		tmp = NULL;
 		tmp = ms_tmp(section[index].section);
 		section[index].cmd = ms_result(tmp);
 		index++;
 	}
-	index = 0;
-	while (section[index].section)
-	{
-		printf(" -------- ARG ---------- \n");
-		while (section[index].cmd.args[yank])
-		{
-			printf("%s\n", section[index].cmd.args[yank]);
-			yank++;
-		}
-		printf(" -------- FD ----------- \n");
-		while (section[index].cmd.unknow)
-		{
-			printf(" Path = %s, type = %d\n",
-				   section[index].cmd.unknow->path, section[index].cmd.unknow->type);
-			section[index].cmd.unknow = section[index].cmd.unknow->next;
-		}
-		yank = 0;
-		index++;
-	}
+	ms_print_pars(section);
 	return (0);
 }

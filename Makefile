@@ -40,7 +40,8 @@ SRC = 				pars/ms_errors.c \
 					pars/ms_qbuffer.c \
 					pars/ms_sbuffer.c \
 					pars/ms_result.c \
-					pars/ms_list2.c
+					pars/ms_list2.c \
+					pars/ms_list3.c \
 
 #SRC 			+=	main.c
 # SRC 			+=	test/main_local.c
@@ -48,6 +49,7 @@ SRC = 				pars/ms_errors.c \
 # SRC 			+=	test/test_heredoc.c
 
 SRC				+= pars/truc.c
+SRC				+= pars/ms_print_pars.c
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}

@@ -28,6 +28,7 @@ typedef struct s_fdlst
 {
 	int				fd;
 	int				type;
+	char			*entry;
 	char			*path;
 	struct s_fdlst	*next;
 }	t_fdlst;
