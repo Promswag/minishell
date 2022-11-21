@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:28:22 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/21 10:27:28 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:59:32 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	signal_handler_heredoc(int signum)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		close(STDIN_FILENO);
+		g_exit_code = -1;
 	}
 	if (signum == SIGQUIT)
 		return ;
