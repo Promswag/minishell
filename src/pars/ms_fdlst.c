@@ -29,3 +29,8 @@ void	ms_result_fdlst(t_tmp *tmp, t_fdlst **unknow)
 		tmp = tmp->next;
 	}
 }
+
+else
+{
+	PATH
+}
