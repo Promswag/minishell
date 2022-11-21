@@ -42,6 +42,7 @@ SRC = 				pars/ms_errors.c \
 					pars/ms_result.c \
 					pars/ms_list2.c \
 					pars/ms_list3.c \
+					pars/ms_fdlst.c \
 
 #SRC 			+=	main.c
 # SRC 			+=	test/main_local.c

@@ -40,23 +40,35 @@ void	ms_quote_checker(const char *buff,const int *j,
 	*dquote1 = dquote;
 }
 
-int	ms_parsing(char *buff)
+t_section	*ms_parsing(char *buff)
 {
 	t_section	*section;
 	t_tmp		*tmp;
+	t_fdlst		*fdlst;
 	int	index;
 
 	index = 0;
-	if (!(ms_not_covered(buff)))
-		return (ms_errors(1));
+	fdlst = NULL;
 	section = ms_section(buff);
 	while (section[index].section)
 	{
 		tmp = NULL;
 		tmp = ms_tmp(section[index].section);
+		ms_result_fdlst(tmp, &fdlst);
 		section[index].cmd = ms_result(tmp);
 		index++;
 	}
-	ms_print_pars(section);
-	return (0);
+	index = 0;
+	while(section[index].section)
+	{
+		section[index].fdlst = fdlst;
+		index++;
+	}
+//	ms_print_pars(section);
+//	while (section[0].fdlst)
+//	{
+//		printf("%s %d\n", section[0].fdlst->path, section[0].fdlst->type);
+//		section[0].fdlst = section[0].fdlst->next;
+//	}
+	return (section);
 }

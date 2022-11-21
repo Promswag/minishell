@@ -19,8 +19,8 @@ typedef enum e_redir_type
 {
 	REDIR_IN = 1,
 	REDIR_OUT_TRUNCATE,
-	REDIR_OUT_APPEND,
 	HEREDOC,
+	REDIR_OUT_APPEND,
 	HEREDOC_QUOTED
 }	t_redir_type;
 

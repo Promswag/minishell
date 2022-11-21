@@ -37,7 +37,7 @@
  * 9 == ||
  * 10 == * 42
  * 11 == $ 36
- * 12 ==
+ * 12 == heredoc quoted;
 */
 
 typedef struct s_quote		t_quote;
@@ -66,23 +66,20 @@ struct	s_command
 {
 	char	*name;
 	char	**args;
-	t_fdlst		*fd_in; //je l'ai mis la parce qu'au fond, il fais la meme chose que les trois du bas
+	t_fdlst		*fd_in;
 	t_fdlst		*fd_out;
-//	int		in_fd; //fais ce que tu veut avec
-//	int		err_fd; //idem
-//	int		out_fd; //idem x3
-	struct s_command	*next; //inutile car la prochaine commande = prochaine section.
 };
 
 struct s_section
 {
 	int			field;
 	char		*section;
-	t_command	cmd;
+	t_fdlst		*fdlst;
+	t_command	*cmd;
 };
 
 //	parsing.c
-int		ms_parsing(char *buff);
+t_section	*ms_parsing(char *buff);
 int		ms_errors(int cmd);
 void	ms_quote_checker(const char *buff,const int *j,
 						 int *squote1, int *dquote1);
@@ -117,10 +114,13 @@ int		ms_obuffer(t_tmp **tmp, int index, int field_buff, const char *str);
 int		ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str);
 
 // ms_result.c
-t_command	ms_result(t_tmp *tmp);
+t_command	*ms_result(t_tmp *tmp);
 
 // ms_print_pars.c
 void	ms_print_section(t_section *section);
 void	ms_print_pars(t_section *section);
+
+// ms_fdlst.c
+void	ms_result_fdlst(t_tmp *tmp, t_fdlst **unknow);
 
 #endif
