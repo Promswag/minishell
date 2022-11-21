@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 13:20:46 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/18 15:56:19 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 12:44:22 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ms_echo(t_command *cmd, char ***env)
 	int	trigger;
 
 	(void)env;
-	i = -1;
+	i = 0;
 	trailing = 1;
 	trigger = 0;
 	while (cmd->args && cmd->args[++i])

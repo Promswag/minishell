@@ -12,8 +12,31 @@
 
 #include "parser.h"
 
+int	ms_entry(const char *str, int index)
+{
+	while (ft_isdigit(str[index]))
+		index++;
+	if (str[index] == 60)
+	{
+		if (str[++index] == 60)
+			return (3);
+		else
+			return (1);
+	}
+	if (str[index] == 62)
+	{
+		if (str[++index] == 62)
+			return (4);
+		else
+			return (2);
+	}
+	return (0);
+}
+
 int	ms_check_buffer(const char *str, int index)
 {
+	if (ft_isdigit(str[index]))
+		return (ms_entry(str, index));
 	if (str[index] == 60)
 	{
 		if (str[++index] == 60)

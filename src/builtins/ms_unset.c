@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:00:41 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/18 15:57:37 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 12:46:04 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	ms_unset(t_command *cmd, char ***env)
 	int		i;
 
 	err = 0;
-	i = -1;
+	i = 0;
 	while (cmd->args[++i])
 	{
 		if (ms_unset_is_name(cmd->args[i]))

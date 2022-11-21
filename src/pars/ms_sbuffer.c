@@ -51,9 +51,9 @@ int	ms_sbuffer(t_tmp **tmp, int index, int field_buff, const char *str)
 	cpy = malloc(sizeof(char) * (quote.segment + 1));
 	cpy[quote.segment] = '\0';
 	result = index;
-	while (str[quote.i])
+	while (quote.i < index)
 	{
-		if ((str[index] == 60 || str[index] == 62 || str[index] == ' ')
+		if ((str[quote.i] == 60 || str[quote.i] == 62 || str[quote.i] == ' ')
 			&& (quote.squote == 0 && quote.dquote == 0))
 			break ;
 		ms_quote_checker(str, &quote.i, &quote.squote, &quote.dquote);
@@ -67,7 +67,8 @@ int	ms_sbuffer(t_tmp **tmp, int index, int field_buff, const char *str)
 			|| (str[quote.i] == 39 && quote.dquote == 1)
 			|| (str[quote.i] == 34 && quote.squote == 1))
 		{
-			cpy[end++] = str[quote.i];
+			cpy[end] = str[quote.i];
+			end++;
 			quote.i++;
 		}
 		else

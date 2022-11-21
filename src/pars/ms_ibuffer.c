@@ -14,10 +14,38 @@
 
 // 60, < , 1, 3;
 
+static int	ms_entry_strlen(const char *str, int index)
+{
+	int	result;
+
+	result = 0;
+	while (ft_isdigit(str[index]))
+	{
+		result++;
+		index++;
+	}
+	return (result);
+}
+
+static int	ms_entry_copy(const char *str, int index, char *entry)
+{
+	int	x;
+
+	x = 0;
+	while (ft_isdigit(str[index]))
+	{
+		entry[x] = str[index];
+		index++;
+		x++;
+	}
+	return (index);
+}
+
 int	ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str)
 {
 	t_quote	quote;
 	char	*cpy;
+	char	*entry;
 	int		end;
 	int		result;
 
@@ -25,6 +53,13 @@ int	ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str)
 	quote.squote = 0;
 	quote.dquote = 0;
 	end = 0;
+	entry = NULL;
+	if (ft_isdigit(str[index]))
+	{
+		result = ms_entry_strlen(str, index);
+		entry = malloc(sizeof(char) * result + 1);
+		index = ms_entry_copy(str, index, entry);
+	}
 	while (str[index] == 60 || str[index] == ' ')
 		index++;
 	quote.i = index;
@@ -53,9 +88,9 @@ int	ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str)
 	cpy = malloc(sizeof(char) * (quote.segment + 1));
 	cpy[quote.segment] = '\0';
 	result = index;
-	while (str[quote.i])
+	while (quote.i < index)
 	{
-		if ((str[index] == 60 || str[index] == 62 || str[index] == ' ')
+		if ((str[quote.i] == 60 || str[quote.i] == 62 || str[quote.i] == ' ')
 			&& (quote.squote == 0 && quote.dquote == 0))
 			break ;
 		ms_quote_checker(str, &quote.i, &quote.squote, &quote.dquote);
@@ -75,6 +110,6 @@ int	ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str)
 		else
 			quote.i++;
 	}
-	ms_new(tmp, field_buff, cpy);
+	ms_new3(tmp, field_buff, cpy, entry);
 	return (result);
 }

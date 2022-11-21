@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/18 15:53:50 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 12:55:01 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void			signal_restore(t_shell *shell);
 
 //DEBUG
 void			ms_debug_print_section(t_section *section);
+void			ms_debug_print_fdlst(t_fdlst *fdlst);
 //DEBUG
 
 #endif

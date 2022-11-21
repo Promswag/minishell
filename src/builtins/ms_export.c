@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:58:06 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/18 17:22:41 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 12:45:50 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,17 +108,17 @@ void	ms_export(t_command *cmd, char ***env)
 	int	i;
 
 	err = 0;
-	if (!cmd->args)
+	if (!cmd->args[1])
 	{
 		ms_export_sort(env);
-		if (!ft_strncmp(cmd->name, "export", ft_strlen("export")))
+		if (!ft_strncmp(cmd->args[0], "export", ft_strlen("export")))
 			ms_export_print(*env, 0);
 		else
 			ms_export_print(*env, 1);
 	}
 	else
 	{
-		i = -1;
+		i = 0;
 		while (cmd->args[++i])
 			err += ms_export_handler(cmd->args[i], env);
 	}

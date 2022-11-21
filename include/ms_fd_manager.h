@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:46:18 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/21 10:46:25 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 13:11:48 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ typedef enum e_redir_type
 {
 	REDIR_IN = 1,
 	REDIR_OUT_TRUNCATE,
-	REDIR_OUT_APPEND,
 	HEREDOC,
+	REDIR_OUT_APPEND,
 	HEREDOC_QUOTED
 }	t_redir_type;
 
@@ -30,8 +30,8 @@ typedef struct s_fdlst
 {
 	int				fd;
 	int				type;
-	char			*entry;
 	char			*path;
+	char			*entry;
 	struct s_fdlst	*next;
 }	t_fdlst;
 

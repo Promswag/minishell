@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:40:16 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/18 15:31:54 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 13:34:02 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ int	ms_heredoc_read_stdin(t_fdlst *fdlst, char **str)
 		if (r < 0)
 			return (0);
 		buf[r] = 0;
-		if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path) + 1))
+		if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path)) \
+			&& buf[ft_strlen(fdlst->path)] == '\n')
 			break ;
 		tmp = *str;
 		*str = ft_strjoin(*str, buf);

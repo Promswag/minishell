@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 14:28:23 by aho               #+#    #+#             */
-/*   Updated: 2022/11/16 17:53:07 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 13:16:41 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,40 +40,23 @@ void	ms_quote_checker(const char *buff,const int *j,
 	*dquote1 = dquote;
 }
 
-int	ms_parsing(char *buff)
+t_section	*ms_parsing(char *buff)
 {
 	t_section	*section;
 	t_tmp		*tmp;
-//	int	index;
+	t_fdlst		*fdlst;
+	int			index;
 
-//	index = 0;
-	if (!(ms_not_covered(buff)))
-		return (ms_errors(1));
-	section = ms_section(buff);
-//	while(section[index].section)
-//	{
-//		printf(" ------------------ \n");
-//		printf("section = %s\nfield = %d\nnbr tab = %d\n",
-//			   section[index].section, section[index].field, 1);
-//		index++;
-//	}
-	tmp = ms_tmp(section[0].section);
-	while (tmp)
+	index = 0;
+	fdlst = NULL;
+	section = ms_section(buff, fdlst);
+	while (section[index].section)
 	{
-//		puts(tmp->str);
-		printf("%s [%d]\n", tmp->str, tmp->field);
-		tmp = tmp->next;
+		tmp = NULL;
+		tmp = ms_tmp(section[index].section);
+		section[index].cmd = ms_result(tmp, &fdlst);
+		section->fdlst = fdlst;
+		index++;
 	}
-	free(section);
-	return (0);
+	return (section);
 }
-
-// int	main(void)
-// {
-// 	char *buff;
-
-// 	buff = readline(NULL);
-// 	ms_parsing(buff);
-// 	free(buff);
-// 	return 0;
-// }

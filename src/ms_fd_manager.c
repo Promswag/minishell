@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:44:15 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/18 16:57:13 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 13:36:41 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	ms_fd_manager(t_fdlst *fdlst, t_shell *shell)
 	tmp = fdlst;
 	while (tmp)
 	{
+		printf("%d, %s\n", tmp->type, tmp->path);
 		if (tmp->type == HEREDOC || tmp->type == HEREDOC_QUOTED)
 			if (ms_heredoc_handler(tmp, shell->env))
 				return (1);
@@ -41,7 +42,7 @@ int	ms_fd_manager(t_fdlst *fdlst, t_shell *shell)
 		else if (tmp->type == REDIR_OUT_APPEND)
 			tmp->fd = open(tmp->path, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		if (tmp->fd == -1)
-			return (ms_fd_error("fd_manager"));
+			return (ms_fd_error(tmp->path));
 		tmp = tmp->next;
 	}
 	return (0);

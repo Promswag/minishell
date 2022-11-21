@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 13:15:29 by aho               #+#    #+#             */
-/*   Updated: 2022/11/21 10:32:03 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 12:07:22 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include "ms_fd_manager.h"
 
 # define SHELL_NAME "minishell"
 
@@ -36,6 +37,7 @@
  * 9 == ||
  * 10 == * 42
  * 11 == $ 36
+ * 12 ==
 */
 
 typedef struct s_quote		t_quote;
@@ -56,15 +58,8 @@ struct s_tmp
 {
 	int		field;
 	char	*str;
+	char	*entry;
 	t_tmp	*next;
-};
-
-struct s_section
-{
-	int					field;
-	char				*section;
-	t_tmp				*tmp;
-	struct s_command	*cmd;
 };
 
 struct	s_command
@@ -75,8 +70,16 @@ struct	s_command
 	struct s_fdlst		*fd_out;
 };
 
+struct s_section
+{
+	int					field;
+	char				*section;
+	struct s_fdlst		*fdlst;
+	struct s_command	*cmd;
+};
+
 //	parsing.c
-int			ms_parsing(char *buff);
+t_section	*ms_parsing(char *buff);
 int			ms_errors(int cmd);
 void		ms_quote_checker(const char *buff, const int *j, \
 	int *squote1, int *dquote1);
@@ -85,14 +88,17 @@ void		ms_quote_checker(const char *buff, const int *j, \
 int			ms_not_covered(const char *buff);
 
 //	section_creation, section.c
-t_section	*ms_section(char *buff);
+t_section	*ms_section(char *buff, t_fdlst *fdlst);
 int			ms_nbr_section(const char *buff);
 void		ms_word(const char *buff, t_section *section);
 void		ms_word_copy(char *buff, t_section *section);
 void		ms_field(t_section *section, int nbr);
 
-//	ms_list.c
+//	ms_list.c - ms_list2.c
 int			ms_new(t_tmp **tmp, int field, char *str);
+t_fdlst		*ms_new_fdlst(int field, char *str);
+void		ms_fdlstadd_back(t_fdlst **lst, t_fdlst *new);
+int			ms_new3(t_tmp **tmp, int field, char *str, char *entry);
 
 //	ms_tmp.c
 t_tmp		*ms_tmp(char *str);
@@ -107,5 +113,12 @@ int			ms_qbuffer(t_tmp **tmp, int index, int field_buff, const char *str);
 int			ms_sbuffer(t_tmp **tmp, int index, int field_buff, const char *str);
 int			ms_obuffer(t_tmp **tmp, int index, int field_buff, const char *str);
 int			ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str);
+
+// ms_result.c
+t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst);
+
+// ms_print_pars.c
+void		ms_print_section(t_section *section);
+void		ms_print_pars(t_section *section);
 
 #endif

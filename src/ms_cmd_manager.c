@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/21 10:28:27 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 12:43:07 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ms_command_manager(t_section *section, t_shell *shell)
 	pid_t		pid;
 
 	pfd = (t_pipe){-1, -1, -1, -1};
-	while (section->field != -1)
+	while (section && section->section)
 	{
 		if (ms_cmd_is_builtins(section->cmd) == 0)
 			ms_exit(section->cmd, &shell->env);
@@ -74,7 +74,7 @@ static int	ms_cmd_is_builtins(t_command *cmd)
 
 	i = -1;
 	while (builtins[++i])
-		if (!ft_strncmp(cmd->name, builtins[i], ft_strlen(builtins[i]) + 1))
+		if (!ft_strncmp(cmd->args[0], builtins[i], ft_strlen(builtins[i]) + 1))
 			return (i);
 	return (-1);
 }
