@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 13:00:00 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/18 11:18:39 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 10:33:07 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ms_cd(t_command *cmd, char ***env)
 		write(STDERR_FILENO, "\n", 1);
 	}
 	else
-		ms_export(&(t_command){0, (char *[]){oldpwd, pwd, 0}, 0, 0, 0, 0}, env);
+		ms_export(&(t_command){0, (char *[]){oldpwd, pwd, 0}, 0, 0}, env);
 	free(oldpwd);
 	free(pwd);
 	exit(errno);

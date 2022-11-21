@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:58:06 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/18 15:57:11 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:22:41 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,13 @@ static int	ms_export_handler(char *s, char ***env)
 	int	i;
 
 	if (ms_export_delim(s) == -1)
-		return (ms_error("export"));
+	{
+		write(STDERR_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
+		write(STDERR_FILENO, ": export: `", 11);
+		write(STDERR_FILENO, s, ft_strlen(s));
+		write(STDERR_FILENO, "': not a valid identifier\n", 26);
+		return (1);
+	}
 	i = ms_export_exists(s, *env);
 	if (i == -1)
 		ms_export_add(s, env);

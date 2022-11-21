@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:28:22 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/18 16:57:54 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 10:27:28 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ void	signal_setup(t_shell *shell)
 
 void	signal_restore(t_shell *shell)
 {
+	(void)shell;
 	signal(SIGINT, &signal_handler_heredoc);
 	signal(SIGQUIT, &signal_handler_heredoc);
 	// sigaction(SIGINT, &shell->signal_backup, NULL);

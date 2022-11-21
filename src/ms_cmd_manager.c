@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/18 17:03:45 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 10:28:27 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,10 @@ static void	ms_cmd_exec(t_section *section, t_shell *shell, t_pipe pfd)
 	if (section->field == 1)
 		dup2(pfd.cur_w, STDOUT_FILENO);
 	builtins = ms_cmd_is_builtins(section->cmd);
-	if (section->cmd->in_fd != 0)
-		dup2(section->cmd->in_fd, STDIN_FILENO);
-	if (section->cmd->out_fd != 1)
-		dup2(section->cmd->out_fd, STDOUT_FILENO);
-	if (section->cmd->err_fd != 2)
-		dup2(section->cmd->err_fd, STDERR_FILENO);
+	if (section->cmd->fd_in)
+		dup2(section->cmd->fd_in->fd, STDIN_FILENO);
+	if (section->cmd->fd_out)
+		dup2(section->cmd->fd_out->fd, STDOUT_FILENO);
 	if (builtins != -1)
 		ms_cmd_exec_builtins((section->cmd), shell, builtins);
 	else

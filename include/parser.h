@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 13:15:29 by aho               #+#    #+#             */
-/*   Updated: 2022/11/18 11:21:45 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 10:32:03 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,8 @@ struct	s_command
 {
 	char				*name;
 	char				**args;
-	int					in_fd;
-	int					out_fd;
-	int					err_fd;
-	struct s_command	*next;
+	struct s_fdlst		*fd_in;
+	struct s_fdlst		*fd_out;
 };
 
 //	parsing.c
@@ -104,7 +102,6 @@ int			ms_check_buffer(const char *str, int index);
 int			ms_expend_length(const char *str, int index);
 int			ms_expend_index(const char *str, int index);
 void		ms_expend_copy(char *cpy, int *i, const char *str, int *end);
-
 
 int			ms_qbuffer(t_tmp **tmp, int index, int field_buff, const char *str);
 int			ms_sbuffer(t_tmp **tmp, int index, int field_buff, const char *str);

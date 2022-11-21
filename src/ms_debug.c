@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 10:53:37 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/18 16:51:27 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 10:33:35 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,10 @@ void	ms_debug_print_section(t_section *section)
 		printf("SECTION CMD:    %p\n", section->cmd);
 		if (section->cmd)
 		{
-			printf("CMD IN:         %d\n", section->cmd->in_fd);
-			printf("CMD OUT:        %d\n", section->cmd->out_fd);
-			printf("CMD ERR:        %d\n", section->cmd->err_fd);
+			if (section->cmd->fd_in)
+				printf("CMD IN:         %d\n", section->cmd->fd_in->fd);
+			if (section->cmd->fd_out)
+				printf("CMD OUT:        %d\n", section->cmd->fd_out->fd);
 			printf("CMD NAME:       %s\n", section->cmd->name);
 			printf("CMD ARGS:       %p\n", section->cmd->args);
 			while (section->cmd->args && section->cmd->args[++i])

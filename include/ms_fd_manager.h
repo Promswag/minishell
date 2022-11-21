@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:46:18 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/18 16:51:45 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 10:46:25 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_fdlst
 {
 	int				fd;
 	int				type;
+	char			*entry;
 	char			*path;
 	struct s_fdlst	*next;
 }	t_fdlst;
