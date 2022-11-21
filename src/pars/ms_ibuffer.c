@@ -63,6 +63,8 @@ int	ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str)
 	while (str[index] == 60 || str[index] == ' ')
 		index++;
 	quote.i = index;
+	if ((str[index] == 34 || str[index] == 39) && field_buff == 3)
+		field_buff = 12;
 	while (str[index])
 	{
 		if ((str[index] == 60 || str[index] == 62 || str[index] == ' ')

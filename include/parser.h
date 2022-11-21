@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 13:15:29 by aho               #+#    #+#             */
-/*   Updated: 2022/11/21 12:07:22 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:35:23 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@
  * 9 == ||
  * 10 == * 42
  * 11 == $ 36
- * 12 ==
+ * 12 == heredoc quoted;
 */
 
 typedef struct s_quote		t_quote;
@@ -120,5 +120,8 @@ t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst);
 // ms_print_pars.c
 void		ms_print_section(t_section *section);
 void		ms_print_pars(t_section *section);
+
+// ms_fdlst.c
+void	ms_result_fdlst(t_tmp *tmp, t_fdlst **unknow);
 
 #endif

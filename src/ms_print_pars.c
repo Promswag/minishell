@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 07:21:58 by aho               #+#    #+#             */
-/*   Updated: 2022/11/21 10:57:02 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:34:40 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,15 @@ void	ms_print_pars(t_section *section)
 			printf("%s ", section[index].cmd->args[yank]);
 			yank++;
 		}
-		printf("\n -------- FD IN ----------- \n");
+		printf("\n");
+		printf("-------- FD IN ----------- \n");
 		while (section[index].cmd->fd_in)
 		{
 			printf(" Path = %s, type = %d, entry = %s\n",
 				   section[index].cmd->fd_in->path, section[index].cmd->fd_in->type, section[index].cmd->fd_in->entry);
 			section[index].cmd->fd_in = section[index].cmd->fd_in->next;
 		}
-		printf("\n -------- FD OUT ----------- \n");
+		printf("-------- FD OUT ----------- \n");
 		while (section[index].cmd->fd_out)
 		{
 			printf(" Path = %s, type = %d, entry = %s\n",

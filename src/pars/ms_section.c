@@ -52,8 +52,6 @@ void	ms_word(const char *buff, t_section *section)
 			quote.chr = quote.i - quote.chr;
 			section[quote.segment].section = ft_calloc(sizeof(char), quote.chr + 1);
 			quote.segment++;
-//			section[quote.segment].section = ft_calloc(sizeof(char), 1);
-//			quote.segment++;
 			x = 1;
 		}
 		quote.i++;
@@ -80,8 +78,6 @@ void	ms_word_copy(char *buff, t_section *section)
 			section[quote.segment].field = 1;
 			quote.segment++;
 			quote.chr = 0;
-//			section[quote.segment].section[quote.chr] = buff[quote.i];
-//			quote.segment++;
 		}
 		else
 			section[quote.segment].section[quote.chr++] = buff[quote.i];
@@ -106,22 +102,12 @@ t_section	*ms_section(char *buff, t_fdlst *fdlst)
 {
 	t_section	*section;
 	int 		nbr;
-//	int			index;
-//
-//	index = 0;
+
 	nbr = ms_nbr_section(buff);
-//	printf("%d\n", (nbr + (nbr - 1)));
 	section = malloc(sizeof(t_section) * (nbr + 1));
 	section->fdlst = fdlst;
 	ms_word(buff, section);
 	ms_field(section, (nbr) + 1);
 	ms_word_copy(buff, section);
-//	while(index < (nbr + (nbr - 1)))
-//	{
-//		printf(" ------------------ \n");
-//		printf("section = %s\nfield = %d\nnbr tab = %d\n",
-//			   section[index].section, section[index].field, index);
-//		index++;
-//	}
 	return (section);
 }

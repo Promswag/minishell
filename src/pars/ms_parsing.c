@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 14:28:23 by aho               #+#    #+#             */
-/*   Updated: 2022/11/21 13:16:41 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:32:57 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ t_section	*ms_parsing(char *buff)
 		section[index].cmd = ms_result(tmp, &fdlst);
 		section->fdlst = fdlst;
 		index++;
+		// ms_result_fdlst(tmp, &fdlst);
 	}
+	// index = 0;
+	// while(section[index].section)
+	// {
+	// 	section[index].fdlst = fdlst;
+	// 	index++;
+	// }
 	return (section);
 }
