@@ -54,6 +54,7 @@ t_section	*ms_parsing(char *buff)
 	{
 		tmp = NULL;
 		tmp = ms_tmp(section[index].section);
+//		printf("%s - %d\n", tmp->str, tmp->field);
 		ms_result_fdlst(tmp, &fdlst);
 		section[index].cmd = ms_result(tmp);
 		index++;
