@@ -46,12 +46,12 @@ SRC				= 	ms_error.c \
 					pars/ms_fdlst.c \
 
 # SRC 			+=	main.c
-SRC 			+=	ms_debug.c
-SRC				+=  ms_print_pars.c
-SRC 			+=	test/main_local.c
+#SRC 			+=	ms_debug.c
+#SRC				+=  ms_print_pars.c
+#SRC 			+=	test/main_local.c
 # SRC 			+=	test/test_pipe.c
 # SRC 			+=	test/test_heredoc.c
-# SRC				+= pars/truc.c
+ SRC				+= pars/truc.c
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}

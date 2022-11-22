@@ -12,6 +12,13 @@
 
 #include "parser.h"
 
+int	ms_syntax_error(char const *buff)
+{
+	if (!(ms_not_covered(buff)))
+		return (0);
+	return (1);
+}
+
 int	ms_not_covered(char const *buff)
 {
 	t_quote	quote;
@@ -24,6 +31,6 @@ int	ms_not_covered(char const *buff)
 		ms_quote_checker(buff, &quote.i, &quote.squote, &quote.dquote);
 	}
 	if (quote.squote || quote.dquote)
-		return (0);
+		return (ms_errors(1));
 	return (1);
 }

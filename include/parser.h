@@ -85,6 +85,7 @@ void		ms_quote_checker(const char *buff, const int *j, \
 	int *squote1, int *dquote1);
 
 //	syntax.c
+int			ms_syntax_error(char const *buff);
 int			ms_not_covered(const char *buff);
 
 //	section_creation, section.c

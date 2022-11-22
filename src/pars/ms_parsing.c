@@ -49,6 +49,8 @@ t_section	*ms_parsing(char *buff)
 
 	index = 0;
 	fdlst = NULL;
+	if (!(ms_syntax_error(buff)))
+		return (NULL);
 	section = ms_section(buff, fdlst);
 	while (section[index].section)
 	{
@@ -57,13 +59,6 @@ t_section	*ms_parsing(char *buff)
 		section[index].cmd = ms_result(tmp, &fdlst);
 		section->fdlst = fdlst;
 		index++;
-		// ms_result_fdlst(tmp, &fdlst);
 	}
-	// index = 0;
-	// while(section[index].section)
-	// {
-	// 	section[index].fdlst = fdlst;
-	// 	index++;
-	// }
 	return (section);
 }
