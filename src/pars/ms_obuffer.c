@@ -41,53 +41,11 @@ static int	ms_entry_copy(const char *str, int index, char *entry)
 	return (index);
 }
 
-int	ms_obuffer(t_tmp **tmp, int index, int field_buff, const char *str)
+static char	*ms_add_buffer(int index, t_quote quote, const char *str, char *cpy)
 {
-	t_quote	quote;
-	char	*cpy;
-	char	*entry;
-	int		end;
-	int		result;
+	int	end;
 
-	quote.segment = 0;
-	quote.squote = 0;
-	quote.dquote = 0;
 	end = 0;
-	entry = NULL;
-	if (ft_isdigit(str[index]))
-	{
-		result = ms_entry_strlen(str, index);
-		entry = malloc(sizeof(char) * result + 1);
-		index = ms_entry_copy(str, index, entry);
-	}
-	while (str[index] == 62 || str[index] == ' ')
-		index++;
-	quote.i = index;
-	while (str[index])
-	{
-		if ((str[index] == 60 || str[index] == 62 || str[index] == ' ')
-			&& (quote.squote == 0 && quote.dquote == 0))
-			break ;
-		ms_quote_checker(str, &index, &quote.squote, &quote.dquote);
-		if (str[index] == 36 && quote.squote == 0)
-		{
-			index++;
-			quote.segment += ms_expend_length(str, index);
-			index = ms_expend_index(str, index);
-		}
-		else if ((str[index] != 39 && str[index] != 34)
-				 || (str[index] == 39 && quote.dquote == 1)
-				 || (str[index] == 34 && quote.squote == 1))
-		{
-			quote.segment++;
-			index++;
-		}
-		else
-			index++;
-	}
-	cpy = malloc(sizeof(char) * (quote.segment + 1));
-	cpy[quote.segment] = '\0';
-	result = index;
 	while (quote.i < index)
 	{
 		if ((str[quote.i] == 60 || str[quote.i] == 62 || str[quote.i] == ' ')
@@ -101,15 +59,65 @@ int	ms_obuffer(t_tmp **tmp, int index, int field_buff, const char *str)
 			quote.i = ms_expend_index(str, quote.i);
 		}
 		else if ((str[quote.i] != 39 && str[quote.i] != 34)
-				 || (str[quote.i] == 39 && quote.dquote == 1)
-				 || (str[quote.i] == 34 && quote.squote == 1))
-		{
-			cpy[end++] = str[quote.i];
-			quote.i++;
-		}
+			|| (str[quote.i] == 39 && quote.dquote == 1)
+			|| (str[quote.i] == 34 && quote.squote == 1))
+			cpy[end++] = str[quote.i++];
 		else
 			quote.i++;
 	}
+	return (cpy);
+}
+
+static void	ms_count_buffer(int *index, t_quote *quote, const char *str)
+{
+	while (str[*index])
+	{
+		if ((str[*index] == 60 || str[*index] == 62 || str[*index] == ' ')
+			&& (quote->squote == 0 && quote->dquote == 0))
+			break ;
+		ms_quote_checker(str, index, &quote->squote, &quote->dquote);
+		if (str[*index] == 36 && quote->squote == 0)
+		{
+			(*index)++;
+			quote->segment += ms_expend_length(str, *index);
+			*index = ms_expend_index(str, *index);
+		}
+		else if ((str[*index] != 39 && str[*index] != 34)
+			|| (str[*index] == 39 && quote->dquote == 1)
+			|| (str[*index] == 34 && quote->squote == 1))
+		{
+			quote->segment++;
+			(*index)++;
+		}
+		else
+			(*index)++;
+	}
+}
+
+int	ms_obuffer(t_tmp **tmp, int index, int field_buff, const char *str)
+{
+	t_quote	quote;
+	char	*cpy;
+	char	*entry;
+	int		result;
+
+	quote.segment = 0;
+	quote.squote = 0;
+	quote.dquote = 0;
+	entry = NULL;
+	if (ft_isdigit(str[index]))
+	{
+		result = ms_entry_strlen(str, index);
+		entry = malloc(sizeof(char) * result + 1);
+		index = ms_entry_copy(str, index, entry);
+	}
+	while (str[index] == 62 || str[index] == ' ')
+		index++;
+	quote.i = index;
+	ms_count_buffer(&index, &quote, str);
+	cpy = calloc(1, sizeof(char) * (quote.segment + 1));
+	result = index;
+	ms_add_buffer(index, quote, str, cpy);
 	ms_new3(tmp, field_buff, cpy, entry);
 	return (result);
 }

@@ -14,7 +14,7 @@
 
 int	ms_newline_errors_in(char const *buff, int index, char chr)
 {
-	int i;
+	int	i;
 
 	index++;
 	i = 0;
