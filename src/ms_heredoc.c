@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:40:16 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/21 16:31:50 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:32:57 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ms_heredoc_handler(t_fdlst *fdlst, char **env)
 	lst = NULL;
 	str = ft_calloc(1, 1);
 	if (!str || pipe((int *)&pipefd) || ms_heredoc_read_stdin(fdlst, &str))
-		return (ms_fd_error("heredoc"));
+		return (1);
 	if (fdlst->type == HEREDOC)
 	{
 		lst = ms_heredoc_expand_lst(str, env);
@@ -47,31 +47,9 @@ int	ms_heredoc_handler(t_fdlst *fdlst, char **env)
 
 int	ms_heredoc_read_stdin(t_fdlst *fdlst, char **str)
 {
-	// char	buf[1024];
-	// char	*tmp;
-	// t_list	*lst;
-	// int		r;
-
-	// lst = NULL;
-	// r = 1;
-	// while (r)
-	// {
-	// 	ft_putstr_fd("🐐 ", 1);
-	// 	r = read(0, buf, sizeof(buf) - sizeof(char));
-	// 	if (r < 0)
-	// 		return (0);
-	// 	buf[r] = 0;
-	// 	if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path)) \
-	// 		&& buf[ft_strlen(fdlst->path)] == '\n')
-	// 		break ;
-	// 	tmp = *str;
-	// 	*str = ft_strjoin(*str, buf);
-	// 	free(tmp);
-	// }
-	// return (0);
 	char	*buf;
 	t_list	*lst;
-	
+
 	lst = NULL;
 	while (1)
 	{
@@ -146,7 +124,7 @@ void	ms_heredoc_expand_str(t_list *lst, char **str)
 		i = ft_lst_get_list_content_length(lst) + 1;
 		*str = malloc(sizeof(char) * (i + 1));
 		if (!*str)
-			ms_fd_error("heredoc");
+			ms_error("heredoc");
 		**str = 0;
 		while (lst)
 		{

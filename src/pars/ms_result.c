@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 11:35:53 by aho               #+#    #+#             */
-/*   Updated: 2022/11/21 14:34:20 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:30:15 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void	ms_result_fd(t_command **result, t_tmp *tmp, t_fdlst **fdlst)
 	}
 }
 
-t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst)
+t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst, char **env)
 {
 	t_command	*result;
 	int			index;
@@ -80,5 +80,8 @@ t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst)
 	result->args[index] = NULL;
 	ms_result_adress(tmp, result);
 	ms_result_fd(&result, tmp, fdlst);
+	result->path = NULL;
+	if (ms_cmd_is_builtins(result))
+		result->path = ms_path_finder(result->args[0], env);
 	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/21 12:55:01 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:23:11 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,11 @@ void			ms_unset(t_command *cmd, char ***env);
 
 //	ms_cmd_manager.c
 int				ms_command_manager(t_section *section, t_shell *shell);
+int				ms_cmd_is_builtins(t_command *cmd);
 
 //	ms_error.c
 int				ms_error(const char *str);
+int				ms_error_s(const char *s1, const char *s2);
 
 //	ms_shell_init.c
 t_shell			shell_init(int argc, char **argv, char **env);

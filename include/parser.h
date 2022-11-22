@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 13:15:29 by aho               #+#    #+#             */
-/*   Updated: 2022/11/21 14:35:23 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:33:58 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ struct s_tmp
 
 struct	s_command
 {
-	char				*name;
+	char				*path;
 	char				**args;
 	struct s_fdlst		*fd_in;
 	struct s_fdlst		*fd_out;
@@ -79,7 +79,7 @@ struct s_section
 };
 
 //	parsing.c
-t_section	*ms_parsing(char *buff);
+t_section	*ms_parsing(char *buff, char **env);
 int			ms_errors(int cmd);
 void		ms_quote_checker(const char *buff, const int *j, \
 	int *squote1, int *dquote1);
@@ -115,13 +115,13 @@ int			ms_obuffer(t_tmp **tmp, int index, int field_buff, const char *str);
 int			ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str);
 
 // ms_result.c
-t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst);
+t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst, char **env);
 
 // ms_print_pars.c
 void		ms_print_section(t_section *section);
 void		ms_print_pars(t_section *section);
 
-// ms_fdlst.c
-void	ms_result_fdlst(t_tmp *tmp, t_fdlst **unknow);
+//	pars/ms_path_finder.c
+char		*ms_path_finder(char *name, char **env);
 
 #endif
