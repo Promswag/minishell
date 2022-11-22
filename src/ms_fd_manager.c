@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:44:15 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/21 13:36:41 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:15:02 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 int		ms_fd_manager(t_fdlst *fdlst, t_shell *shell);
 void	ms_fd_close(t_fdlst *fdlst, t_shell *shell);
-int		ms_fd_error(const char *str);
+// int		ms_fd_error(const char *str);
 
 int	ms_fd_manager(t_fdlst *fdlst, t_shell *shell)
 {
@@ -24,16 +24,15 @@ int	ms_fd_manager(t_fdlst *fdlst, t_shell *shell)
 
 	shell->stdin_backup = dup(STDIN_FILENO);
 	tmp = fdlst;
-	while (tmp)
+	while (tmp && g_exit_code != -1)
 	{
-		printf("%d, %s\n", tmp->type, tmp->path);
 		if (tmp->type == HEREDOC || tmp->type == HEREDOC_QUOTED)
 			if (ms_heredoc_handler(tmp, shell->env))
-				return (1);
+				return (ms_error("heredoc"));
 		tmp = tmp->next;
 	}
 	tmp = fdlst;
-	while (tmp)
+	while (tmp && g_exit_code != -1)
 	{
 		if (tmp->type == REDIR_IN)
 			tmp->fd = open(tmp->path, O_RDONLY);
@@ -42,7 +41,7 @@ int	ms_fd_manager(t_fdlst *fdlst, t_shell *shell)
 		else if (tmp->type == REDIR_OUT_APPEND)
 			tmp->fd = open(tmp->path, O_CREAT | O_WRONLY | O_APPEND, 0644);
 		if (tmp->fd == -1)
-			return (ms_fd_error(tmp->path));
+			return (ms_error(tmp->path));
 		tmp = tmp->next;
 	}
 	return (0);
@@ -59,13 +58,14 @@ void	ms_fd_close(t_fdlst *fdlst, t_shell *shell)
 	}
 }
 
-int	ms_fd_error(const char *str)
-{
-	write(STDERR_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
-	write(STDERR_FILENO, ": ", 2);
-	write(STDERR_FILENO, str, ft_strlen(str));
-	write(STDERR_FILENO, ": ", 2);
-	write(STDERR_FILENO, strerror(errno), ft_strlen(strerror(errno)));
-	write(STDERR_FILENO, "\n", 1);
-	return (1);
-}
+// int	ms_fd_error(const char *str)
+// {
+// 	write(STDERR_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
+// 	write(STDERR_FILENO, ": ", 2);
+// 	write(STDERR_FILENO, str, ft_strlen(str));
+// 	write(STDERR_FILENO, ": ", 2);
+// 	write(STDERR_FILENO, strerror(errno), ft_strlen(strerror(errno)));
+// 	write(STDERR_FILENO, "\n", 1);
+// 	g_exit_code = 1;
+// 	return (1);
+// }

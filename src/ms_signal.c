@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:28:22 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/21 10:27:28 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:21:34 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ static void	signal_handler(int signum)
 		rl_redisplay();
 	}
 	else if (signum == SIGQUIT)
-	{
 		rl_redisplay();
-	}
 }
 
 static void	signal_handler_heredoc(int signum)
@@ -34,6 +32,7 @@ static void	signal_handler_heredoc(int signum)
 	{
 		write(STDIN_FILENO, "\n", 1);
 		close(STDIN_FILENO);
+		g_exit_code = -1;
 	}
 	if (signum == SIGQUIT)
 		return ;
@@ -53,6 +52,6 @@ void	signal_restore(t_shell *shell)
 	(void)shell;
 	signal(SIGINT, &signal_handler_heredoc);
 	signal(SIGQUIT, &signal_handler_heredoc);
-	// sigaction(SIGINT, &shell->signal_backup, NULL);
-	// sigaction(SIGQUIT, &shell->signal_backup, NULL);
 }
+// sigaction(SIGINT, &shell->signal_backup, NULL);
+// sigaction(SIGQUIT, &shell->signal_backup, NULL);

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/21 12:43:07 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/22 11:25:32 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int			ms_command_manager(t_section *section, t_shell *shell);
 static void	ms_cmd_exec(t_section *section, t_shell *shell, t_pipe pfd);
-static int	ms_cmd_is_builtins(t_command *cmd);
+int			ms_cmd_is_builtins(t_command *cmd);
 static void	ms_cmd_exec_builtins(t_command *cmd, t_shell *shell, int index);
 static int	ms_cmd_error(const char *str);
 
@@ -60,13 +60,13 @@ static void	ms_cmd_exec(t_section *section, t_shell *shell, t_pipe pfd)
 	if (section->cmd->fd_out)
 		dup2(section->cmd->fd_out->fd, STDOUT_FILENO);
 	if (builtins != -1)
-		ms_cmd_exec_builtins((section->cmd), shell, builtins);
+		ms_cmd_exec_builtins(section->cmd, shell, builtins);
 	else
-		execve("/bin/cat", (*section->cmd).args, shell->env);
+		execve(section->cmd->path, section->cmd->args, shell->env);
 	exit(0);
 }
 
-static int	ms_cmd_is_builtins(t_command *cmd)
+int	ms_cmd_is_builtins(t_command *cmd)
 {
 	static char	*builtins[] = \
 		{"exit", "pwd", "cd", "echo", "export", "env", "unset", 0};

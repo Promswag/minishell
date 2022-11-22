@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/11/21 12:38:41 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/11/22 11:34:10 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ SRC				= 	ms_error.c \
 					builtins/ms_pwd.c \
 					pars/ms_errors.c \
 					pars/ms_parsing.c \
+					pars/ms_path_finder.c \
 					pars/ms_syntax.c \
 					pars/ms_section.c \
 					pars/ms_tmp.c \
@@ -43,7 +44,6 @@ SRC				= 	ms_error.c \
 					pars/ms_result.c \
 					pars/ms_list2.c \
 					pars/ms_list3.c \
-					pars/ms_fdlst.c \
 
 # SRC 			+=	main.c
 #SRC 			+=	ms_debug.c
