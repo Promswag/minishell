@@ -14,8 +14,12 @@
 
 int	ms_errors(int cmd)
 {
-	write(2, "Error : ", 8);
+	write(2, "minishell: ", 12);
 	if (cmd == 1)
 		write(2, "\' or \" not ended correctly\n", 28);
+	if (cmd == 2)
+		write(2, "use of tokens prohibited\n", 26);
+	if (cmd == 3)
+		write(2, "syntax error\n", 14);
 	return (0);
 }

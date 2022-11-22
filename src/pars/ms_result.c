@@ -81,7 +81,7 @@ t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst, char **env)
 	ms_result_adress(tmp, result);
 	ms_result_fd(&result, tmp, fdlst);
 	result->path = NULL;
-	if (ms_cmd_is_builtins(result))
+	if (result->args[0] && ms_cmd_is_builtins(result))
 		result->path = ms_path_finder(result->args[0], env);
 	return (result);
 }

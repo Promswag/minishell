@@ -41,18 +41,47 @@ static int	ms_entry_copy(const char *str, int index, char *entry)
 	return (index);
 }
 
+
+char	*ms_cut_buffer(int index, t_quote quote, const char *str, char *cpy)
+{
+	int	end;
+
+	end = 0;
+	while (quote.i < index)
+	{
+		if ((str[quote.i] == 60 || str[quote.i] == 62 || str[quote.i] == ' ')
+			&& (quote.squote == 0 && quote.dquote == 0))
+			break ;
+		ms_quote_checker(str, &quote.i, &quote.squote, &quote.dquote);
+		if (str[quote.i] == 36 && quote.squote == 0)
+		{
+			quote.i++;
+			ms_expend_copy(cpy, &quote.i, str, &end);
+			quote.i = ms_expend_index(str, quote.i);
+		}
+		else if ((str[quote.i] != 39 && str[quote.i] != 34)
+				 || (str[quote.i] == 39 && quote.dquote == 1)
+				 || (str[quote.i] == 34 && quote.squote == 1))
+		{
+			cpy[end++] = str[quote.i];
+			quote.i++;
+		}
+		else
+			quote.i++;
+	}
+	return (cpy);
+}
+
 int	ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str)
 {
 	t_quote	quote;
 	char	*cpy;
 	char	*entry;
-	int		end;
 	int		result;
 
 	quote.segment = 0;
 	quote.squote = 0;
 	quote.dquote = 0;
-	end = 0;
 	entry = NULL;
 	if (ft_isdigit(str[index]))
 	{
@@ -78,8 +107,8 @@ int	ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str)
 			index = ms_expend_index(str, index);
 		}
 		else if ((str[index] != 39 && str[index] != 34)
-				 || (str[index] == 39 && quote.dquote == 1)
-				 || (str[index] == 34 && quote.squote == 1))
+				|| (str[index] == 39 && quote.dquote == 1)
+				|| (str[index] == 34 && quote.squote == 1))
 		{
 			quote.segment++;
 			index++;
@@ -90,28 +119,7 @@ int	ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str)
 	cpy = malloc(sizeof(char) * (quote.segment + 1));
 	cpy[quote.segment] = '\0';
 	result = index;
-	while (quote.i < index)
-	{
-		if ((str[quote.i] == 60 || str[quote.i] == 62 || str[quote.i] == ' ')
-			&& (quote.squote == 0 && quote.dquote == 0))
-			break ;
-		ms_quote_checker(str, &quote.i, &quote.squote, &quote.dquote);
-		if (str[quote.i] == 36 && quote.squote == 0)
-		{
-			quote.i++;
-			ms_expend_copy(cpy, &quote.i, str, &end);
-			quote.i = ms_expend_index(str, quote.i);
-		}
-		else if ((str[quote.i] != 39 && str[quote.i] != 34)
-				 || (str[quote.i] == 39 && quote.dquote == 1)
-				 || (str[quote.i] == 34 && quote.squote == 1))
-		{
-			cpy[end++] = str[quote.i];
-			quote.i++;
-		}
-		else
-			quote.i++;
-	}
+	ms_cut_buffer(result, quote, str, cpy);
 	ms_new3(tmp, field_buff, cpy, entry);
 	return (result);
 }

@@ -46,8 +46,7 @@ char	*ms_expend_getname(const char *str, int index)
 		i++;
 		length++;
 	}
-	name = malloc((length + 1) * sizeof(char));
-	name[length] = '\0';
+	name = calloc(1, (length + 1) * sizeof(char));
 	i = index;
 	length = 0;
 	while (ft_isalpha(str[i]) || str[i] == '_')
@@ -80,7 +79,7 @@ int	ms_expend_length(const char *str, int index)
 	return (i);
 }
 
-void	ms_expend_copy(char *cpy,int *i, const char *str, int *end)
+void	ms_expend_copy(char *cpy, const int *i, const char *str, int *end)
 {
 	char	*name;
 	char	*chr;

@@ -108,7 +108,7 @@ int			ms_check_buffer(const char *str, int index);
 // ms_buffer.c
 int			ms_expend_length(const char *str, int index);
 int			ms_expend_index(const char *str, int index);
-void		ms_expend_copy(char *cpy, int *i, const char *str, int *end);
+void		ms_expend_copy(char *cpy, const int *i, const char *str, int *end);
 
 int			ms_qbuffer(t_tmp **tmp, int index, int field_buff, const char *str);
 int			ms_sbuffer(t_tmp **tmp, int index, int field_buff, const char *str);
@@ -124,5 +124,9 @@ void		ms_print_pars(t_section *section);
 
 //	pars/ms_path_finder.c
 char		*ms_path_finder(char *name, char **env);
+
+//	pars/ms_syntax_utils.c
+int			ms_newline_errors_in(char const *buff, int index, char chr);
+int			ms_special_token_in(char const *buff, int index, char chr);
 
 #endif
