@@ -64,7 +64,7 @@ READLINE_INC	= -I/Users/${USER}/.brew/opt/readline/include
 
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra
-# CFLAGS			+= -Werror
+ CFLAGS			+= -Werror
 CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf

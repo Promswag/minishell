@@ -74,7 +74,8 @@ int	ms_cmd_is_builtins(t_command *cmd)
 
 	i = -1;
 	while (builtins[++i])
-		if (!ft_strncmp(cmd->args[0], builtins[i], ft_strlen(builtins[i]) + 1))
+		if (cmd->args[0] &&
+			!ft_strncmp(cmd->args[0], builtins[i], ft_strlen(builtins[i]) + 1))
 			return (i);
 	return (-1);
 }

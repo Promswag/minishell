@@ -37,11 +37,11 @@ int	ms_syntax_chr(char const *buff, int result)
 	i = 0;
 	while (buff[i] && result)
 	{
-		if (buff[i] != 124)
+		if (buff[i] != 124 && buff[i] != ' ')
 			statut = 1;
-		else if (statut == 0)
+		else if (statut == 0 && buff[i] != ' ')
 			return (ms_errors(3));
-		else
+		else if (buff[i] == 124)
 			statut = 0;
 		if (buff[i] == 60 || buff[i] == 62)
 		{
