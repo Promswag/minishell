@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:00:41 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/21 12:46:04 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/22 14:01:05 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ static void	ms_unset_remove(char *s, char ***env)
 	j = 0;
 	while ((*env)[++i])
 	{
-		if (ft_strncmp(s, (*env)[i], ft_strlen(s)))
-			new_env[j++] = ft_strdup((*env)[i]);
-		else if (!ft_strncmp(s, (*env)[i], ft_strlen(s)) && \
-			(*env)[i][ft_strlen(s)] != 0 && (*env)[i][ft_strlen(s)] != '=')
+		if (!ft_strncmp(s, (*env)[i], ft_strlen(s)) \
+			&& ((*env)[i][ft_strlen(s)] == 0 || (*env)[i][ft_strlen(s)] == '='))
+			continue ;
+		else
 			new_env[j++] = ft_strdup((*env)[i]);
 	}
 	new_env[j] = 0;
@@ -54,17 +54,27 @@ void	ms_unset(t_command *cmd, char ***env)
 {
 	int		err;
 	int		i;
+	char	*id;
+	char	*tmp;
 
 	err = 0;
 	i = 0;
 	while (cmd->args[++i])
 	{
 		if (ms_unset_is_name(cmd->args[i]))
-			ms_unset_remove(cmd->args[i], env);
+		{
+			if (ms_export_exists(cmd->args[i], *env) != -1)
+				ms_unset_remove(cmd->args[i], env);
+		}
 		else
+		{
+			tmp = ft_strjoin("`", cmd->args[i]);
+			id = ft_strjoin(tmp, "'");
+			ms_error_s("unset", id);
+			free(tmp);
+			free(id);
 			err++;
+		}
 	}
-	if (err)
-		exit(err);
-	exit(EXIT_SUCCESS);
+	g_exit_code = err;
 }

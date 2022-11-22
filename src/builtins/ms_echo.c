@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 13:20:46 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/21 12:44:22 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/22 16:27:22 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,5 @@ void	ms_echo(t_command *cmd, char ***env)
 	}
 	if (trailing)
 		write(STDOUT_FILENO, "\n", 1);
-	exit(EXIT_SUCCESS);
+	g_exit_code = 0;
 }
-
-//	exit(0) if success
-//	exit(>0) if failure
