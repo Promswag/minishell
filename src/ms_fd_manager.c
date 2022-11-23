@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:44:15 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/23 14:02:13 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/23 17:17:43 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,9 @@ void	ms_fd_close(t_fdlst *fdlst, t_shell *shell)
 		cur = fdlst;
 		fdlst = fdlst->next;
 		close(cur->fd);
-		if (cur->entry)
-			free(cur->entry);
 		if (cur->path)
 			free(cur->path);
-		*cur = (t_fdlst){0, 0, 0, 0, 0};
+		*cur = (t_fdlst){0, 0, 0, 0};
 		free(cur);
 	}
 }
