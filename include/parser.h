@@ -114,20 +114,15 @@ t_tmp	*ms_tmp(char *str, char **env);
 int			ms_check_buffer(const char *str, int index);
 
 // ms_buffer.c
-//int			ms_expend_length(const char *str, int index);
 int			ms_expend_index(const char *str, int index);
-//void		ms_expend_copy(char *cpy, const int *i, const char *str, int *end);
+int			ms_line_too_long(const char *str, t_quote quote);
 void		ms_expend_copy(char *cpy, t_ebuffer *expend, const char *str, char **env);
 int			ms_expend_length(const char *str, int index, char **env);
 
-//int			ms_qbuffer(t_tmp **tmp, int index, int field_buff, const char *str);
-//int			ms_sbuffer(t_tmp **tmp, int index, int field_buff, const char *str);
-//int			ms_obuffer(t_tmp **tmp, int index, int field_buff, const char *str);
-//int			ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str);
-int	ms_sbuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
-int	ms_qbuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
-int	ms_ibuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
-int	ms_obuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
+int			ms_sbuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
+int			ms_qbuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
+int			ms_ibuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
+int			ms_obuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
 
 // ms_result.c
 t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst, char **env);

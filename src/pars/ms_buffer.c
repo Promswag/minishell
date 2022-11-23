@@ -77,10 +77,10 @@ int	ms_expend_length(const char *str, int index, char **env)
 	while (chr[i])
 		i++;
 	return (i);
-
 }
 
-void	ms_expend_copy(char *cpy, t_ebuffer *expend, const char *str, char **env)
+void	ms_expend_copy(char *cpy, t_ebuffer *expend,
+						const char *str, char **env)
 {
 	char	*name;
 	char	*chr;
@@ -95,8 +95,7 @@ void	ms_expend_copy(char *cpy, t_ebuffer *expend, const char *str, char **env)
 	}
 	else if (!(ft_isalnum(str[expend->x])) && str[expend->x] != '_')
 	{
-		cpy[expend->y] = '$';
-		(expend->y)++;
+		cpy[(expend->y)++] = '$';
 		return ;
 	}
 	else
@@ -108,4 +107,13 @@ void	ms_expend_copy(char *cpy, t_ebuffer *expend, const char *str, char **env)
 		cpy[expend->y] = chr[index++];
 		(expend->y)++;
 	}
+}
+
+int	ms_line_too_long(const char *str, t_quote quote)
+{
+	if ((str[quote.i] != 39 && str[quote.i] != 34)
+		|| (str[quote.i] == 39 && quote.dquote == 1)
+		|| (str[quote.i] == 34 && quote.squote == 1))
+		return (1);
+	return (0);
 }
