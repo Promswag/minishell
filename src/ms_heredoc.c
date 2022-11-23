@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:40:16 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/22 11:32:57 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/23 13:39:21 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,12 @@ int	ms_heredoc_read_stdin(t_fdlst *fdlst, char **str)
 	{
 		buf = readline("🐐 ");
 		if (!buf)
+			break ;
+		if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path) + 1))
 		{
-			// rl_on_new_line();
-			// rl_replace_line("", 0);
-			// rl_redisplay();
+			free(buf);
 			break ;
 		}
-		if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path) + 1))
-			break ;
 		ft_lstadd_back(&lst, ft_lstnew(buf));
 		ft_lstadd_back(&lst, ft_lstnew(ft_strdup("\n")));
 	}
