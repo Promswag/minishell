@@ -109,7 +109,6 @@ void		ms_fdlstadd_back(t_fdlst **lst, t_fdlst *new);
 int			ms_new3(t_tmp **tmp, int field, char *str, char *entry);
 
 //	ms_tmp.c
-//t_tmp		*ms_tmp(char *str);
 t_tmp	*ms_tmp(char *str, char **env);
 int			ms_check_buffer(const char *str, int index);
 
@@ -126,10 +125,6 @@ int			ms_obuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
 
 // ms_result.c
 t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst, char **env);
-
-// ms_print_pars.c
-void		ms_print_section(t_section *section);
-void		ms_print_pars(t_section *section);
 
 //	pars/ms_path_finder.c
 char		*ms_path_finder(char *name, char **env);
