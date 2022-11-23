@@ -12,8 +12,8 @@
 
 #include "parser.h"
 
-void	ms_quote_checker(const char *buff,const int *j,
-						 int *squote1, int *dquote1)
+void	ms_quote_checker(const char *buff, const int *j,
+							int *squote1, int *dquote1)
 {
 	int	i;
 	int	squote;
@@ -22,14 +22,14 @@ void	ms_quote_checker(const char *buff,const int *j,
 	i = *j;
 	squote = *squote1;
 	dquote = *dquote1;
-	if (buff[i] == 34 && squote == 0) // "
+	if (buff[i] == 34 && squote == 0)
 	{
 		if (dquote == 0)
 			dquote++;
 		else if (dquote == 1)
 			dquote--;
 	}
-	if (buff[i] == 39 && dquote == 0) // '
+	if (buff[i] == 39 && dquote == 0)
 	{
 		if (squote == 0)
 			squote++;
@@ -49,21 +49,16 @@ t_section	*ms_parsing(char *buff, char **env)
 
 	index = 0;
 	fdlst = NULL;
+	if (!(ms_syntax_error(buff)))
+		return (NULL);
 	section = ms_section(buff, fdlst);
 	while (section[index].section)
 	{
 		tmp = NULL;
-		tmp = ms_tmp(section[index].section);
+		tmp = ms_tmp(section[index].section, env);
 		section[index].cmd = ms_result(tmp, &fdlst, env);
 		section->fdlst = fdlst;
 		index++;
-		// ms_result_fdlst(tmp, &fdlst);
 	}
-	// index = 0;
-	// while(section[index].section)
-	// {
-	// 	section[index].fdlst = fdlst;
-	// 	index++;
-	// }
 	return (section);
 }

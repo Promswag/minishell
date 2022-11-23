@@ -23,7 +23,7 @@ int	ms_nbr_section(const char *buff)
 	squote = 0;
 	dquote = 0;
 	pipeline = 1;
-	while(buff[i])
+	while (buff[i])
 	{
 		ms_quote_checker(buff, &i, &squote, &dquote);
 		if (buff[i] == 124 && squote == 0 && dquote == 0)
@@ -44,20 +44,22 @@ void	ms_word(const char *buff, t_section *section)
 	quote.squote = 0;
 	quote.dquote = 0;
 	quote.chr = 0;
-	while(buff[quote.i])
+	while (buff[quote.i])
 	{
 		ms_quote_checker(buff, &quote.i, &quote.squote, &quote.dquote);
 		if (buff[quote.i] == 124 && quote.squote == 0 && quote.dquote == 0)
 		{
 			quote.chr = quote.i - quote.chr;
-			section[quote.segment].section = ft_calloc(sizeof(char), quote.chr + 1);
+			section[quote.segment].section = ft_calloc(sizeof(char),
+					quote.chr + 1);
 			quote.segment++;
 			x = 1;
 		}
 		quote.i++;
 	}
 	quote.chr = quote.i - quote.chr;
-	section[quote.segment].section = ft_calloc(sizeof(char), (quote.chr - x + 1));
+	section[quote.segment].section = ft_calloc(sizeof(char),
+			(quote.chr - x + 1));
 }
 
 void	ms_word_copy(char *buff, t_section *section)
@@ -101,10 +103,10 @@ void	ms_field(t_section *section, int nbr)
 t_section	*ms_section(char *buff, t_fdlst *fdlst)
 {
 	t_section	*section;
-	int 		nbr;
+	int			nbr;
 
 	nbr = ms_nbr_section(buff);
-	section = malloc(sizeof(t_section) * (nbr + 1));
+	section = calloc(1, sizeof(t_section) * (nbr + 1));
 	section->fdlst = fdlst;
 	ms_word(buff, section);
 	ms_field(section, (nbr) + 1);
