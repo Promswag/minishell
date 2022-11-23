@@ -21,7 +21,7 @@ static char	*ms_add_buffer(t_quote quote, const char *str,
 	t_ebuffer	extend;
 
 	end = 0;
-	while (quote.i < quote.chr)
+	while (str[quote.i] && (quote.i <= quote.chr))
 	{
 		if ((str[quote.i] == 60 || str[quote.i] == 62 || str[quote.i] == ' ')
 			&& (quote.squote == 0 && quote.dquote == 0))
