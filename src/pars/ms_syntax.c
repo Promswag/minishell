@@ -56,11 +56,29 @@ int	ms_syntax_chr(char const *buff, int result)
 	return (result);
 }
 
+static int	ms_void(char const *buff)
+{
+	int	i;
+	int	x;
+
+	x = 1;
+	i = 0;
+	while (buff[i])
+	{
+		if (buff[i] != ' ')
+			x = 0;
+		i++;
+	}
+	return (x);
+}
+
 int	ms_syntax_error(char const *buff)
 {
 	int	result;
 
 	result = 1;
+	if (ms_void(buff))
+		return (result);
 	if (!(ms_not_covered(buff)))
 		return (0);
 	result = ms_syntax_chr(buff, result);

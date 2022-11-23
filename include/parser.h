@@ -112,12 +112,14 @@ void		ms_fdlstadd_back(t_fdlst **lst, t_fdlst *new);
 //	pars/ms_list3.c
 int			ms_new3(t_tmp **tmp, int field, char *str, char *entry);
 
+
 //	pars/ms_tmp.c
 t_tmp		*ms_tmp(char *str, char **env);
 int			ms_check_buffer(const char *str, int index);
 
 //	pars/ms_buffer.c
 int			ms_expend_index(const char *str, int index);
+int			ms_line_too_long(const char *str, t_quote quote);
 void		ms_expend_copy(\
 	char *cpy, t_ebuffer *expend, const char *str, char **env);
 int			ms_expend_length(const char *str, int index, char **env);

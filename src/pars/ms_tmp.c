@@ -73,9 +73,9 @@ int	ms_buffer_ch(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env)
 
 t_tmp	*ms_tmp(char *str, char **env)
 {
-	int		index;
-	t_tmp	*tmp;
-	int		field_buff;
+	int			index;
+	t_tmp		*tmp;
+	int			field_buff;
 	t_ebuffer	ebuffer;
 
 	index = 0;

@@ -41,13 +41,14 @@ static int	ms_entry_copy(const char *str, int index, char *entry)
 	return (index);
 }
 
-static char	*ms_add_buffer(t_quote quote, const char *str, char *cpy, char **env)
+static char	*ms_add_buffer(t_quote quote, const char *str,
+							char *cpy, char **env)
 {
-	int	end;
+	int			end;
 	t_ebuffer	extend;
 
 	end = 0;
-	while (quote.i < quote.chr)
+	while (str[quote.i] && (quote.i <= quote.chr))
 	{
 		if ((str[quote.i] == 60 || str[quote.i] == 62 || str[quote.i] == ' ')
 			&& (quote.squote == 0 && quote.dquote == 0))
@@ -62,9 +63,7 @@ static char	*ms_add_buffer(t_quote quote, const char *str, char *cpy, char **env
 			end = extend.y;
 			quote.i = ms_expend_index(str, quote.i);
 		}
-		else if ((str[quote.i] != 39 && str[quote.i] != 34)
-				 || (str[quote.i] == 39 && quote.dquote == 1)
-				 || (str[quote.i] == 34 && quote.squote == 1))
+		else if (ms_line_too_long(str, quote))
 			cpy[end++] = str[quote.i++];
 		else
 			quote.i++;
@@ -72,7 +71,8 @@ static char	*ms_add_buffer(t_quote quote, const char *str, char *cpy, char **env
 	return (cpy);
 }
 
-static void	ms_count_buffer(int *index, t_quote *quote, const char *str, char **env)
+static void	ms_count_buffer(int *index, t_quote *quote,
+							const char *str, char **env)
 {
 	while (str[*index])
 	{
@@ -87,8 +87,8 @@ static void	ms_count_buffer(int *index, t_quote *quote, const char *str, char **
 			*index = ms_expend_index(str, *index);
 		}
 		else if ((str[*index] != 39 && str[*index] != 34)
-				 || (str[*index] == 39 && quote->dquote == 1)
-				 || (str[*index] == 34 && quote->squote == 1))
+			|| (str[*index] == 39 && quote->dquote == 1)
+			|| (str[*index] == 34 && quote->squote == 1))
 		{
 			quote->segment++;
 			(*index)++;
