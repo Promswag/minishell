@@ -6,13 +6,11 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 13:00:00 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/23 11:19:03 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/23 18:37:54 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <sys/types.h>
-#include <dirent.h>
 
 static void	ms_cd_error(void)
 {
@@ -21,9 +19,10 @@ static void	ms_cd_error(void)
 	g_exit_code = 1;
 }
 
-void	mc_cd_target(char *target, char *oldpwd, char *pwd, char ***env)
+void	mc_cd_target(char *target, char *oldpwd, char ***env)
 {
 	char	buf[1000];
+	char	*pwd;
 
 	if (target)
 	{
@@ -39,6 +38,7 @@ void	mc_cd_target(char *target, char *oldpwd, char *pwd, char ***env)
 				ms_export(&(t_command){0, \
 					(char *[]){"export", oldpwd, pwd, 0}, 0, 0}, env);
 				g_exit_code = 0;
+				free(pwd);
 			}
 		}
 	}
@@ -50,7 +50,6 @@ void	ms_cd(t_command *cmd, char ***env)
 {
 	char	buf[1000];
 	char	*oldpwd;
-	char	*pwd;
 	char	*target;
 
 	if (getcwd(buf, 1000) == NULL)
@@ -59,16 +58,13 @@ void	ms_cd(t_command *cmd, char ***env)
 		return ;
 	}
 	oldpwd = ft_strjoin("OLDPWD=", buf);
-	pwd = NULL;
 	if (cmd->args[1])
 		target = cmd->args[1];
 	else
 		target = ms_export_get_value("HOME", *env);
-	mc_cd_target(target, oldpwd, pwd, env);
+	mc_cd_target(target, oldpwd, env);
 	if (oldpwd)
 		free(oldpwd);
-	if (pwd)
-		free(pwd);
 	if (!cmd->args[1] && target)
 		free(target);
 }

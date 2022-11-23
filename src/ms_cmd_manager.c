@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/23 16:05:42 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/23 18:42:04 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	ms_command_manager(t_section *section, t_shell *shell)
 	pid_t		pid;
 	int			status;
 
+	status = 0;
 	pfd = (t_pipe){-1, -1, -1, -1};
 	while (section && section->section)
 	{
@@ -39,8 +40,12 @@ int	ms_command_manager(t_section *section, t_shell *shell)
 			close(pfd.cur_r);
 		pfd = (t_pipe){.prev_r = pfd.cur_r, .prev_w = pfd.cur_w, -1, -1};
 		section++;
-		waitpid(pid, &status, WNOHANG);
-		g_exit_code = WEXITSTATUS(status);
+		if (pid)
+		{
+			waitpid(pid, &status, WNOHANG);
+			g_exit_code = WEXITSTATUS(status);
+			pid = 0;
+		}
 	}
 	return (0);
 }
@@ -78,7 +83,9 @@ static void	ms_cmd_exec(t_section *section, t_shell *shell, t_pipe pfd)
 	{
 		close(pfd.cur_r);
 		close(pfd.cur_w);
-		exit(-execve(section->cmd->path, section->cmd->args, shell->env));
+		close(pfd.prev_r);
+		execve(section->cmd->path, section->cmd->args, shell->env);
+		exit(127);
 	}
 }
 
@@ -90,7 +97,7 @@ int	ms_cmd_is_builtins(t_command *cmd)
 
 	i = -1;
 	while (builtins[++i])
-		if (cmd->args[0] &&
+		if (cmd->args[0] && \
 			!ft_strncmp(cmd->args[0], builtins[i], ft_strlen(builtins[i]) + 1))
 			return (i);
 	return (-1);

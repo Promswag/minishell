@@ -6,15 +6,16 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 10:11:25 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/23 13:38:04 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/23 18:07:04 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ms_path_finder(char *name, char **env);
-char	*ms_path_finder_generate(char **arr, char *name);
-void	ms_path_finder_destroy(char **arr);
+char		*ms_path_finder(char *name, char **env);
+static char	*ms_path_finder_generate(char **arr, char *name);
+static void	ms_path_finder_destroy(char **arr);
+static void	ms_path_invalid(char *str);
 
 char	*ms_path_finder(char *name, char **env)
 {
@@ -37,7 +38,7 @@ char	*ms_path_finder(char *name, char **env)
 	return (path);
 }
 
-char	*ms_path_finder_generate(char **arr, char *name)
+static char	*ms_path_finder_generate(char **arr, char *name)
 {
 	char	*path;
 	char	*tmp;
@@ -52,10 +53,11 @@ char	*ms_path_finder_generate(char **arr, char *name)
 		free(path);
 		arr++;
 	}
+	ms_path_invalid(name);
 	return (NULL);
 }
 
-void	ms_path_finder_destroy(char **arr)
+static void	ms_path_finder_destroy(char **arr)
 {
 	int	i;
 
@@ -64,4 +66,13 @@ void	ms_path_finder_destroy(char **arr)
 		free(arr[i]);
 	if (arr)
 		free(arr);
+}
+
+static void	ms_path_invalid(char *str)
+{
+	write(STDERR_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
+	write(STDERR_FILENO, ": ", 2);
+	write(STDERR_FILENO, str, ft_strlen(str));
+	write(STDERR_FILENO, ": command not found\n", 20);
+	g_exit_code = 127;
 }

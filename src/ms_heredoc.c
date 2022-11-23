@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:40:16 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/23 16:56:33 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/23 18:47:23 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	ms_heredoc_read_stdin(t_fdlst *fdlst, char **str)
 		buf = readline("🐐 ");
 		if (!buf)
 			break ;
+		printf("%s, %s\n", fdlst->path, buf);
 		if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path) + 1))
 		{
 			free(buf);
