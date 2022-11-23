@@ -44,6 +44,13 @@ typedef struct s_quote		t_quote;
 typedef struct s_section	t_section;
 typedef struct s_command	t_command;
 typedef struct s_tmp		t_tmp;
+typedef struct s_ebuffer	t_ebuffer;
+
+struct s_ebuffer
+{
+	int x;
+	int y;
+};
 
 struct s_quote
 {
@@ -102,18 +109,25 @@ void		ms_fdlstadd_back(t_fdlst **lst, t_fdlst *new);
 int			ms_new3(t_tmp **tmp, int field, char *str, char *entry);
 
 //	ms_tmp.c
-t_tmp		*ms_tmp(char *str);
+//t_tmp		*ms_tmp(char *str);
+t_tmp	*ms_tmp(char *str, char **env);
 int			ms_check_buffer(const char *str, int index);
 
 // ms_buffer.c
-int			ms_expend_length(const char *str, int index);
+//int			ms_expend_length(const char *str, int index);
 int			ms_expend_index(const char *str, int index);
-void		ms_expend_copy(char *cpy, const int *i, const char *str, int *end);
+//void		ms_expend_copy(char *cpy, const int *i, const char *str, int *end);
+void		ms_expend_copy(char *cpy, t_ebuffer *expend, const char *str, char **env);
+int			ms_expend_length(const char *str, int index, char **env);
 
-int			ms_qbuffer(t_tmp **tmp, int index, int field_buff, const char *str);
-int			ms_sbuffer(t_tmp **tmp, int index, int field_buff, const char *str);
-int			ms_obuffer(t_tmp **tmp, int index, int field_buff, const char *str);
-int			ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str);
+//int			ms_qbuffer(t_tmp **tmp, int index, int field_buff, const char *str);
+//int			ms_sbuffer(t_tmp **tmp, int index, int field_buff, const char *str);
+//int			ms_obuffer(t_tmp **tmp, int index, int field_buff, const char *str);
+//int			ms_ibuffer(t_tmp **tmp, int index, int field_buff, const char *str);
+int	ms_sbuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
+int	ms_qbuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
+int	ms_ibuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
+int	ms_obuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
 
 // ms_result.c
 t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst, char **env);

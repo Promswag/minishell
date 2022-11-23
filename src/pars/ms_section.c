@@ -106,7 +106,7 @@ t_section	*ms_section(char *buff, t_fdlst *fdlst)
 	int			nbr;
 
 	nbr = ms_nbr_section(buff);
-	section = malloc(sizeof(t_section) * (nbr + 1));
+	section = calloc(1, sizeof(t_section) * (nbr + 1));
 	section->fdlst = fdlst;
 	ms_word(buff, section);
 	ms_field(section, (nbr) + 1);

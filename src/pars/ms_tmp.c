@@ -58,24 +58,25 @@ int	ms_check_buffer(const char *str, int index)
 	return (0);
 }
 
-int	ms_buffer_ch(t_tmp **tmp, int index, int field_buff, const char *str)
+int	ms_buffer_ch(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env)
 {
-	if (field_buff == 0)
-		index = ms_sbuffer(tmp, index, field_buff, str);
-	else if (field_buff == 5 || field_buff == 6)
-		index = ms_qbuffer(tmp, index, field_buff, str);
-	else if (field_buff == 1 || field_buff == 3)
-		index = ms_ibuffer(tmp, index, field_buff, str);
-	else if (field_buff == 2 || field_buff == 4)
-		index = ms_obuffer(tmp, index, field_buff, str);
-	return (index);
+	if (ebuffer.y == 0)
+		ebuffer.x = ms_sbuffer(tmp, ebuffer, str, env);
+	else if (ebuffer.y == 5 || ebuffer.y == 6)
+		ebuffer.x = ms_qbuffer(tmp, ebuffer, str, env);
+	else if (ebuffer.y == 1 || ebuffer.y == 3)
+		ebuffer.x = ms_ibuffer(tmp, ebuffer, str, env);
+	else if (ebuffer.y == 2 || ebuffer.y == 4)
+		ebuffer.x = ms_obuffer(tmp, ebuffer, str, env);
+	return (ebuffer.x);
 }
 
-t_tmp	*ms_tmp(char *str)
+t_tmp	*ms_tmp(char *str, char **env)
 {
 	int		index;
 	t_tmp	*tmp;
 	int		field_buff;
+	t_ebuffer	ebuffer;
 
 	index = 0;
 	tmp = NULL;
@@ -86,7 +87,9 @@ t_tmp	*ms_tmp(char *str)
 		else
 		{
 			field_buff = ms_check_buffer(str, index);
-			index = ms_buffer_ch(&tmp, index, field_buff, str);
+			ebuffer.x = index;
+			ebuffer.y = field_buff;
+			index = ms_buffer_ch(&tmp, ebuffer, str, env);
 		}
 	}
 	return (tmp);

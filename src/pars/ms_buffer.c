@@ -18,12 +18,12 @@ int	ms_expend_index(const char *str, int index)
 
 	i = index;
 	if (str[index] == '?')
-		i += (int)ft_strlen(ft_itoa(g_exit_code));
-	else if (!(ft_isalpha(str[index]) || (str[index] == '_')))
+		i++;
+	else if (!(ft_isalnum(str[index])) && str[index] != '_')
 		return (i);
 	else
 	{
-		while (ft_isalpha(str[i]) || str[i] == '_')
+		while (ft_isalnum(str[i]) || str[i] == '_')
 			i++;
 	}
 	return (i);
@@ -38,10 +38,10 @@ char	*ms_expend_getname(const char *str, int index)
 	i = index;
 	if (str[index] == '?')
 		return (ft_itoa(g_exit_code));
-	else if (!(ft_isalpha(str[index]) || (str[index] == '_')))
+	else if (!(ft_isalnum(str[index])) && str[index] != '_')
 		return ("$");
 	length = 0;
-	while (ft_isalpha(str[i]) || str[i] == '_')
+	while (ft_isalnum(str[i]) || str[i] == '_')
 	{
 		i++;
 		length++;
@@ -49,7 +49,7 @@ char	*ms_expend_getname(const char *str, int index)
 	name = calloc(1, (length + 1) * sizeof(char));
 	i = index;
 	length = 0;
-	while (ft_isalpha(str[i]) || str[i] == '_')
+	while (ft_isalnum(str[i]) || str[i] == '_')
 	{
 		name[length] = str[i];
 		length++;
@@ -58,7 +58,7 @@ char	*ms_expend_getname(const char *str, int index)
 	return (name);
 }
 
-int	ms_expend_length(const char *str, int index)
+int	ms_expend_length(const char *str, int index, char **env)
 {
 	char	*name;
 	char	*chr;
@@ -68,41 +68,44 @@ int	ms_expend_length(const char *str, int index)
 	name = ms_expend_getname(str, index);
 	if (str[index] == '?')
 		chr = ft_itoa(g_exit_code);
-	else if (!(ft_isalpha(str[index]) || (str[index] == '_')))
+	else if (!(ft_isalnum(str[index])) && str[index] != '_')
 		return (1);
 	else
-		chr = getenv(name);
+		chr = ms_export_get_value(name, env);
 	if (!chr)
 		return (0);
 	while (chr[i])
 		i++;
 	return (i);
+
 }
 
-void	ms_expend_copy(char *cpy, const int *i, const char *str, int *end)
+void	ms_expend_copy(char *cpy, t_ebuffer *expend, const char *str, char **env)
 {
 	char	*name;
 	char	*chr;
 	int		index;
 
 	index = 0;
-	name = ms_expend_getname(str, *i);
-	if (str[*i] == '?')
-		chr = ft_itoa(g_exit_code);
-	else if (!(ft_isalpha(str[*i]) || (str[*i] == '_')))
+	name = ms_expend_getname(str, expend->x);
+	if (str[expend->x] == '?')
 	{
-		cpy[*end] = '$';
-		(*end)++;
+		chr = ft_itoa(g_exit_code);
+		g_exit_code = 0;
+	}
+	else if (!(ft_isalnum(str[expend->x])) && str[expend->x] != '_')
+	{
+		cpy[expend->y] = '$';
+		(expend->y)++;
 		return ;
 	}
 	else
-		chr = getenv(name);
-	if (!chr)
+		chr = ms_export_get_value(name, env);
+	if (!chr || !(chr[0]))
 		return ;
 	while (chr[index])
 	{
-		cpy[*end] = chr[index];
-		(*end)++;
-		index++;
+		cpy[expend->y] = chr[index++];
+		(expend->y)++;
 	}
 }

@@ -55,7 +55,7 @@ t_section	*ms_parsing(char *buff, char **env)
 	while (section[index].section)
 	{
 		tmp = NULL;
-		tmp = ms_tmp(section[index].section);
+		tmp = ms_tmp(section[index].section, env);
 		section[index].cmd = ms_result(tmp, &fdlst, env);
 		section->fdlst = fdlst;
 		index++;
