@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/28 14:58:06 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/21 12:45:50 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/22 13:02:59 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,5 @@ void	ms_export(t_command *cmd, char ***env)
 		while (cmd->args[++i])
 			err += ms_export_handler(cmd->args[i], env);
 	}
-	if (err)
-		exit(err);
-	exit(EXIT_SUCCESS);
+	g_exit_code = err;
 }

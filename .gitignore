@@ -17,3 +17,4 @@ test4
 test_pipe.c
 a.out
 src/pars/truc.c
+log.txt

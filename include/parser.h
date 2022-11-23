@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 13:15:29 by aho               #+#    #+#             */
-/*   Updated: 2022/11/22 11:33:58 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/23 16:13:30 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ typedef struct s_ebuffer	t_ebuffer;
 
 struct s_ebuffer
 {
-	int x;
-	int y;
+	int	x;
+	int	y;
 };
 
 struct s_quote
@@ -85,46 +85,67 @@ struct s_section
 	struct s_command	*cmd;
 };
 
-//	parsing.c
+//	pars/parsing.c
 t_section	*ms_parsing(char *buff, char **env);
 int			ms_errors(int cmd);
 void		ms_quote_checker(const char *buff, const int *j, \
 	int *squote1, int *dquote1);
 
-//	syntax.c
+//	pars/syntax.c
 int			ms_syntax_error(char const *buff);
 int			ms_not_covered(const char *buff);
 
-//	section_creation, section.c
+//	pars/section.c
 t_section	*ms_section(char *buff, t_fdlst *fdlst);
 int			ms_nbr_section(const char *buff);
 void		ms_word(const char *buff, t_section *section);
 void		ms_word_copy(char *buff, t_section *section);
 void		ms_field(t_section *section, int nbr);
 
-//	ms_list.c - ms_list2.c
+//	pars/ms_list.c
 int			ms_new(t_tmp **tmp, int field, char *str);
+
+//	pars/ms_list2.c
 t_fdlst		*ms_new_fdlst(int field, char *str);
 void		ms_fdlstadd_back(t_fdlst **lst, t_fdlst *new);
+
+//	pars/ms_list3.c
 int			ms_new3(t_tmp **tmp, int field, char *str, char *entry);
 
-//	ms_tmp.c
-t_tmp	*ms_tmp(char *str, char **env);
+
+//	pars/ms_tmp.c
+t_tmp		*ms_tmp(char *str, char **env);
 int			ms_check_buffer(const char *str, int index);
 
-// ms_buffer.c
+//	pars/ms_buffer.c
 int			ms_expend_index(const char *str, int index);
 int			ms_line_too_long(const char *str, t_quote quote);
-void		ms_expend_copy(char *cpy, t_ebuffer *expend, const char *str, char **env);
+void		ms_expend_copy(\
+	char *cpy, t_ebuffer *expend, const char *str, char **env);
 int			ms_expend_length(const char *str, int index, char **env);
 
-int			ms_sbuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
-int			ms_qbuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
-int			ms_ibuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
-int			ms_obuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
+//	pars/ms_sbuffer.c
+int			ms_sbuffer(\
+	t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
 
-// ms_result.c
+//	pars/ms_qbuffer.c
+int			ms_qbuffer(\
+	t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
+
+//	pars/ms_ibuffer.c
+int			ms_ibuffer(\
+	t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
+
+//	pars/ms_obuffer.c
+int			ms_obuffer(\
+	t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env);
+
+//	pars/ms_result.c
 t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst, char **env);
+
+//	pars/ms_print_pars.c
+void		ms_print_section(t_section *section);
+void		ms_print_pars(t_section *section);
 
 //	pars/ms_path_finder.c
 char		*ms_path_finder(char *name, char **env);

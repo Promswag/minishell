@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 14:34:55 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/18 16:25:20 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/22 13:08:43 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ t_shell	shell_init(int argc, char **argv, char **env)
 		write(STDERR_FILENO, " does not take arguments\n", 25);
 		exit(EXIT_FAILURE);
 	}
+	shell.stdin_backup = dup(STDIN_FILENO);
+	shell.stdout_backup = dup(STDOUT_FILENO);
 	shell_env(&shell, env);
 	tcgetattr(STDIN_FILENO, &shell.termios_backup);
 	tcgetattr(STDIN_FILENO, &shell.termios_config);

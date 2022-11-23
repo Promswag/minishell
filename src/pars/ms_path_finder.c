@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 10:11:25 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/22 11:30:58 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/23 13:38:04 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,18 @@ char	*ms_path_finder(char *name, char **env)
 	char	**path_split;
 	char	*path;
 
-	path_env = ms_export_get_value("PATH", env);
-	if (path_env == NULL)
-		return (NULL);
-	path_split = ft_split(path_env, ':');
-	path = ms_path_finder_generate(path_split, name);
-	ms_path_finder_destroy(path_split);
+	if (!access(name, F_OK))
+		path = ft_strdup(name);
+	else
+	{
+		path_env = ms_export_get_value("PATH", env);
+		if (path_env == NULL)
+			return (NULL);
+		path_split = ft_split(path_env, ':');
+		free(path_env);
+		path = ms_path_finder_generate(path_split, name);
+		ms_path_finder_destroy(path_split);
+	}
 	return (path);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:44:15 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/22 11:15:02 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/23 14:02:13 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,11 @@
 
 int		ms_fd_manager(t_fdlst *fdlst, t_shell *shell);
 void	ms_fd_close(t_fdlst *fdlst, t_shell *shell);
-// int		ms_fd_error(const char *str);
 
 int	ms_fd_manager(t_fdlst *fdlst, t_shell *shell)
 {
 	t_fdlst	*tmp;
 
-	shell->stdin_backup = dup(STDIN_FILENO);
 	tmp = fdlst;
 	while (tmp && g_exit_code != -1)
 	{
@@ -49,23 +47,20 @@ int	ms_fd_manager(t_fdlst *fdlst, t_shell *shell)
 
 void	ms_fd_close(t_fdlst *fdlst, t_shell *shell)
 {
+	t_fdlst	*cur;
+
 	dup2(shell->stdin_backup, STDIN_FILENO);
-	(void)shell;
+	dup2(shell->stdout_backup, STDOUT_FILENO);
 	while (fdlst)
 	{
-		close(fdlst->fd);
+		cur = fdlst;
 		fdlst = fdlst->next;
+		close(cur->fd);
+		if (cur->entry)
+			free(cur->entry);
+		if (cur->path)
+			free(cur->path);
+		*cur = (t_fdlst){0, 0, 0, 0, 0};
+		free(cur);
 	}
 }
-
-// int	ms_fd_error(const char *str)
-// {
-// 	write(STDERR_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
-// 	write(STDERR_FILENO, ": ", 2);
-// 	write(STDERR_FILENO, str, ft_strlen(str));
-// 	write(STDERR_FILENO, ": ", 2);
-// 	write(STDERR_FILENO, strerror(errno), ft_strlen(strerror(errno)));
-// 	write(STDERR_FILENO, "\n", 1);
-// 	g_exit_code = 1;
-// 	return (1);
-// }
