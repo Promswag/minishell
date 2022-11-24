@@ -6,13 +6,12 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:40:16 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/23 19:24:02 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/24 13:43:06 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "ms_fd_manager.h"
-#include <fcntl.h>
 #include <sys/ioctl.h>
 
 int		ms_heredoc_handler(t_fdlst *fdlst, char **env);

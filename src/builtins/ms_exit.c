@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:04:10 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 12:58:06 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/24 14:57:40 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ static int	ms_exit_error(char *str)
 
 static void	ms_exit_clean(t_section *section, t_shell *shell)
 {
-	ms_fd_close(section->fdlst, shell);
+	if (section)
+		ms_fd_close(section->fdlst, shell);
 	ms_section_destroy(section);
 	ms_shell_restore(shell);
 }

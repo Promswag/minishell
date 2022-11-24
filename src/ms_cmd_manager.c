@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 12:54:06 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/24 14:38:55 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	ms_command_manager(t_section *section, t_shell *shell)
 	int			status;
 
 	status = 0;
+	pid = 0;
 	pfd = (t_pipe){-1, -1, -1, -1};
 	while (section && section->section)
 	{
@@ -40,13 +41,11 @@ int	ms_command_manager(t_section *section, t_shell *shell)
 			close(pfd.cur_r);
 		pfd = (t_pipe){.prev_r = pfd.cur_r, .prev_w = pfd.cur_w, -1, -1};
 		section++;
-		waitpid(pid, &status, WNOHANG);
-		g_exit_code = WEXITSTATUS(status);
 	}
-	return (0);
+	return (pid);
 }
 
-int	ms_cmd_fork(int *pid, t_section *sec, t_shell *shell, t_pipe pfd)
+static int	ms_cmd_fork(int *pid, t_section *sec, t_shell *shell, t_pipe pfd)
 {
 	*pid = fork();
 	if (*pid == -1)
