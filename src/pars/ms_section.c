@@ -106,7 +106,6 @@ t_section	*ms_section(char *buff)
 	int			nbr;
 
 	nbr = ms_nbr_section(buff);
-	printf("nbr = %d\n", nbr);
 	section = calloc(1, sizeof(t_section) * (nbr + 1));
 	section[nbr].section = NULL;
 	ms_word(buff, section);

@@ -103,7 +103,6 @@ int	ms_ibuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env)
 	t_quote	quote;
 	char	*cpy;
 	char	*entry;
-	int		result;
 
 	quote.segment = 0;
 	quote.squote = 0;
@@ -121,8 +120,8 @@ int	ms_ibuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env)
 		ebuffer.y = 12;
 	ms_count_buffer(&(ebuffer.x), &quote, str, env);
 	cpy = calloc(1, sizeof(char) * (quote.segment + 1));
-	result = ebuffer.x;
+	quote.chr = ebuffer.x;
 	ms_add_buffer(quote, str, cpy, env);
 	ms_new3(tmp, ebuffer.y, cpy, entry);
-	return (result);
+	return (quote.chr);
 }

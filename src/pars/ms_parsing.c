@@ -40,15 +40,6 @@ void	ms_quote_checker(const char *buff, const int *j,
 	*dquote1 = dquote;
 }
 
-void ms_print_pa(t_tmp *tmp)
-{
-	while (tmp)
-	{
-		printf("parsing = %s\n", tmp->str);
-		tmp = tmp->next;
-	}
-}
-
 t_section	*ms_parsing(char *buff, char **env)
 {
 	t_section	*section;
@@ -65,7 +56,6 @@ t_section	*ms_parsing(char *buff, char **env)
 	{
 		tmp = NULL;
 		tmp = ms_tmp(section[index].section, env);
-		ms_print_pa(tmp);
 		section[index].cmd = ms_result(tmp, &fdlst, env);
 		section->fdlst = fdlst;
 		index++;
