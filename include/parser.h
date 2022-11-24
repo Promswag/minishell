@@ -50,6 +50,7 @@ struct s_ebuffer
 {
 	int	x;
 	int	y;
+	int	*trigger;
 };
 
 struct s_quote
@@ -59,6 +60,7 @@ struct s_quote
 	int	dquote;
 	int	segment;
 	int	chr;
+	int	*trigger;
 };
 
 struct s_tmp
@@ -114,7 +116,7 @@ int			ms_new3(t_tmp **tmp, int field, char *str, char *entry);
 
 
 //	pars/ms_tmp.c
-t_tmp		*ms_tmp(char *str, char **env);
+t_tmp		*ms_tmp(char *str, char **env, int *trigger);
 int			ms_check_buffer(const char *str, int index);
 
 //	pars/ms_buffer.c
@@ -122,7 +124,7 @@ int			ms_expend_index(const char *str, int index);
 int			ms_line_too_long(const char *str, t_quote quote);
 void		ms_expend_copy(\
 	char *cpy, t_ebuffer *expend, const char *str, char **env);
-int			ms_expend_length(const char *str, int index, char **env);
+int			ms_expend_length(const char *str, int index, char **env, t_quote *quote);
 
 //	pars/ms_sbuffer.c
 int			ms_sbuffer(\

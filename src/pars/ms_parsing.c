@@ -46,8 +46,10 @@ t_section	*ms_parsing(char *buff, char **env)
 	t_tmp		*tmp;
 	t_fdlst		*fdlst;
 	int			index;
+	int			trigger;
 
 	index = 0;
+	trigger = 0;
 	fdlst = NULL;
 	if (!(ms_syntax_error(buff)))
 		return (NULL);
@@ -55,7 +57,9 @@ t_section	*ms_parsing(char *buff, char **env)
 	while (section[index].section)
 	{
 		tmp = NULL;
-		tmp = ms_tmp(section[index].section, env);
+		if (trigger)
+			g_exit_code = 0;
+		tmp = ms_tmp(section[index].section, env, &trigger);
 		section[index].cmd = ms_result(tmp, &fdlst, env);
 		section->fdlst = fdlst;
 		index++;

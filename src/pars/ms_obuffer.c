@@ -83,7 +83,7 @@ static void	ms_count_buffer(int *index, t_quote *quote,
 		if (str[*index] == 36 && quote->squote == 0)
 		{
 			(*index)++;
-			quote->segment += ms_expend_length(str, *index, env);
+			quote->segment += ms_expend_length(str, *index, env, quote);
 			*index = ms_expend_index(str, *index);
 		}
 		else if ((str[*index] != 39 && str[*index] != 34)
@@ -108,6 +108,7 @@ int	ms_obuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env)
 	quote.segment = 0;
 	quote.squote = 0;
 	quote.dquote = 0;
+	quote.trigger = ebuffer.trigger;
 	entry = NULL;
 	if (ft_isdigit(str[ebuffer.x]))
 	{
