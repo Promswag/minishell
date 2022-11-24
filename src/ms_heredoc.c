@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:40:16 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 13:43:06 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:39:46 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,26 @@
 #include "ms_fd_manager.h"
 #include <sys/ioctl.h>
 
-int		ms_heredoc_handler(t_fdlst *fdlst, char **env);
+int		ms_heredoc_handler(t_fdlst *fdlst, t_shell *shell);
 int		ms_heredoc_read_stdin(t_fdlst *fdlst, char **str);
 t_list	*ms_heredoc_expand_lst(char *str, char **env);
 void	ms_heredoc_if_handler(t_list **lst, char *str, int *i, char **env);
 void	ms_heredoc_expand_str(t_list *lst, char **str);
 
-int	ms_heredoc_handler(t_fdlst *fdlst, char **env)
+int	ms_heredoc_handler(t_fdlst *fdlst, t_shell *shell)
 {
 	char	*str;
 	long	pipefd;
 	t_list	*lst;
 
+	ms_signal_setup(2);
 	lst = NULL;
 	str = ft_calloc(1, 1);
 	if (!str || pipe((int *)&pipefd) || ms_heredoc_read_stdin(fdlst, &str))
 		return (1);
 	if (fdlst->type == HEREDOC)
 	{
-		lst = ms_heredoc_expand_lst(str, env);
+		lst = ms_heredoc_expand_lst(str, shell->env);
 		ms_heredoc_expand_str(lst, &str);
 		ms_heredoc_clear_lst(&lst);
 	}
@@ -41,30 +42,54 @@ int	ms_heredoc_handler(t_fdlst *fdlst, char **env)
 	free(str);
 	close(pipefd >> 32);
 	fdlst->fd = (int)pipefd;
+	ms_signal_setup(1);
 	return (0);
 }
 
 int	ms_heredoc_read_stdin(t_fdlst *fdlst, char **str)
 {
-	char	*buf;
+	// char	*buf;
+	// t_list	*lst;
+
+	// lst = NULL;
+	// while (1)
+	// {
+	// 	buf = readline("🐐 ");
+	// 	if (!buf)
+	// 		break ;
+	// 	if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path) + 1))
+	// 	{
+	// 		free(buf);
+	// 		break ;
+	// 	}
+	// 	ft_lstadd_back(&lst, ft_lstnew(buf));
+	// 	ft_lstadd_back(&lst, ft_lstnew(ft_strdup("\n")));
+	// }
+	// ms_heredoc_expand_str(lst, str);
+	// ms_heredoc_clear_lst(&lst);
+	// return (0);
+
+	char	buf[1024];
+	char	*tmp;
 	t_list	*lst;
+	int		r;
 
 	lst = NULL;
-	while (1)
+	r = 1;
+	while (r)
 	{
-		buf = readline("🐐 ");
-		if (!buf)
+		ft_putstr_fd("🐐 ", 1);
+		r = read(0, buf, sizeof(buf) - sizeof(char));
+		if (r < 0)
+			return (0);
+		buf[r] = 0;
+		if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path)) \
+			 && buf[ft_strlen(fdlst->path)] == '\n')
 			break ;
-		if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path) + 1))
-		{
-			free(buf);
-			break ;
-		}
-		ft_lstadd_back(&lst, ft_lstnew(buf));
-		ft_lstadd_back(&lst, ft_lstnew(ft_strdup("\n")));
+		tmp = *str;
+		*str = ft_strjoin(*str, buf);
+		free(tmp);
 	}
-	ms_heredoc_expand_str(lst, str);
-	ms_heredoc_clear_lst(&lst);
 	return (0);
 }
 

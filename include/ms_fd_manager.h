@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:46:18 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/23 17:17:36 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/24 17:30:14 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void		ms_fd_close(t_fdlst *fdlst, t_shell *shell);
 int			ms_fd_error(const char *str);
 
 //	ms_heredoc.c
-int			ms_heredoc_handler(t_fdlst *fdlst, char **env);
+int			ms_heredoc_handler(t_fdlst *fdlst, t_shell *shell);
 int			ms_heredoc_read_stdin(t_fdlst *fdlst, char **str);
 t_list		*ms_heredoc_expand_lst(char *str, char **env);
 void		ms_heredoc_if_handler(t_list **lst, char *str, int *i, char **env);

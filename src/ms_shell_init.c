@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 14:34:55 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 12:48:31 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:39:10 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,16 @@ void	ms_shell_restore(t_shell *shell)
 
 	i = -1;
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell->termios_backup);
+	close(shell->stdin_backup);
+	close(shell->stdout_backup);
 	if (shell->env)
 	{
 		while (shell->env && shell->env[++i])
 			free(shell->env[i]);
 		free(shell->env);
 	}
+	sigaction(SIGINT, &shell->signal_backup, NULL);
+	sigaction(SIGQUIT, &shell->signal_backup, NULL);
 }
 
 t_shell	ms_shell_init(int argc, char **argv, char **env)
@@ -51,12 +55,14 @@ t_shell	ms_shell_init(int argc, char **argv, char **env)
 		write(STDERR_FILENO, " does not take arguments\n", 25);
 		exit(EXIT_FAILURE);
 	}
+	sigaction(SIGINT, NULL, &shell.signal_backup);
+	sigaction(SIGQUIT, NULL, &shell.signal_backup);
 	shell.stdin_backup = dup(STDIN_FILENO);
 	shell.stdout_backup = dup(STDOUT_FILENO);
-	ms_shell_env(&shell, env);
 	tcgetattr(STDIN_FILENO, &shell.termios_backup);
 	tcgetattr(STDIN_FILENO, &shell.termios_config);
 	shell.termios_config.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell.termios_config);
+	ms_shell_env(&shell, env);
 	return (shell);
 }

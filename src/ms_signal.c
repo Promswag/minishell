@@ -6,50 +6,63 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:28:22 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 12:48:14 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:42:53 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <signal.h>
 
-static void	ms_signal_handler(int signum)
+static void	ms_signal_readline(int signum)
 {
 	if (signum == SIGINT)
 	{
-		ft_putstr_fd("\n", 1);
-		rl_on_new_line();
+		write(STDOUT_FILENO, "\n", 1);
 		rl_replace_line("", 0);
+		rl_on_new_line();
 		rl_redisplay();
 	}
-	else if (signum == SIGQUIT)
-		rl_redisplay();
 }
 
-static void	ms_signal_handler_heredoc(int signum)
+static void	ms_signal_fork(int signum)
 {
 	if (signum == SIGINT)
 	{
-		write(STDIN_FILENO, "\n", 1);
+		write(STDOUT_FILENO, "\n", 1);
+		rl_redisplay();
+		rl_on_new_line();
+		rl_replace_line("", 0);
+	}
+	else if (signum == SIGQUIT)
+		write(STDOUT_FILENO, "Quit: 3\n", 8);
+}
+
+static void	ms_signal_heredoc(int signum)
+{
+	if (signum == SIGINT)
+	{
+		write(STDOUT_FILENO, "\n", 1);
 		close(STDIN_FILENO);
 		g_exit_code = -1;
 	}
-	if (signum == SIGQUIT)
+	else if (signum == SIGQUIT)
 		return ;
 }
 
-void	ms_signal_setup(t_shell *shell)
+void	ms_signal_setup(int status)
 {
-	struct sigaction	sa;
-
-	sa.sa_handler = &ms_signal_handler;
-	sigaction(SIGINT, &sa, &shell->signal_backup);
-	sigaction(SIGQUIT, &sa, &shell->signal_backup);
-}
-
-void	ms_signal_restore(t_shell *shell)
-{
-	(void)shell;
-	signal(SIGINT, &ms_signal_handler_heredoc);
-	signal(SIGQUIT, &ms_signal_handler_heredoc);
+	if (status == 0)
+	{
+		signal(SIGINT, ms_signal_readline);
+		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (status == 1)
+	{
+		signal(SIGINT, ms_signal_fork);
+		signal(SIGQUIT, ms_signal_fork);
+	}
+	else if (status == 2)
+	{
+		signal(SIGINT, ms_signal_heredoc);
+		signal(SIGQUIT, ms_signal_heredoc);
+	}
 }

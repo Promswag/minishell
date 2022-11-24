@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 13:15:29 by aho               #+#    #+#             */
-/*   Updated: 2022/11/23 16:13:30 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/24 15:13:58 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ struct s_ebuffer
 {
 	int	x;
 	int	y;
+	int	*trigger;
 };
 
 struct s_quote
@@ -59,13 +60,13 @@ struct s_quote
 	int	dquote;
 	int	segment;
 	int	chr;
+	int	*trigger;
 };
 
 struct s_tmp
 {
 	int		field;
 	char	*str;
-	char	*entry;
 	t_tmp	*next;
 };
 
@@ -109,12 +110,8 @@ int			ms_new(t_tmp **tmp, int field, char *str);
 t_fdlst		*ms_new_fdlst(int field, char *str);
 void		ms_fdlstadd_back(t_fdlst **lst, t_fdlst *new);
 
-//	pars/ms_list3.c
-int			ms_new3(t_tmp **tmp, int field, char *str, char *entry);
-
-
 //	pars/ms_tmp.c
-t_tmp		*ms_tmp(char *str, char **env);
+t_tmp		*ms_tmp(char *str, char **env, int *trigger);
 int			ms_check_buffer(const char *str, int index);
 
 //	pars/ms_buffer.c
@@ -122,7 +119,8 @@ int			ms_expend_index(const char *str, int index);
 int			ms_line_too_long(const char *str, t_quote quote);
 void		ms_expend_copy(\
 	char *cpy, t_ebuffer *expend, const char *str, char **env);
-int			ms_expend_length(const char *str, int index, char **env);
+int			ms_expend_length(\
+	const char *str, int index, char **env, t_quote *quote);
 
 //	pars/ms_sbuffer.c
 int			ms_sbuffer(\
@@ -142,10 +140,6 @@ int			ms_obuffer(\
 
 //	pars/ms_result.c
 t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst, char **env);
-
-//	pars/ms_print_pars.c
-void		ms_print_section(t_section *section);
-void		ms_print_pars(t_section *section);
 
 //	pars/ms_path_finder.c
 char		*ms_path_finder(char *name, char **env);

@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/11/24 13:17:25 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/11/24 15:17:02 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,8 @@ INC_DIR			= ./include/
 SRC_DIR			= ./src/
 OUT_DIR			= ./obj/
 
-SRC				= 	ms_error.c \
+SRC				= 	main.c \
+					ms_error.c \
 					ms_shell_init.c \
 					ms_signal.c \
 					ms_cmd_manager.c \
@@ -44,16 +45,7 @@ SRC				= 	ms_error.c \
 					pars/ms_sbuffer.c \
 					pars/ms_result.c \
 					pars/ms_list2.c \
-					pars/ms_list3.c \
 					pars/ms_syntax_utils.c \
-
-SRC 			+=	main.c
-# SRC 			+=	ms_debug.c
-# SRC			+=  ms_print_pars.c
-# SRC 			+=	test/main_local.c
-# SRC 			+=	test/test_pipe.c
-# SRC 			+=	test/test_heredoc.c
-#  SRC			+=  pars/truc.c
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}

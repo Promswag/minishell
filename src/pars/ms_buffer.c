@@ -58,7 +58,7 @@ char	*ms_expend_getname(const char *str, int index)
 	return (name);
 }
 
-int	ms_expend_length(const char *str, int index, char **env)
+int	ms_expend_length(const char *str, int index, char **env, t_quote *quote)
 {
 	char	*name;
 	char	*chr;
@@ -67,7 +67,10 @@ int	ms_expend_length(const char *str, int index, char **env)
 	i = 0;
 	name = ms_expend_getname(str, index);
 	if (str[index] == '?')
+	{
 		chr = ft_itoa(g_exit_code);
+		*(quote->trigger) = 1;
+	}
 	else if (!(ft_isalnum(str[index])) && str[index] != '_')
 		return (1);
 	else
@@ -89,10 +92,7 @@ void	ms_expend_copy(char *cpy, t_ebuffer *expend,
 	index = 0;
 	name = ms_expend_getname(str, expend->x);
 	if (str[expend->x] == '?')
-	{
 		chr = ft_itoa(g_exit_code);
-		g_exit_code = 0;
-	}
 	else if (!(ft_isalnum(str[expend->x])) && str[expend->x] != '_')
 	{
 		cpy[(expend->y)++] = '$';

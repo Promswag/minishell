@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 14:57:44 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:39:30 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <errno.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 # include "parser.h"
 # include "ms_fd_manager.h"
 
@@ -95,12 +96,6 @@ t_shell			ms_shell_init(int argc, char **argv, char **env);
 void			ms_shell_restore(t_shell *shell);
 
 //	ms_signal.c
-void			ms_signal_setup(t_shell *shell);
-void			ms_signal_restore(t_shell *shell);
-
-//DEBUG
-void			ms_debug_print_section(t_section *section);
-void			ms_debug_print_fdlst(t_fdlst *fdlst);
-//DEBUG
+void			ms_signal_setup(int status);
 
 #endif

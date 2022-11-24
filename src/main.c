@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:09:44 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 14:56:17 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/24 18:43:58 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,20 +49,15 @@ void	ms_buffer_handler(pid_t *pid, char *buf, t_shell *shell)
 	if (*buf)
 	{
 		add_history(buf);
-		printf("1 -> %d\n", g_exit_code);
 		section = ms_parsing(buf, shell->env);
-		printf("2 -> %d\n", g_exit_code);
 		if (section && \
 			!ms_fd_manager(section->fdlst, shell) && g_exit_code != -1)
 		{
 			*pid = ms_command_manager(section, shell);
-			printf("3 -> %d\n", g_exit_code);
 		}
 		if (section)
 			ms_fd_close(section->fdlst, shell);
-		printf("4 -> %d\n", g_exit_code);
 		ms_section_destroy(section);
-		printf("5 -> %d\n", g_exit_code);
 	}
 	free(buf);
 }
@@ -98,12 +93,11 @@ int	main(int argc, char **argv, char **envp)
 	pid = 0;
 	while (1)
 	{
+		ms_signal_setup(0);
 		ms_exit_code_getter(&pid);
 		while (waitpid(0, 0, 0) != -1)
 			;
-		ms_signal_setup(&shell);
 		buf = readline(SHELL_NAME "> ");
-		ms_signal_restore(&shell);
 		if (!buf)
 			ms_stop(&shell);
 		else

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:44:15 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 11:46:01 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/24 17:26:14 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ms_fd_manager(t_fdlst *fdlst, t_shell *shell)
 	while (tmp && g_exit_code != -1)
 	{
 		if (tmp->type == HEREDOC || tmp->type == HEREDOC_QUOTED)
-			if (ms_heredoc_handler(tmp, shell->env))
+			if (ms_heredoc_handler(tmp, shell))
 				return (ms_error("heredoc"));
 		tmp = tmp->next;
 	}
