@@ -67,6 +67,15 @@ void	ms_result_fd(t_command **result, t_tmp *tmp, t_fdlst **fdlst)
 	}
 }
 
+void ms_print(t_tmp *tmp)
+{
+	while (tmp)
+	{
+		printf("result = %s\n", tmp->str);
+		tmp = tmp->next;
+	}
+}
+
 t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst, char **env)
 {
 	t_command	*result;
@@ -75,11 +84,15 @@ t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst, char **env)
 	result = malloc(sizeof(t_command));
 	result->fd_in = NULL;
 	result->fd_out = NULL;
+	ms_print(tmp);
 	index = ms_result_init_arg(tmp);
 	result->args = malloc(sizeof(char *) * (index + 1));
 	result->args[index] = NULL;
+	ms_print(tmp);
 	ms_result_adress(tmp, result);
+	ms_print(tmp);
 	ms_result_fd(&result, tmp, fdlst);
+	ms_print(tmp);
 	result->path = NULL;
 	if (result->args[0] && ms_cmd_is_builtins(result))
 		result->path = ms_path_finder(result->args[0], env);

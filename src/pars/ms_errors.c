@@ -21,5 +21,6 @@ int	ms_errors(int cmd)
 		write(2, "use of tokens prohibited\n", 26);
 	if (cmd == 3)
 		write(2, "syntax error\n", 14);
+	g_exit_code = 258;
 	return (0);
 }

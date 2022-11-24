@@ -96,7 +96,7 @@ int			ms_syntax_error(char const *buff);
 int			ms_not_covered(const char *buff);
 
 //	pars/section.c
-t_section	*ms_section(char *buff, t_fdlst *fdlst);
+t_section	*ms_section(char *buff);
 int			ms_nbr_section(const char *buff);
 void		ms_word(const char *buff, t_section *section);
 void		ms_word_copy(char *buff, t_section *section);
