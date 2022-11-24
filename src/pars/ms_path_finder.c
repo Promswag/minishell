@@ -27,12 +27,10 @@ char	*ms_path_finder(char *name, char **env)
 		path = ft_strdup(name);
 	else
 	{
-
 		path_env = ms_export_get_value("PATH", env);
-		if (path_env == NULL)
-			return (NULL);
 		path_split = ft_split(path_env, ':');
-		free(path_env);
+		if (path_env)
+			free(path_env);
 		path = ms_path_finder_generate(path_split, name);
 		ms_path_finder_destroy(path_split);
 	}
@@ -54,7 +52,8 @@ static char	*ms_path_finder_generate(char **arr, char *name)
 		free(path);
 		arr++;
 	}
-	ms_path_invalid(name);
+	if (ms_cmd_is_builtins(&(t_command){0, (char *[]){name, 0}, 0, 0}) == -1)
+		ms_path_invalid(name);
 	return (NULL);
 }
 
