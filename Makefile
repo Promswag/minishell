@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/11/24 11:10:35 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/11/24 13:02:26 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRC				= 	ms_error.c \
 					ms_shell_init.c \
 					ms_signal.c \
 					ms_cmd_manager.c \
+					ms_cmd_manager_utils.c \
 					ms_fd_manager.c \
 					ms_heredoc.c \
 					ms_heredoc_utils.c \
@@ -46,10 +47,10 @@ SRC				= 	ms_error.c \
 					pars/ms_list3.c \
 					pars/ms_syntax_utils.c \
 
-# SRC 			+=	main.c
+SRC 			+=	main.c
 # SRC 			+=	ms_debug.c
 # SRC			+=  ms_print_pars.c
-SRC 			+=	test/main_local.c
+# SRC 			+=	test/main_local.c
 # SRC 			+=	test/test_pipe.c
 # SRC 			+=	test/test_heredoc.c
 #  SRC			+=  pars/truc.c
@@ -64,7 +65,7 @@ READLINE_INC	= -I/Users/${USER}/.brew/opt/readline/include
 
 CC				= gcc
 CFLAGS			= -g -Wall -Wextra
-# CFLAGS			+= -Werror
+CFLAGS			+= -Werror
 # CFLAGS			+= -fsanitize=address
 MKDIR			= mkdir -p
 RM				= rm -rf

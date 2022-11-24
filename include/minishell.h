@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/22 13:53:29 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/24 12:54:36 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ struct s_pipe
 	int	cur_w;
 };
 
+//	main.c
+void			ms_section_destroy(t_section *section);
+
 //	builtins/ms_cd.c
 void			ms_cd(t_command *cmd, char ***env);
 
@@ -58,7 +61,7 @@ void			ms_cd(t_command *cmd, char ***env);
 void			ms_echo(t_command *cmd, char ***env);
 
 //	builtins/ms_exit.c
-void			ms_exit(t_command *cmd, char ***env);
+void			ms_exit(t_section *section, t_shell *shell);
 
 //	builtins/ms_export.c
 void			ms_export(t_command *cmd, char ***env);
@@ -80,17 +83,20 @@ void			ms_unset(t_command *cmd, char ***env);
 int				ms_command_manager(t_section *section, t_shell *shell);
 int				ms_cmd_is_builtins(t_command *cmd);
 
+//	ms_cmd_manager_utils.c
+void			ms_cmd_setup_fd(t_section *section, t_pipe pfd);
+
 //	ms_error.c
 int				ms_error(const char *str);
 int				ms_error_s(const char *s1, const char *s2);
 
 //	ms_shell_init.c
-t_shell			shell_init(int argc, char **argv, char **env);
-void			shell_restore(t_shell *shell);
+t_shell			ms_shell_init(int argc, char **argv, char **env);
+void			ms_shell_restore(t_shell *shell);
 
 //	ms_signal.c
-void			signal_setup(t_shell *shell);
-void			signal_restore(t_shell *shell);
+void			ms_signal_setup(t_shell *shell);
+void			ms_signal_restore(t_shell *shell);
 
 //DEBUG
 void			ms_debug_print_section(t_section *section);

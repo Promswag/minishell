@@ -6,13 +6,13 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 14:34:55 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/22 13:08:43 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/24 12:48:31 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	shell_env(t_shell *shell, char **env)
+static void	ms_shell_env(t_shell *shell, char **env)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ static void	shell_env(t_shell *shell, char **env)
 	shell->env[i] = 0;
 }
 
-void	shell_restore(t_shell *shell)
+void	ms_shell_restore(t_shell *shell)
 {
 	int	i;
 
@@ -40,7 +40,7 @@ void	shell_restore(t_shell *shell)
 	}
 }
 
-t_shell	shell_init(int argc, char **argv, char **env)
+t_shell	ms_shell_init(int argc, char **argv, char **env)
 {
 	t_shell	shell;
 
@@ -53,7 +53,7 @@ t_shell	shell_init(int argc, char **argv, char **env)
 	}
 	shell.stdin_backup = dup(STDIN_FILENO);
 	shell.stdout_backup = dup(STDOUT_FILENO);
-	shell_env(&shell, env);
+	ms_shell_env(&shell, env);
 	tcgetattr(STDIN_FILENO, &shell.termios_backup);
 	tcgetattr(STDIN_FILENO, &shell.termios_config);
 	shell.termios_config.c_lflag &= ~ECHOCTL;
