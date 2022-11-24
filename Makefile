@@ -43,7 +43,6 @@ SRC				= 	ms_error.c \
 					pars/ms_sbuffer.c \
 					pars/ms_result.c \
 					pars/ms_list2.c \
-					pars/ms_list3.c \
 					pars/ms_syntax_utils.c \
 
 # SRC 			+=	main.c
