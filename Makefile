@@ -6,7 +6,7 @@
 #    By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/21 12:09:04 by gbaumgar          #+#    #+#              #
-#    Updated: 2022/11/23 18:21:13 by gbaumgar         ###   ########.fr        #
+#    Updated: 2022/11/24 11:10:35 by gbaumgar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,7 @@ SRC				= 	ms_error.c \
 SRC 			+=	test/main_local.c
 # SRC 			+=	test/test_pipe.c
 # SRC 			+=	test/test_heredoc.c
-# SRC			+=  pars/truc.c
+#  SRC			+=  pars/truc.c
 
 SRCC			= ${addprefix ${SRC_DIR}, ${SRC}}
 OBJS			= ${SRCC:%.c=${OUT_DIR}%.o}

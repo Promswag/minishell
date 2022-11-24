@@ -27,6 +27,7 @@ char	*ms_path_finder(char *name, char **env)
 		path = ft_strdup(name);
 	else
 	{
+
 		path_env = ms_export_get_value("PATH", env);
 		if (path_env == NULL)
 			return (NULL);

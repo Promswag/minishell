@@ -100,14 +100,14 @@ void	ms_field(t_section *section, int nbr)
 	}
 }
 
-t_section	*ms_section(char *buff, t_fdlst *fdlst)
+t_section	*ms_section(char *buff)
 {
 	t_section	*section;
 	int			nbr;
 
 	nbr = ms_nbr_section(buff);
 	section = calloc(1, sizeof(t_section) * (nbr + 1));
-	section->fdlst = fdlst;
+	section[nbr].section = NULL;
 	ms_word(buff, section);
 	ms_field(section, (nbr) + 1);
 	ms_word_copy(buff, section);
