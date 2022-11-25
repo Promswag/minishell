@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 10:11:25 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 13:13:33 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 14:12:21 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,18 @@ char	*ms_path_finder(char *name, char **env)
 	char	**path_split;
 	char	*path;
 
-	if (!access(name, F_OK))
+	path_env = ms_export_get_value("PATH", env);
+	path_split = ft_split(path_env, ':');
+	if (path_env)
+		free(path_env);
+	path = ms_path_finder_generate(path_split, name);
+	ms_path_finder_destroy(path_split);
+	if (!path)
 		path = ft_strdup(name);
-	else
-	{
-		path_env = ms_export_get_value("PATH", env);
-		path_split = ft_split(path_env, ':');
-		if (path_env)
-			free(path_env);
-		path = ms_path_finder_generate(path_split, name);
-		ms_path_finder_destroy(path_split);
-	}
+	if (access(path, F_OK))
+		if (ms_cmd_is_builtins(\
+			&(t_command){0, (char *[]){name, 0}, 0, 0}) == -1)
+			ms_path_invalid(name);
 	return (path);
 }
 
@@ -52,8 +53,6 @@ static char	*ms_path_finder_generate(char **arr, char *name)
 		free(path);
 		arr++;
 	}
-	if (ms_cmd_is_builtins(&(t_command){0, (char *[]){name, 0}, 0, 0}) == -1)
-		ms_path_invalid(name);
 	return (ft_strdup(name));
 }
 
