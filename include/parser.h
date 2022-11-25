@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 13:15:29 by aho               #+#    #+#             */
-/*   Updated: 2022/11/24 15:13:58 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:50:41 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,21 +24,6 @@
 # include "ms_fd_manager.h"
 
 # define SHELL_NAME "minishell"
-
-/* 0 == str
- * 1 == < 60
- * 2 == > 62
- * 3 == <<
- * 4 == >>
- * 5 == ' 39
- * 6 == " 34
- * 7 == | 124
- * 8 == && (28 &)
- * 9 == ||
- * 10 == * 42
- * 11 == $ 36
- * 12 == heredoc quoted;
-*/
 
 typedef struct s_quote		t_quote;
 typedef struct s_section	t_section;

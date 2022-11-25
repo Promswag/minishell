@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 13:18:26 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:51:56 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,9 @@ typedef void				(*t_builtins)(t_command *, char ***);
 
 struct	s_g
 {
-	int	exitcode;
-	int	pid[MAX_FORK];
+	int		exitcode;
+	int		pid[MAX_FORK];
+	int		status;
 };
 
 struct	s_shell
@@ -61,7 +62,6 @@ struct s_pipe
 };
 
 //	main.c
-void			ms_section_destroy(t_section *section);
 void			ms_section_destroy(t_section *section);
 
 //	builtins/ms_cd.c
@@ -103,6 +103,7 @@ int				ms_error_s(const char *s1, const char *s2);
 //	ms_shell_init.c
 t_shell			ms_shell_init(int argc, char **argv, char **env);
 void			ms_shell_reset(t_shell *shell);
+void			ms_shell_state(t_shell *shell, int state);
 void			ms_shell_restore(t_shell *shell);
 
 //	ms_signal.c

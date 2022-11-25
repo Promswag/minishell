@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:09:44 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 13:24:35 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:54:39 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,16 +99,15 @@ int	main(int argc, char **argv, char **envp)
 	{
 		ms_signal_setup(1);
 		ms_exit_code_getter(&pid);
+		ms_shell_state(&shell, 1);
 		while (waitpid(0, 0, 0) != -1)
 			;
+		g_g.status = 0;
 		ms_signal_setup(0);
-		ms_shell_reset(&shell);
 		buf = readline(SHELL_NAME "> ");
 		if (!buf)
 			ms_stop(&shell);
 		else
 			ms_buffer_handler(&pid, buf, &shell);
 	}
-	ms_shell_restore(&shell);
-	return (0);
 }

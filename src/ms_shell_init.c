@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 14:34:55 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 12:31:10 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:54:17 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,14 @@ void	ms_shell_reset(t_shell *shell)
 	i = -1;
 	while (++i < MAX_FORK)
 		g_g.pid[i] = 0;
+}
+
+void	ms_shell_state(t_shell *shell, int state)
+{
+	if (state == 0)
+		tcsetattr(STDIN_FILENO, TCSANOW, &shell->termios_backup);
+	else if (state == 1)
+		tcsetattr(STDIN_FILENO, TCSANOW, &shell->termios_config);
 }
 
 void	ms_shell_restore(t_shell *shell)

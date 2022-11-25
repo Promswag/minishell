@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:28:22 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 11:46:17 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 17:56:45 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,12 @@ static void	ms_signal_readline(int signum)
 
 static void	ms_signal_fork(int signum)
 {	
-	int	i;
-
-	if (signum == SIGINT)
-		write(STDOUT_FILENO, "\n", 1);
-	else if (signum == SIGQUIT)
+	if (!g_g.status)
 	{
-		write(STDOUT_FILENO, "Quit: 3\n", 8);
-		i = -1;
-		while (g_g.pid[++i] != 0)
-			kill(g_g.pid[i], SIGINT);
+		if (signum == SIGINT)
+			write(STDOUT_FILENO, "\n", 1);
+		else if (signum == SIGQUIT)
+			write(STDOUT_FILENO, "Quit: 3\n", 8);
 	}
 }
 

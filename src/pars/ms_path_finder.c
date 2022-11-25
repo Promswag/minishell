@@ -6,11 +6,12 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 10:11:25 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 14:12:21 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 18:19:21 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/stat.h>
 
 char		*ms_path_finder(char *name, char **env);
 static char	*ms_path_finder_generate(char **arr, char *name);
@@ -19,9 +20,9 @@ static void	ms_path_invalid(char *str);
 
 char	*ms_path_finder(char *name, char **env)
 {
-	char	*path_env;
-	char	**path_split;
-	char	*path;
+	char		*path_env;
+	char		**path_split;
+	char		*path;
 
 	path_env = ms_export_get_value("PATH", env);
 	path_split = ft_split(path_env, ':');
@@ -31,10 +32,11 @@ char	*ms_path_finder(char *name, char **env)
 	ms_path_finder_destroy(path_split);
 	if (!path)
 		path = ft_strdup(name);
-	if (access(path, F_OK))
-		if (ms_cmd_is_builtins(\
-			&(t_command){0, (char *[]){name, 0}, 0, 0}) == -1)
-			ms_path_invalid(name);
+	ms_path_invalid(name);
+	// if (access(path, F_OK))
+	// 	if (ms_cmd_is_builtins(\
+	// 		&(t_command){0, (char *[]){name, 0}, 0, 0}) == -1)
+	// 		ms_path_invalid(name);
 	return (path);
 }
 
@@ -43,6 +45,8 @@ static char	*ms_path_finder_generate(char **arr, char *name)
 	char	*path;
 	char	*tmp;
 
+	if (ft_strchr(name, '/') && !access(name, F_OK))
+		return (ft_strdup(name));
 	while (arr && *arr)
 	{
 		tmp = ft_strjoin(*arr, "/");
@@ -69,8 +73,21 @@ static void	ms_path_finder_destroy(char **arr)
 
 static void	ms_path_invalid(char *str)
 {
+	struct stat	sf;
+
 	write(STDERR_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
 	write(STDERR_FILENO, ": ", 2);
 	write(STDERR_FILENO, str, ft_strlen(str));
-	write(STDERR_FILENO, ": command not found\n", 20);
+	if (stat(str, &sf) == -1)
+		write(STDERR_FILENO, ": No such file or directory\n", \
+			ft_strlen(": No such file or directory\n"));
+	else if (sf.st_mode == S_IFDIR)
+		write(STDERR_FILENO, ": is a directory\n", \
+			ft_strlen(": is a directory\n"));
+	else if ()
+		write(STDERR_FILENO, ": Permission denied\n", \
+			ft_strlen(": Permission denied\n"));
+	else
+		write(STDERR_FILENO, ": command not found\n", \
+			ft_strlen(": command not found\n"));
 }
