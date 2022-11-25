@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:09:44 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 18:43:58 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 10:41:41 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,9 @@ void	ms_buffer_handler(pid_t *pid, char *buf, t_shell *shell)
 
 void	ms_stop(t_shell *shell)
 {
-	ft_putstr_fd("\033[A", 1);
-	ft_putstr_fd("minishell> exit\n", 1);
+	write(STDOUT_FILENO, "\033[A", ft_strlen("\033[A"));
+	write(STDOUT_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
+	write(STDOUT_FILENO, "> exit\n", 7);
 	ms_shell_restore(shell);
 	exit(0);
 }
@@ -78,7 +79,10 @@ void	ms_exit_code_getter(pid_t *pid)
 	if (*pid)
 	{
 		waitpid(*pid, &status, 0);
-		g_exit_code = WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
+			g_exit_code = 128 + WTERMSIG(status);
+		else
+			g_exit_code = WEXITSTATUS(status);
 		*pid = 0;
 	}
 }
@@ -93,10 +97,12 @@ int	main(int argc, char **argv, char **envp)
 	pid = 0;
 	while (1)
 	{
-		ms_signal_setup(0);
+		ms_signal_setup(1);
 		ms_exit_code_getter(&pid);
 		while (waitpid(0, 0, 0) != -1)
 			;
+		ms_signal_setup(0);
+		ms_fd_restore(&shell);
 		buf = readline(SHELL_NAME "> ");
 		if (!buf)
 			ms_stop(&shell);

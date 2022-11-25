@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:46:18 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 17:30:14 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 09:41:58 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,18 @@ typedef struct s_fdlst
 //	ms_fd_manager.c
 int			ms_fd_manager(t_fdlst *fdlst, t_shell *shell);
 void		ms_fd_close(t_fdlst *fdlst, t_shell *shell);
-int			ms_fd_error(const char *str);
+void		ms_fd_restore(t_shell *shell);
 
 //	ms_heredoc.c
 int			ms_heredoc_handler(t_fdlst *fdlst, t_shell *shell);
 int			ms_heredoc_read_stdin(t_fdlst *fdlst, char **str);
 t_list		*ms_heredoc_expand_lst(char *str, char **env);
 void		ms_heredoc_if_handler(t_list **lst, char *str, int *i, char **env);
-int			ft_lst_get_list_content_length(t_list *lst);
+void		ms_heredoc_expand_str(t_list *lst, char **str);
 
 //	ms_heredoc_utils.c
-int			ms_get_name_length(char *str);
-void		ms_heredoc_expand_str(t_list *lst, char **str);
 void		ms_heredoc_clear_lst(t_list **lst);
+int			ms_get_name_length(char *str);
+int			ft_lst_get_list_content_length(t_list *lst);
 
 #endif

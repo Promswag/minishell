@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 18:44:57 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 10:12:40 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ static int	ms_cmd_fork(int *pid, t_section *sec, t_shell *shell, t_pipe pfd)
 	if (*pid == -1)
 		return (1);
 	if (*pid == 0)
-	{
-		ms_signal_setup(1);
 		ms_cmd_exec(sec, shell, pfd);
-	}
+	g_exit_code = *pid;
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:40:16 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 18:39:46 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 10:04:03 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,27 +48,6 @@ int	ms_heredoc_handler(t_fdlst *fdlst, t_shell *shell)
 
 int	ms_heredoc_read_stdin(t_fdlst *fdlst, char **str)
 {
-	// char	*buf;
-	// t_list	*lst;
-
-	// lst = NULL;
-	// while (1)
-	// {
-	// 	buf = readline("🐐 ");
-	// 	if (!buf)
-	// 		break ;
-	// 	if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path) + 1))
-	// 	{
-	// 		free(buf);
-	// 		break ;
-	// 	}
-	// 	ft_lstadd_back(&lst, ft_lstnew(buf));
-	// 	ft_lstadd_back(&lst, ft_lstnew(ft_strdup("\n")));
-	// }
-	// ms_heredoc_expand_str(lst, str);
-	// ms_heredoc_clear_lst(&lst);
-	// return (0);
-
 	char	buf[1024];
 	char	*tmp;
 	t_list	*lst;
@@ -78,13 +57,13 @@ int	ms_heredoc_read_stdin(t_fdlst *fdlst, char **str)
 	r = 1;
 	while (r)
 	{
-		ft_putstr_fd("🐐 ", 1);
+		write(STDOUT_FILENO, "🐐 ", ft_strlen("🐐 "));
 		r = read(0, buf, sizeof(buf) - sizeof(char));
 		if (r < 0)
 			return (0);
 		buf[r] = 0;
 		if (!ft_strncmp(buf, fdlst->path, ft_strlen(fdlst->path)) \
-			 && buf[ft_strlen(fdlst->path)] == '\n')
+			&& buf[ft_strlen(fdlst->path)] == '\n')
 			break ;
 		tmp = *str;
 		*str = ft_strjoin(*str, buf);

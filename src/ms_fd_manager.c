@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 12:44:15 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 17:26:14 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 09:43:15 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 
 int		ms_fd_manager(t_fdlst *fdlst, t_shell *shell);
 void	ms_fd_close(t_fdlst *fdlst, t_shell *shell);
+void	ms_fd_restore(t_shell *shell);
 
 int	ms_fd_manager(t_fdlst *fdlst, t_shell *shell)
 {
@@ -49,8 +50,7 @@ void	ms_fd_close(t_fdlst *fdlst, t_shell *shell)
 {
 	t_fdlst	*cur;
 
-	dup2(shell->stdin_backup, STDIN_FILENO);
-	dup2(shell->stdout_backup, STDOUT_FILENO);
+	(void)shell;
 	while (fdlst)
 	{
 		cur = fdlst;
@@ -63,4 +63,10 @@ void	ms_fd_close(t_fdlst *fdlst, t_shell *shell)
 	}
 	if (g_exit_code == -1)
 		g_exit_code = 0;
+}
+
+void	ms_fd_restore(t_shell *shell)
+{
+	dup2(shell->stdin_backup, STDIN_FILENO);
+	dup2(shell->stdout_backup, STDOUT_FILENO);
 }
