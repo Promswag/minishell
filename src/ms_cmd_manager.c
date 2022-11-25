@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 13:18:45 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 13:25:57 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ static void	ms_cmd_exec(t_section *section, t_shell *shell, t_pipe pfd)
 			close(pfd.cur_w);
 		if (pfd.cur_r != -1)
 			close(pfd.prev_r);
-		printf("%s\n", section->cmd->path);
 		execve(section->cmd->path, section->cmd->args, shell->env);
 		ms_section_destroy(section);
 		ms_shell_restore(shell);
