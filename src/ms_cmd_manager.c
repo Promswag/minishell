@@ -6,34 +6,35 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 14:05:49 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 14:57:11 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int			ms_command_manager(t_section *section, t_shell *shell);
-static void	ms_cmd_exec(t_section *section, t_shell *shell, t_pipe pfd);
+static void	ms_cmd_exec(\
+	t_section *tmp, t_section *section, t_shell *shell, t_pipe pfd);
 int			ms_cmd_is_builtins(t_command *cmd);
 static void	ms_cmd_exec_builtins(t_section *sec, t_shell *shell, int index);
-static int	ms_cmd_fork(int *pid, t_section *sec, t_shell *shell, t_pipe pfd);
+static int	ms_cmd_fork(int *pid, t_section **sec, t_shell *shell, t_pipe pfd);
 
 int	ms_command_manager(t_section *section, t_shell *shell)
 {
 	t_pipe		pfd;
 	pid_t		pid;
-	int			status;
+	t_section	*tmp;
 
-	status = 0;
 	pid = 0;
 	pfd = (t_pipe){-1, -1, -1, -1};
+	tmp = section;
 	while (section && section->section)
 	{
 		if (section->field == 1 && pipe((int *)&pfd.cur_r) == -1)
 			return (ms_error("pipe"));
 		if (ms_cmd_is_builtins(section->cmd) != -1)
-			ms_cmd_exec(section, shell, pfd);
-		else if (ms_cmd_fork(&pid, section, shell, pfd))
+			ms_cmd_exec(tmp, section, shell, pfd);
+		else if (ms_cmd_fork(&pid, (t_section *[]){tmp, section}, shell, pfd))
 			return (ms_error("fork"));
 		if (pfd.cur_w != -1)
 			close(pfd.cur_w);
@@ -47,7 +48,7 @@ int	ms_command_manager(t_section *section, t_shell *shell)
 	return (pid);
 }
 
-static int	ms_cmd_fork(int *pid, t_section *sec, t_shell *shell, t_pipe pfd)
+static int	ms_cmd_fork(int *pid, t_section **sec, t_shell *shell, t_pipe pfd)
 {
 	int	i;
 
@@ -55,7 +56,7 @@ static int	ms_cmd_fork(int *pid, t_section *sec, t_shell *shell, t_pipe pfd)
 	if (*pid == -1)
 		return (1);
 	if (*pid == 0)
-		ms_cmd_exec(sec, shell, pfd);
+		ms_cmd_exec(*sec, *(sec + 1), shell, pfd);
 	g_g.exitcode = *pid;
 	i = -1;
 	while (++i < MAX_FORK)
@@ -69,7 +70,8 @@ static int	ms_cmd_fork(int *pid, t_section *sec, t_shell *shell, t_pipe pfd)
 	return (0);
 }
 
-static void	ms_cmd_exec(t_section *section, t_shell *shell, t_pipe pfd)
+static void	ms_cmd_exec(\
+	t_section *tmp, t_section *section, t_shell *shell, t_pipe pfd)
 {
 	int		builtins;
 
@@ -92,7 +94,7 @@ static void	ms_cmd_exec(t_section *section, t_shell *shell, t_pipe pfd)
 		if (pfd.cur_r != -1)
 			close(pfd.prev_r);
 		execve(section->cmd->path, section->cmd->args, shell->env);
-		ms_section_destroy(section);
+		ms_section_destroy(tmp);
 		ms_shell_restore(shell);
 		exit(127);
 	}
