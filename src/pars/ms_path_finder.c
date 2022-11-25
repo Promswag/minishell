@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 10:11:25 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 14:31:59 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 13:13:33 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static char	*ms_path_finder_generate(char **arr, char *name)
 	}
 	if (ms_cmd_is_builtins(&(t_command){0, (char *[]){name, 0}, 0, 0}) == -1)
 		ms_path_invalid(name);
-	return (NULL);
+	return (ft_strdup(name));
 }
 
 static void	ms_path_finder_destroy(char **arr)

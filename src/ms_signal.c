@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:28:22 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 11:17:10 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:46:17 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ static void	ms_signal_readline(int signum)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
+		g_g.exitcode = 1;
 	}
 }
 

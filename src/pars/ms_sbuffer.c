@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 16:45:11 by aho               #+#    #+#             */
-/*   Updated: 2022/11/25 11:21:51 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:57:31 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	ms_sbuffer(t_tmp **tmp, t_ebuffer ebuffer, const char *str, char **env)
 	cpy = calloc(1, sizeof(char) * (quote.segment + 1));
 	result = ebuffer.x;
 	quote.chr = result;
-	cpy = ms_add_buffer(quote, str, cpy, env);
+	ms_add_buffer(quote, str, cpy, env);
 	ms_new(tmp, ebuffer.y, cpy);
 	return (result);
 }

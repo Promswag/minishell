@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:04:10 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 11:16:08 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:40:40 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,9 @@ static void	ms_exit_clean(t_section *section, t_shell *shell)
 
 void	ms_exit(t_section *section, t_shell *shell)
 {
-	g_g.exitcode = 0;
+	write(STDERR_FILENO, "exit\n", 5);
 	if (section->cmd->args[1])
 	{
-		write(STDERR_FILENO, "exit\n", 5);
 		if (ms_exit_legal(section->cmd->args[1]) && \
 			ll_overflow_check(section->cmd->args[1]) != -1)
 		{
@@ -98,6 +97,8 @@ void	ms_exit(t_section *section, t_shell *shell)
 		else
 			g_g.exitcode = ms_exit_error(section->cmd->args[1]);
 	}
+	else
+		g_g.exitcode = 0;
 	ms_exit_clean(section, shell);
 	exit(g_g.exitcode);
 }

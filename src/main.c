@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:09:44 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 11:16:21 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 13:24:35 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	ms_stop(t_shell *shell)
 	write(STDOUT_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
 	write(STDOUT_FILENO, "> exit\n", 7);
 	ms_shell_restore(shell);
-	exit(0);
+	exit(127);
 }
 
 void	ms_exit_code_getter(pid_t *pid)

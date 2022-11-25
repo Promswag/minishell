@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 14:34:55 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 11:09:42 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 12:31:10 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ void	ms_shell_restore(t_shell *shell)
 	}
 	sigaction(SIGINT, &shell->signal_backup, NULL);
 	sigaction(SIGQUIT, &shell->signal_backup, NULL);
+	rl_clear_history();
 }
 
 t_shell	ms_shell_init(int argc, char **argv, char **env)

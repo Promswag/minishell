@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 11:15:06 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 13:18:26 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ struct s_pipe
 };
 
 //	main.c
+void			ms_section_destroy(t_section *section);
 void			ms_section_destroy(t_section *section);
 
 //	builtins/ms_cd.c

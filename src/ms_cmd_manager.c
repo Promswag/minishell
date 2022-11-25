@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 11:04:20 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 13:18:45 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,13 @@ int	ms_command_manager(t_section *section, t_shell *shell)
 			ms_cmd_exec(section, shell, pfd);
 		else if (ms_cmd_fork(&pid, section, shell, pfd))
 			return (ms_error("fork"));
-		close(pfd.cur_w);
-		close(pfd.prev_r);
-		if (section->field == 0)
+		if (pfd.cur_w != -1)
+			close(pfd.cur_w);
+		if (pfd.prev_r != -1)
+			close(pfd.prev_r);
+		if (section->field == 0 && pfd.cur_r != -1)
 			close(pfd.cur_r);
-		pfd = (t_pipe){.prev_r = pfd.cur_r, .prev_w = pfd.cur_w, -1, -1};
+		pfd = (t_pipe){pfd.cur_r, -1, -1, -1};
 		section++;
 	}
 	return (pid);
@@ -83,11 +85,16 @@ static void	ms_cmd_exec(t_section *section, t_shell *shell, t_pipe pfd)
 	}
 	else
 	{
-		close(pfd.cur_r);
-		close(pfd.cur_w);
-		close(pfd.prev_r);
-		close(pfd.prev_w);
+		if (pfd.cur_r != -1)
+			close(pfd.cur_r);
+		if (pfd.cur_r != -1)
+			close(pfd.cur_w);
+		if (pfd.cur_r != -1)
+			close(pfd.prev_r);
+		printf("%s\n", section->cmd->path);
 		execve(section->cmd->path, section->cmd->args, shell->env);
+		ms_section_destroy(section);
+		ms_shell_restore(shell);
 		exit(127);
 	}
 }
