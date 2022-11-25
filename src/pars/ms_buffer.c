@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ms_buffer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aho <marvin@42.fr>                         +#+  +:+       +#+        */
+/*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/14 14:09:22 by aho               #+#    #+#             */
-/*   Updated: 2022/11/14 14:09:23 by aho              ###   ########.fr       */
+/*   Updated: 2022/11/25 10:53:53 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*ms_expend_getname(const char *str, int index)
 
 	i = index;
 	if (str[index] == '?')
-		return (ft_itoa(g_exit_code));
+		return (ft_itoa(g_g.exitcode));
 	else if (!(ft_isalnum(str[index])) && str[index] != '_')
 		return ("$");
 	length = 0;
@@ -68,7 +68,7 @@ int	ms_expend_length(const char *str, int index, char **env, t_quote *quote)
 	name = ms_expend_getname(str, index);
 	if (str[index] == '?')
 	{
-		chr = ft_itoa(g_exit_code);
+		chr = ft_itoa(g_g.exitcode);
 		*(quote->trigger) = 1;
 	}
 	else if (!(ft_isalnum(str[index])) && str[index] != '_')
@@ -92,7 +92,7 @@ void	ms_expend_copy(char *cpy, t_ebuffer *expend,
 	index = 0;
 	name = ms_expend_getname(str, expend->x);
 	if (str[expend->x] == '?')
-		chr = ft_itoa(g_exit_code);
+		chr = ft_itoa(g_g.exitcode);
 	else if (!(ft_isalnum(str[expend->x])) && str[expend->x] != '_')
 	{
 		cpy[(expend->y)++] = '$';

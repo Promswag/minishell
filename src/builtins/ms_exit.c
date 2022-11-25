@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/03 13:04:10 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 14:57:40 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:16:08 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,14 @@ static int	ms_exit_error(char *str)
 static void	ms_exit_clean(t_section *section, t_shell *shell)
 {
 	if (section)
-		ms_fd_close(section->fdlst, shell);
+		ms_fd_close(section->fdlst);
 	ms_section_destroy(section);
 	ms_shell_restore(shell);
 }
 
 void	ms_exit(t_section *section, t_shell *shell)
 {
-	g_exit_code = 0;
+	g_g.exitcode = 0;
 	if (section->cmd->args[1])
 	{
 		write(STDERR_FILENO, "exit\n", 5);
@@ -93,11 +93,11 @@ void	ms_exit(t_section *section, t_shell *shell)
 				return ;
 			}
 			else
-				g_exit_code = (ft_atoi(section->cmd->args[1]) & 255);
+				g_g.exitcode = (ft_atoi(section->cmd->args[1]) & 255);
 		}
 		else
-			g_exit_code = ms_exit_error(section->cmd->args[1]);
+			g_g.exitcode = ms_exit_error(section->cmd->args[1]);
 	}
 	ms_exit_clean(section, shell);
-	exit(g_exit_code);
+	exit(g_g.exitcode);
 }

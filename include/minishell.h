@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:10:43 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 18:39:30 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:15:06 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,22 @@
 # include "ms_fd_manager.h"
 
 # define SHELL_NAME "minishell"
+# define MAX_FORK 64
 
-extern int					g_exit_code;
+extern struct s_g			g_g;
 
+typedef struct s_g			t_g;
 typedef struct s_shell		t_shell;
 typedef struct s_section	t_section;
 typedef struct s_command	t_command;
 typedef struct s_pipe		t_pipe;
 typedef void				(*t_builtins)(t_command *, char ***);
+
+struct	s_g
+{
+	int	exitcode;
+	int	pid[MAX_FORK];
+};
 
 struct	s_shell
 {
@@ -93,6 +101,7 @@ int				ms_error_s(const char *s1, const char *s2);
 
 //	ms_shell_init.c
 t_shell			ms_shell_init(int argc, char **argv, char **env);
+void			ms_shell_reset(t_shell *shell);
 void			ms_shell_restore(t_shell *shell);
 
 //	ms_signal.c

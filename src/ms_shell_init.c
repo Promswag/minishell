@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 14:34:55 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 18:39:10 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:09:42 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@ static void	ms_shell_env(t_shell *shell, char **env)
 	while (env[++i])
 		shell->env[i] = ft_strdup(env[i]);
 	shell->env[i] = 0;
+}
+
+void	ms_shell_reset(t_shell *shell)
+{
+	int	i;
+
+	dup2(shell->stdin_backup, STDIN_FILENO);
+	dup2(shell->stdout_backup, STDOUT_FILENO);
+	i = -1;
+	while (++i < MAX_FORK)
+		g_g.pid[i] = 0;
 }
 
 void	ms_shell_restore(t_shell *shell)

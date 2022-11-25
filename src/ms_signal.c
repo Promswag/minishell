@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 16:28:22 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 10:51:53 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:17:10 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,8 @@ static void	ms_signal_fork(int signum)
 	{
 		write(STDOUT_FILENO, "Quit: 3\n", 8);
 		i = -1;
-		while (g_g.pid[++i])
-		{
+		while (g_g.pid[++i] != 0)
 			kill(g_g.pid[i], SIGINT);
-			g_g.pid[i] = 0;
-		}
 	}
 }
 
@@ -47,7 +44,7 @@ static void	ms_signal_heredoc(int signum)
 	{
 		write(STDOUT_FILENO, "\n", 1);
 		close(STDIN_FILENO);
-		g_exit_code = -1;
+		g_g.exitcode = -1;
 	}
 	else if (signum == SIGQUIT)
 		return ;

@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 15:56:38 by aho               #+#    #+#             */
-/*   Updated: 2022/11/23 18:10:17 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 10:53:53 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,6 @@ int	ms_errors(int cmd)
 		write(2, "use of tokens prohibited\n", 26);
 	if (cmd == 3)
 		write(2, "syntax error\n", 14);
-	g_exit_code = 258;
+	g_g.exitcode = 258;
 	return (0);
 }

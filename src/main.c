@@ -6,13 +6,13 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/21 12:09:44 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 10:41:41 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:16:21 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_exit_code;
+t_g	g_g;
 
 void	ms_section_destroy(t_section *section)
 {
@@ -51,12 +51,12 @@ void	ms_buffer_handler(pid_t *pid, char *buf, t_shell *shell)
 		add_history(buf);
 		section = ms_parsing(buf, shell->env);
 		if (section && \
-			!ms_fd_manager(section->fdlst, shell) && g_exit_code != -1)
+			!ms_fd_manager(section->fdlst, shell) && g_g.exitcode != -1)
 		{
 			*pid = ms_command_manager(section, shell);
 		}
 		if (section)
-			ms_fd_close(section->fdlst, shell);
+			ms_fd_close(section->fdlst);
 		ms_section_destroy(section);
 	}
 	free(buf);
@@ -80,9 +80,9 @@ void	ms_exit_code_getter(pid_t *pid)
 	{
 		waitpid(*pid, &status, 0);
 		if (WIFSIGNALED(status))
-			g_exit_code = 128 + WTERMSIG(status);
+			g_g.exitcode = 128 + WTERMSIG(status);
 		else
-			g_exit_code = WEXITSTATUS(status);
+			g_g.exitcode = WEXITSTATUS(status);
 		*pid = 0;
 	}
 }
@@ -102,7 +102,7 @@ int	main(int argc, char **argv, char **envp)
 		while (waitpid(0, 0, 0) != -1)
 			;
 		ms_signal_setup(0);
-		ms_fd_restore(&shell);
+		ms_shell_reset(&shell);
 		buf = readline(SHELL_NAME "> ");
 		if (!buf)
 			ms_stop(&shell);

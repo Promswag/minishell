@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/02 13:00:00 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/24 11:03:31 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 10:53:53 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	ms_cd_error(void)
 {
 	write(STDERR_FILENO, SHELL_NAME, ft_strlen(SHELL_NAME));
 	write(STDERR_FILENO, ": cd: HOME not set\n", 19);
-	g_exit_code = 1;
+	g_g.exitcode = 1;
 }
 
 void	mc_cd_target(char *target, char *oldpwd, char ***env)
@@ -37,7 +37,7 @@ void	mc_cd_target(char *target, char *oldpwd, char ***env)
 				pwd = ft_strjoin("PWD=", buf);
 				ms_export(&(t_command){0, \
 					(char *[]){"export", oldpwd, pwd, 0}, 0, 0}, env);
-				g_exit_code = 0;
+				g_g.exitcode = 0;
 				free(pwd);
 			}
 		}

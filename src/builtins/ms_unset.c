@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/01 15:00:41 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/22 14:01:05 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 10:53:53 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,5 @@ void	ms_unset(t_command *cmd, char ***env)
 			err++;
 		}
 	}
-	g_exit_code = err;
+	g_g.exitcode = err;
 }

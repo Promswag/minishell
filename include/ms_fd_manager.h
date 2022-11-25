@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 14:46:18 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 09:41:58 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:15:48 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ typedef struct s_fdlst
 
 //	ms_fd_manager.c
 int			ms_fd_manager(t_fdlst *fdlst, t_shell *shell);
-void		ms_fd_close(t_fdlst *fdlst, t_shell *shell);
-void		ms_fd_restore(t_shell *shell);
+void		ms_fd_close(t_fdlst *fdlst);
 
 //	ms_heredoc.c
 int			ms_heredoc_handler(t_fdlst *fdlst, t_shell *shell);

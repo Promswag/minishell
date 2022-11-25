@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 14:28:23 by aho               #+#    #+#             */
-/*   Updated: 2022/11/22 11:32:26 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 11:29:51 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,19 @@ void	ms_quote_checker(const char *buff, const int *j,
 	*dquote1 = dquote;
 }
 
+static void	ms_free_tmp(t_tmp *tmp)
+{
+	t_tmp	*cur;
+
+	while (tmp)
+	{
+		cur = tmp;
+		tmp = tmp->next;
+		free(cur);
+		cur = 0;
+	}
+}
+
 t_section	*ms_parsing(char *buff, char **env)
 {
 	t_section	*section;
@@ -58,9 +71,10 @@ t_section	*ms_parsing(char *buff, char **env)
 	{
 		tmp = NULL;
 		if (trigger)
-			g_exit_code = 0;
+			g_g.exitcode = 0;
 		tmp = ms_tmp(section[index].section, env, &trigger);
 		section[index].cmd = ms_result(tmp, &fdlst, env);
+		ms_free_tmp(tmp);
 		section->fdlst = fdlst;
 		index++;
 	}

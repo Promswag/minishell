@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:40:16 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 10:04:03 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/25 10:53:53 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,8 +101,8 @@ void	ms_heredoc_if_handler(t_list **lst, char *str, int *i, char **env)
 
 	if (str[*i + 1] == '?' && ++(*i))
 	{
-		ft_lstadd_back(lst, ft_lstnew(ft_itoa(g_exit_code)));
-		g_exit_code = 0;
+		ft_lstadd_back(lst, ft_lstnew(ft_itoa(g_g.exitcode)));
+		g_g.exitcode = 0;
 	}
 	else if ((str[*i + 1] == '\n' || str[*i + 1] == ' '))
 		ft_lstadd_back(lst, ft_lstnew(ft_strdup("$")));
