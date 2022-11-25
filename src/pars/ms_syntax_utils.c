@@ -16,11 +16,15 @@ int	ms_newline_errors_in(char const *buff, int index, char chr)
 {
 	int	i;
 
-	index++;
 	i = 0;
+	while (buff[index] == chr)
+		index++;
 	while (buff[index])
 	{
-		if (buff[index] != 0 && buff[index] != chr)
+		if (i == 0 && (buff[index] == 60 || buff[index] == 62))
+			return (ms_errors(3));
+		if (buff[index] != 0 && buff[index] != ' '
+			&& buff[index] != 60 && buff[index] != 62)
 			i = 1;
 		index++;
 	}
