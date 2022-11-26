@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 14:28:23 by aho               #+#    #+#             */
-/*   Updated: 2022/11/25 13:00:21 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/26 15:06:31 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	ms_free_tmp(t_tmp *tmp)
 		cur = tmp;
 		tmp = tmp->next;
 		free(cur);
+		cur = 0;
 	}
 }
 
