@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/26 14:25:58 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/26 14:57:35 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,9 +86,9 @@ static void	ms_cmd_exec(\
 			close(pfd.cur_w);
 		if (pfd.cur_r != -1)
 			close(pfd.prev_r);
-		execve(section->cmd->path, section->cmd->args, shell->env);
-		ms_section_destroy(tmp);
-		ms_shell_restore(shell);
+		if (section->cmd->path)
+			execve(section->cmd->path, section->cmd->args, shell->env);
+		ms_exit_clean(tmp, shell);
 		exit(127);
 	}
 }
