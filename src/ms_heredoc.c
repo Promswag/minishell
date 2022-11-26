@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 15:40:16 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 10:53:53 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/26 15:00:06 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@ int	ms_heredoc_handler(t_fdlst *fdlst, t_shell *shell)
 	char	*str;
 	long	pipefd;
 	t_list	*lst;
+	int		flags;
 
 	ms_signal_setup(2);
 	lst = NULL;
+	flags = 1;
 	str = ft_calloc(1, 1);
 	if (!str || pipe((int *)&pipefd) || ms_heredoc_read_stdin(fdlst, &str))
 		return (1);
@@ -37,7 +39,7 @@ int	ms_heredoc_handler(t_fdlst *fdlst, t_shell *shell)
 		ms_heredoc_expand_str(lst, &str);
 		ms_heredoc_clear_lst(&lst);
 	}
-	ioctl(pipefd >> 32, FIONBIO, (int *)1);
+	ioctl(pipefd >> 32, FIONBIO, &flags);
 	write(pipefd >> 32, str, ft_strlen(str));
 	free(str);
 	close(pipefd >> 32);
@@ -50,10 +52,8 @@ int	ms_heredoc_read_stdin(t_fdlst *fdlst, char **str)
 {
 	char	buf[1024];
 	char	*tmp;
-	t_list	*lst;
 	int		r;
 
-	lst = NULL;
 	r = 1;
 	while (r)
 	{

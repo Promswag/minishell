@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 10:11:25 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/26 14:07:55 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/26 14:58:37 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ static char	*ms_path_finder_generate(char **arr, char *name);
 static void	ms_path_finder_destroy(char **arr);
 static int	ms_path_invalid(char *name);
 static char	*ms_path_absolute(char *str);
-
 
 char	*ms_path_finder(char *name, char **env)
 {
