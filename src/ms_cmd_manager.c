@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/26 14:01:23 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/26 14:25:58 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static int	ms_cmd_fork(int *pid, t_section **sec, t_shell *shell, t_pipe pfd)
 	*pid = fork();
 	ms_shell_state(shell, 0);
 	ms_signal_setup(1);
-	if (ft_strnstr(\
+	if (*sec && (*sec)->cmd && (*sec)->cmd->path && ft_strnstr(\
 		(*sec)->cmd->path, "./minishell", ft_strlen((*sec)->cmd->path)))
 		g_g.status = 1;
 	if (*pid == -1)
