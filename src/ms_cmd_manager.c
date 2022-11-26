@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/25 17:50:19 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/26 14:01:23 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,6 @@ int	ms_command_manager(t_section *section, t_shell *shell)
 
 static int	ms_cmd_fork(int *pid, t_section **sec, t_shell *shell, t_pipe pfd)
 {
-	int	i;
-
 	*pid = fork();
 	ms_shell_state(shell, 0);
 	ms_signal_setup(1);
@@ -62,16 +60,6 @@ static int	ms_cmd_fork(int *pid, t_section **sec, t_shell *shell, t_pipe pfd)
 		return (1);
 	if (*pid == 0)
 		ms_cmd_exec(*sec, *(sec + 1), shell, pfd);
-	g_g.exitcode = *pid;
-	i = -1;
-	while (++i < MAX_FORK)
-	{
-		if (g_g.pid[i] == 0)
-		{
-			g_g.pid[i] = *pid;
-			break ;
-		}
-	}
 	return (0);
 }
 

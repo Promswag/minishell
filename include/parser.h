@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 13:15:29 by aho               #+#    #+#             */
-/*   Updated: 2022/11/25 17:50:41 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/26 13:59:14 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,6 +128,7 @@ t_command	*ms_result(t_tmp *tmp, t_fdlst **fdlst, char **env);
 
 //	pars/ms_path_finder.c
 char		*ms_path_finder(char *name, char **env);
+int			ms_path_error(char *name, char *err);
 
 //	pars/ms_syntax_utils.c
 int			ms_newline_errors_in(char const *buff, int index, char chr);
