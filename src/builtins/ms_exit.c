@@ -50,7 +50,7 @@ static int	ms_exit_legal(char *s)
 	{
 		while (s[i] == '\t' || s[i] == '\n' || s[i] == '\v' || \
 			s[i] == '\f' || s[i] == '\r' || s[i] == ' ')
-		i++;
+			i++;
 		if (s[i] == '-' || s[i] == '+')
 			i++;
 		while (s[i])

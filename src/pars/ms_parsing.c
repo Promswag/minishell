@@ -49,7 +49,6 @@ static void	ms_free_tmp(t_tmp *tmp)
 		cur = tmp;
 		tmp = tmp->next;
 		free(cur);
-		cur = 0;
 	}
 }
 

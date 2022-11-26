@@ -50,10 +50,8 @@ int	ms_heredoc_read_stdin(t_fdlst *fdlst, char **str)
 {
 	char	buf[1024];
 	char	*tmp;
-	t_list	*lst;
 	int		r;
 
-	lst = NULL;
 	r = 1;
 	while (r)
 	{
