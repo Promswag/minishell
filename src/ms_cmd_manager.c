@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/04 11:37:42 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/26 14:57:35 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/28 13:52:22 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,8 @@ static void	ms_cmd_exec(\
 	builtins = ms_cmd_is_builtins(section->cmd);
 	if (builtins != -1)
 	{
-		if (builtins == 0 && pfd.prev_r != -1)
-			return ;
-		ms_cmd_exec_builtins(section, shell, builtins);
+		if (!(builtins == 0 && (pfd.prev_r != -1 || section->field == 1)))
+			ms_cmd_exec_builtins(section, shell, builtins);
 		dup2(shell->stdin_backup, STDIN_FILENO);
 		dup2(shell->stdout_backup, STDOUT_FILENO);
 	}
