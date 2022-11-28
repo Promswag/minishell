@@ -6,7 +6,7 @@
 /*   By: gbaumgar <gbaumgar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/26 14:34:55 by gbaumgar          #+#    #+#             */
-/*   Updated: 2022/11/26 14:17:51 by gbaumgar         ###   ########.fr       */
+/*   Updated: 2022/11/28 13:33:01 by gbaumgar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ void	ms_shell_state(t_shell *shell, int state)
 	if (state == 0)
 		tcsetattr(STDIN_FILENO, TCSANOW, &shell->termios_backup);
 	else if (state == 1)
+	{
 		tcsetattr(STDIN_FILENO, TCSANOW, &shell->termios_config);
+		dup2(shell->stdin_backup, STDIN_FILENO);
+		dup2(shell->stdout_backup, STDOUT_FILENO);
+	}
 }
 
 void	ms_shell_restore(t_shell *shell)
